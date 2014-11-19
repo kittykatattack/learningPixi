@@ -1,0 +1,35 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Displaying the canvas</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+//Create a Pixi stage and renderer and add the 
+//renderer.view to the DOM
+var stage = new PIXI.Stage(0x000000)
+var renderer = PIXI.autoDetectRenderer(
+  256, 256,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+//The `renderer.view` is just an ordinary `<canvas>` element.
+//Here's how you can reference to add an optional dashed 
+//border around the canvas 
+//renderer.view.style.border = "1px dashed black";
+
+//To resize the canvas
+//renderer.resize(512, 512);
+//To change the background color
+//stage.setBackgroundColor(0x66CCFF);
+
+///Force canvas rendering like this: 
+//var renderer = new PIXI.CanvasRenderer(256, 256);
+//renderer = new PIXI.WebGLRenderer(256, 256);
+//Force WebGL rendering like this:
+//renderer = new PIXI.WebGLRenderer(256, 256);
+
+</script>
+</body>
+
