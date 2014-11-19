@@ -1,0 +1,3 @@
+[submodule "pixi.js"]
+	path = pixi.js
+	url = git@github.com:GoodBoyDigital/pixi.js.git
