@@ -9,7 +9,8 @@ Introduction
 
 Pixi’s is an extrmely fast 2D sprite rendering engine. What does that
 mean? It means that it helps you to display, animate and manage
-interactive graphics so that it's easy for you to make games using
+interactive graphics so that it's easy for you to make games and
+applications using
 JavaScript and other HTML5 technologies. It has a sensible,
 uncluttered API and includes many useful features, like supporting
 texture atlases and providing a streamlined system for animating
@@ -62,9 +63,7 @@ Unix [in this
 video](https://www.youtube.com/watch?feature=player_embedded&v=cX9ASUE3YAQ)
 and, when you're finished, follow it with [this
 video](https://www.youtube.com/watch?v=INk0ATBbclc). You should learn
-how to use Unix
-- it only takes a couple of hours and is way fun and easy than working
-  with a windows-based operating system.
+how to use Unix it only takes a couple of hours and is way fun and easy than working with a windows-based operating system.
 
 But if you don't want to mess with the command line, try the Mongoose
 webserver:
@@ -195,7 +194,7 @@ renderer = PIXI.autoDetectRenderer(
   {antialiasing: false, transparent: false, resolution: 1}  
 );
 ```
-That third argument is optional - if you're happy with Pixi's default
+That third argument (the options object) is optional - if you're happy with Pixi's default
 settings you can leave it out, and there's usually no need to change
 them. (But, if you need to, see Pixi's documentation on the [canvas
 render](http://www.goodboydigital.com/pixijs/docs/classes/CanvasRenderer.html)
@@ -229,6 +228,233 @@ You can force WebGL rendering like this:
 ```
 renderer = new PIXI.WebGLRenderer(256, 256);
 ```
+
+###Pixi sprites
+
+In the previous section you learned how to create a `Stage` object.
+You can think of the stage as the main container for all the visible
+things in your game. Whatever you put inside the stage will be
+rendered on the canvas.
+
+So what do you put on the stage? Special image objects called
+**sprites**. Sprites are basically just images that you can control
+with code. You can control their position, size, and a host of other
+properties that are useful for making interactive graphics. Learning to make and control sprites is really the most
+important thing about learning to use Pixi. If you know how to make
+sprites and add them to the stage, you're just a small step away from
+starting to makes games.
+
+Pixi has a `Sprite` class that is a versatile way to make game
+sprites. There are three main ways to create sprite images:
+
+•	From a single image file.
+•	From a sub-image on a **tileset**. A tileset is a single, big image that
+includes all images you'll need in your game.
+•	From a **texture atlas** (A JSON file that defines the size and position of an image on a tileset.)
+
+You’re going to learn all three ways, But, before you do, let’s find
+out what you need to know about images before you can display them
+with Pixi.
+
+#### Loading images into the texture cache
+
+Because Pixi renders the image on the GPU with WebGL, the image needs
+to be in a format that the GPU can process. A WebGL-ready image is
+called a **texture**. Before you can make a sprite display an image,
+you need to convert an ordinary image file into a WebGL texture. To
+keep everything working fast and efficiently under the hood, Pixi uses
+a **texture cache** to store and reference all the textures your
+sprites will need. The names of the textures are strings that match
+the file locations of the images they refer to. That means if you have
+a texture that was loaded from `“images/cat.png”`, you could find it in the texture cache like this:
+```
+PIXI.TextureCache["images/cat.png"];
+```
+The textures are stored in a WebGL compatible format that’s efficient
+for Pixi’s renderer to work with. You can then use Pixi’s `Sprite` class to make a new sprite using the texture.
+```
+var texture = PIXI.TextureCache["images/anySpriteImage.png"];  
+var sprite = new PIXI.Sprite(texture);
+```
+But how do you load the image file and convert it into a texture? You
+can use Pixi’s built-in `AssetLoader`. Here’s how to use it to load an
+image and call the `setup` method when it’s ready to create the sprite:
+```
+var loader = new PIXI.AssetLoader(["images/cat.png"]);
+loader.onComplete = setup;
+loader.load();
+
+function setup() {
+
+  //Create the `cat` sprite from the texture
+  var texture = PIXI.TextureCache["images/cat.png"],
+      cat = new PIXI.Sprite(texture);
+}
+```
+You can load multiple images at single time by listing them in the `AssetLoader`'s argument array,
+like this:
+```
+var loader = new PIXI.AssetLoader(
+  ["images/imageOne.png"],
+  ["images/imageTwo.png"],
+  ["images/imageThree.png"]
+);
+```
+(The `AssetLoader` also lets you load JSON files, which you'll learn
+about ahead.)
+
+Alternatively, you can use Pixi’s `Texture.fromImage` method to load
+and create the texture in a single step.
+`fromImage` will load the image for you automatically from its file location if it’s not already in the cache.
+```
+var texture = PIXI.Texture.fromImage(“images/cat.png”);
+```
+That means if you want to be lazy, you don’t need to pre-load the
+image. However,
+loading and creating a texture using `fromImage` like this doesn't allow you to make sure all you images have
+loaded before the game or applications starts. If you try and access
+or use a sprite in your game code before the image has fully loaded, things won't work and you're going to get errors. So
+my advice is: don't use `fromImage`, just pre-load all the images
+you'll need with the `AssetLoader`.
+
+####Displaying sprites
+
+After you've loaded an image, and converted it into a sprite, there
+are two more things you have to do before you can actually see it on
+the canvas:
+
+1. You need to add the sprite to Pixi's stage with the `stage.addChild` method, like this:
+```
+stage.addChild(cat);
+```
+The stage is the main container that holds all of your sprites.
+
+2. You need to tell Pixi's `renderer` to render the stage.
+```
+renderer.render(stage);
+```
+None of your sprites will be visible before you add them to the stage,
+and then tell the `renderer` to render the stage.
+
+Before we continue, let's look at a practical example of how to use what
+you've just learnt to display a single image. In the `examples/images`
+folder you'll find a 64 by 64 pixel PNG image of a cat.
+
+![Basic display](/examples/images/cat.png);
+
+Here's the All the JavaScript code you to load the image, create a
+sprite, and display it on Pixi's stage:
+```
+//Create the Pixi `Stage` and `renderer`
+var stage = new PIXI.Stage(0x000000)
+var renderer = PIXI.autoDetectRenderer(
+  256, 256,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+//Use Pixi's built-in `AssetLoader` to load an image and call
+//the `setup` function when its ready
+var loader = new PIXI.AssetLoader(["images/cat.png"]);
+loader.onComplete = setup;
+loader.load();
+
+function setup() {
+
+  //Create the `cat` sprite from the texture
+  var texture = PIXI.TextureCache["images/cat.png"],
+      cat = new PIXI.Sprite(texture);
+
+  //Add the cat to the stage
+  stage.addChild(cat);
+
+  //Render the stage 
+  renderer.render(stage);
+}
+```
+When this code runs, here's what you'll see:
+
+![Cat on the stage](/examples/images/screenshots/02.png);
+
+Now we're getting somewhere!
+
+####Positioning sprites
+
+You can in the previous example that has been cat is added to stage at
+the top left corner. That's at a `x` position of
+0 and a `y` position of 0. You can change the position of the cat by
+change the values of is `x` and `y` properties. Here's how you can center the cat in the stage by
+setting its `x` and `y` property values to 96. 
+```
+cat.x = 96;
+cat.y = 96;
+```
+You can add these two lines of code anywhere inside the `setup`
+function, after you've created the sprite.
+```
+function setup() {
+
+  //Create the `cat` sprite from the texture
+  var texture = PIXI.TextureCache["images/cat.png"],
+      cat = new PIXI.Sprite(texture);
+
+  //Change the sprite's position
+  cat.x = 96;
+  cat.y = 96;
+
+  //Add the cat to the stage so you can see it
+  stage.addChild(cat);
+
+  //Render the stage 
+  renderer.render(stage);
+}
+```
+These two new lines of code will move the cat 96 pixels to the left,
+and 96 pixels down. Here's the result:
+
+![Cat centered on the stage](/examples/images/screenshots/03.png);
+
+The cat's top left corner (its left ear) represents is `x` and `y`
+registration point. To make the cat move to the left, increase the
+value of its `x` property. To make the cat move down, increase the
+value of its `y` property. If the cat has an `x` of 0, it will be at
+the very left side of the stage. If it has a y property of 0, it will
+be at the very top of the stage.
+
+Sprites also have `width` and `height` properties that you can set.
+Here's how to give the cat a `width` of 80 pixels and a `height` of
+100 pixels.
+```
+cat.width = 80;
+cat.height = 120;
+```
+Add these two lines of code to the `setup` function, like this:
+```
+function setup() {
+
+  //Create the `cat` sprite from the texture
+  var texture = PIXI.TextureCache["images/cat.png"],
+      cat = new PIXI.Sprite(texture);
+
+  //Change the sprite's position
+  cat.x = 96;
+  cat.y = 96;
+  
+  //Change the sprite's size
+  cat.width = 80;
+  cat.height = 120;
+
+  //Add the cat to the stage so you can see it
+  stage.addChild(cat);
+}
+```
+Here's the result:
+
+![Cat's height and width changed](/examples/images/screenshots/03.png);
+
+You can see that the cat's position (its top left corner) didn't
+change, only its height and width.
+
 
 
 
