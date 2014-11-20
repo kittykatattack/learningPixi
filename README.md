@@ -60,7 +60,7 @@ Choose whichever best suits your learning style.
 
 Ok, got it?
 Do you know what JavaScript variables, functions, arrays and objects are and how to
-use them? 
+use them? Do you know what [JSON data files](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/) are?
 
 To use Pixi, you'll also need to run a webserver in your root project
 directory. Do you know what a webserver is and
@@ -87,7 +87,8 @@ main workspace.
 
 Now if you think you're ready, read on!
 
-###Setting up
+Setting up
+----------
 
 Before you start writing any code, Create a folder for your project, and launch a
 webserver in the project's root directory.
@@ -147,7 +148,8 @@ If you see that (or something similar), you know everything is working properly.
 
 Now you can start using Pixi!
 
-### Creating the stage and renderer
+Creating the stage and renderer
+-------------------------------
 
 Pixi uses a special object called the `Stage` as a container for
 displaying graphics and sprites. It also has a `renderer` that
@@ -242,7 +244,8 @@ You can force WebGL rendering like this:
 renderer = new PIXI.WebGLRenderer(256, 256);
 ```
 
-###Pixi sprites
+Pixi sprites
+------------
 
 In the previous section you learned how to create a `Stage` object.
 You can think of the stage as the main container for all the visible
@@ -269,7 +272,8 @@ You’re going to learn all three ways, but, before you do, let’s find
 out what you need to know about images before you can display them
 with Pixi.
 
-#### Loading images into the texture cache
+Loading images into the texture cache
+-------------------------------------
 
 Because Pixi renders the image on the GPU with WebGL, the image needs
 to be in a format that the GPU can process. A WebGL-ready image is
@@ -339,7 +343,9 @@ var base = new PIXI.BaseTexture(anyImageObject),
     texture = new PIXI.Texture(base),
     sprite = new PIXI.Sprite(texture);
 ```
-####Displaying sprites
+
+Displaying sprites
+------------------
 
 After you've loaded an image, and converted it into a sprite, there
 are two more things you have to do before you can actually see it on
@@ -408,7 +414,8 @@ But usually setting a sprite’s `visible` property to `false` will be a simpler
 anySprite.visible = false;
 ```
 
-####Positioning sprites
+Positioning sprites
+-------------------
 
 You can see in the previous example that has been cat was added to stage at
 the top left corner. The cat at a `x` position of
@@ -442,7 +449,7 @@ function setup() {
 These two new lines of code will move the cat 96 pixels to the right,
 and 96 pixels down. Here's the result:
 
-![Cat centered on the stage](/examples/images/screenshots/03.png);
+![Cat centered on the stage](/examples/images/screenshots/03.png)
 
 The cat's top left corner (its left ear) represents its `x` and `y`
 anchor point. To make the cat move to the right, increase the
@@ -451,7 +458,7 @@ value of its `y` property. If the cat has an `x` of 0, it will be at
 the very left side of the stage. If it has a y property of 0, it will
 be at the very top of the stage.
 
-![Cat centered on the stage - diagram](/examples/images/screenshots/04.png);
+![Cat centered on the stage - diagram](/examples/images/screenshots/04.png)
 
 Instead of setting the sprite's `x` and `y` properties independently,
 you can set them together in a single like of code, like this:
@@ -459,7 +466,8 @@ you can set them together in a single like of code, like this:
 sprite.position.set(x, y)
 ```
 
-####Size and scale
+Size and scale
+--------------
 
 You can change a sprite's size by setting its `width` and `height`
 properties. Here's how to give the cat a `width` of 80 pixels and a `height` of
@@ -490,12 +498,12 @@ function setup() {
 ```
 Here's the result:
 
-![Cat's height and width changed](/examples/images/screenshots/05.png);
+![Cat's height and width changed](/examples/images/screenshots/05.png)
 
 You can see that the cat's position (its top left corner) didn't
 change, only its height and width.
 
-![Cat's height and width changed - diagram](/examples/images/screenshots/06.png);
+![Cat's height and width changed - diagram](/examples/images/screenshots/06.png)
 
 Sprites also have `scale.x` and `scale.y` properties that change the
 sprite's width and height proportionately. Here's how to set the cat's
@@ -519,7 +527,8 @@ cat.scale.set(0.5, 0.5);
 ```
 If that appeals to you, use it!
 
-####Rotation
+Rotation
+--------
 
 You can make a sprite rotate by setting it `rotation` property to a
 value in [in
@@ -535,7 +544,7 @@ property to something like 0.5, the rotation will happen *around the
 sprite’s anchor point*. 
 This diagram shows what effect this will have on our cat sprite. 
 
-![Rotation around anchor point - diagram](/examples/images/screenshots/07.png);
+![Rotation around anchor point - diagram](/examples/images/screenshots/07.png)
 
 You can see that the anchor point, the cat’s left ear, is the center of the imaginary circle around which the cat is rotating. 
 What if you want the sprite to rotate around its center? Change the
@@ -551,7 +560,7 @@ itself won’t change, just the way the texture is positioned over it.
 
 This next diagram shows what happens to the rotated sprite if you center its anchor point. 
 
-![Rotation around centered anchor point - diagram](/examples/images/screenshots/08.png);
+![Rotation around centered anchor point - diagram](/examples/images/screenshots/08.png)
 
 You can see that the sprite’s texture shifts up and to the left. This
 is an important side-effect to remember!
@@ -561,6 +570,406 @@ y values with one line of code like this:
 ```
 sprite.anchor.set(x, y) 
 ```
+
+Make a sprite from a tileset sub-image
+--------------------------------------
+
+You now know how to make a sprite from a single image file. But, as a
+game designer, you’ll usually be making your sprites using
+**tilesets** (also known as **spritesheets**.) Pixi has some convenient built-in ways to help you do this.
+A tileset is a single image file that contains sub-images. The sub-images
+represent all the graphics you want to use in your game. Here's an
+example of a tileset image that contains game characters and game
+objects as sub-images.
+
+![An example tileset](/examples/images/screenshots/09.png)
+
+The entire tileset is 192 by 192 pixels. Each image s in a its own 32 by 32
+pixel grid cell. Storing and accessing all your game graphics on tileset is very
+processor and memory efficient way to work with graphics, and Pixi is
+optimized for them.
+
+You can capture a sub-image from a tileset by defining a rectangular
+area
+that's the same size and position as the sub-image you want to
+extract. Here's an example of the rocket sub-image that’s been extracted from
+the tileset.
+
+![Rocket extracted from tileset](/examples/images/screenshots/10.png)
+
+Let's look at the code that does this. First, load the `tileset.png` image
+with Pixi’s `AssetLoader`, just as you did in the first example.
+```
+var loader = new PIXI.AssetLoader(["images/tileset.png"]);
+loader.onComplete = setup;
+loader.load();
+```
+Next, when the image has loaded, use a rectangular sub-section of the tileset to create the
+sprite’s image. Here's the code that extracts the sub image, creates
+the rocket sprite, and positions and displays it on the canvas.
+```
+function setup() {
+
+  //Create the `tileset` sprite from the texture
+  var texture = PIXI.TextureCache["images/tileset.png"];
+
+  //Create a rectangle object that defines the position and
+  //size of the sub-image you want to extract from the texture
+  var rectangle = new PIXI.Rectangle(192, 128, 64, 64);
+
+  //Tell the texture to use that rectangular section
+  texture.setFrame(rectangle);
+
+  //Create the sprite from the texture
+  var rocket = new PIXI.Sprite(texture);
+
+  //Position the rocket sprite on the canvas
+  rocket.x = 32;
+  rocket.y = 32;
+
+  //Add the rocket to the stage
+  stage.addChild(rocket);
+  
+  //Render the stage   
+  renderer.render(stage);
+}
+
+```
+How does this work?
+
+Pixi has a built-in `Rectangle` object that is a general-purpose
+object for defining rectangular shapes. It takes four arguments. The
+first two arguments define the rectangle's `x` and `y` position. The
+last two define its size in `width` and `height`. Here's the format
+for defining a new `Rectangle` object.
+```
+var rectangle = new PIXI.Rectangle(x, y, width, height);
+```
+The rectangle object just a data object; it's up to you to decide how you want to use it. In
+our example we're using it to define the position and area of the
+sub-image on the tileset that we want to extract. Pixi textures have a useful
+method called `setFrame` that takes `Rectangle` objects as arguments uses them
+to crop the texture to those dimensions. Here's how to use `setFrame`
+to crop the texture to the size and position of the rocket.
+```
+var rectangle = new PIXI.Rectangle(192, 128, 64, 64);
+texture.setFrame(rectangle);
+```
+You can then use that cropped texture create the sprite:
+```
+var rocket = new PIXI.Sprite(texture);
+```
+And that's how it works! 
+
+Because making sprite textures from a tileset
+is something you’ll do with great frequency, Pixi has a more convenient way
+to help you do this - let's find out what that is next.
+
+Using a texture atlas
+---------------------
+
+If you’re working on a big, complex game, you’ll want a fast and
+efficient way to create sprites from tilesets. This is where a
+**texture atlas** becomes really useful. A texture atlas is a JSON
+data file that contains the positions and sizes of sub-images on a
+matching tileset PNG image. If you use a texture atlas, all you need to know about the sub-image you want to display is its name. You can arrange your tileset images in any order and, and the JSON file will keep track of their sizes and positions for you. This is really convenient because it means the sizes and positions of tileset images aren’t hard-coded into your game program. If you make changes to the tileset, like adding images, resizing them, or removing them, just re-publish the JSON file and your game will use that data to display the correct images. You won’t have to make any changes to your game code.
+
+Pixi is compatible with a standard JSON texture atlas format that is
+output by a popular software tool called [Texture
+Packer](https://www.codeandweb.com/texturepacker). Texture Packer’s
+“Essential” license is free. Let’s find out how to use it to make a
+texture atlas, and load the atlas into Pixi. (You don’t have to use
+Texture Packer. Similar tools, like [Shoebox](http://renderhjs.net/shoebox/), output PNG and JSON files
+in a standard format that is compatible with Pixi.)
+
+First, start with a collection of individual image files that you'd
+like to use in your game.
+
+![Image files](/examples/images/screenshots/11.png)
+
+(All the images in this section were created by Lanea Zimmerman. You
+can find more of her artwork
+[here](http://opengameart.org/users/sharm).
+Thanks, Lanea!)
+
+Next, open Texture Packer and choose **JSON Hash** as the framework
+type. Drag your images into Texture Packer's workspace. (You can
+also point Texture Packer to any folder that contains your images.)
+It will automatically arrange the images on a single tileset image, and give them names that match their original image names. 
+
+![Image files](/examples/images/screenshots/12.png)
+
+(If you're using the free version of
+Texture Packer, set **Algorithm** to `Basic`, set **Trim mode** to
+`None`, set **Size constraints** to `Any size` and slide the **PNG Opt
+Level** all the way to the left to `0`. These the basic
+settings that will allow the free version of Texture Packer to create
+your files without any warnings or errors.) 
+
+When you’re done, click the **Publish** button. Choose file the name and
+location, and save the published files. You’ll end up with 2 files: a
+PNG file and a JSON file. In this example my file names are
+`treasureHunter.json` and `treasureHunter.png`. To make your life easier,
+just keep both files in your project’s `images` folder. (You can think of the JSON file as extra metadata for the image file.)
+The JSON file describes the name, size and position of each of the
+sub-images
+in the tileset. Here’s an excerpt that describes the blob monster
+sub-image.
+```
+"blob.png":
+{
+	"frame": {"x":55,"y":2,"w":32,"h":24},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":24},
+	"sourceSize": {"w":32,"h":24},
+	"pivot": {"x":0.5,"y":0.5}
+},
+```
+The `treasureHunter.json` file also contains “dungeon.png”,
+“door.png”, "exit.png", and "explorer.png" properties each with
+similar data. Each of these sub-images are called **frames**. Having
+this data is really helpful because now you don’t need to know the
+size and position of each sub-image in the tileset. All you need to
+know is the sprite’s **frame id**. The frame id is just the name
+of the original image file, like "blob.png" or "explorer.png". 
+
+Among the many advantages to using a texture atlas is that you can
+easily add 2 pixels of padding around each image (Texture Packer does
+this by default.) This is important to prevent the possibility of
+**texture bleed**. Texture bleed is an effect that happens when the
+edge of an adjacent image on the tileset appears next to a sprite.
+This happens because of the way your computer's GPU (Graphics
+Processing Unit) decides how to round fractional pixels values. Should it round them up or down? This will be different for each GPU. Leaving 1 or 2 pixels spacing around images on a tilseset makes all images display consistently.
+
+Now that you know how to create a texture atlas, let's find out how to
+load it into you game code.
+
+Loading the texture atlas
+-------------------------
+
+To get the texture atlas into Pixi, load it using Pixi’s
+`AssetLoader`. If the JSON file was made with Texture Packer, the
+`AssetLoader` will interpret the data and create a texture from each
+frame on the tileset automatically.  Here’s how to use `AssetLoader` to load the `treasureHunter.json`
+file. When it has loaded, the `setup` function will run.
+```
+var loader = new PIXI.AssetLoader(["images/treasureHunter.json"]);
+loader.onComplete = setup;
+loader.load();
+```
+Each image on the tileset is now an individual texture in Pixi’s
+cache. You can access each texture in the cache with the same name it
+had in Texture Packer (“blob.png”, “dungeon.png”, “explorer.png”,
+etc.). 
+
+Creating sprites from a loaded texture atlas
+--------------------------------------------
+
+Pixi gives you three alternative ways you can create a sprite from texture
+atlas.
+
+1. Using `PIXI.TextureCache`:
+```
+var texture = PIXI.TextureCache["frameId.png"],
+    sprite = new PIXI.Sprite(texture);
+```
+2. Using `PIXI.Texture.fromFrame`:
+```
+var texture = PIXI.Texture.fromFrame("frameId.png"),
+    sprite = new PIXI.Sprite(texture);
+```
+3. Using `new PIXI.Sprite.fromFrame`:
+```
+var sprite = new PIXI.Sprite.fromFrame("frameId.png");
+```
+Which of these three different ways should you use? They have exactly
+the same result, so you might as well just
+use the last one - it's less work!
+
+Here's how you could use these three different sprite creation
+techniques in the `setup` function to create and display the
+`dungeon`, `exlplorer` and `treasure` sprites.
+```
+//Define any variables that might be used in more 
+//than one function
+var dungeon, explorer, treasure;
+
+function setup() {
+
+  //There are three ways to make sprites from textures atlas frames
+
+  //1. Access the `TextureCache` directly
+  var dungeonTexture = PIXI.TextureCache["dungeon.png"];
+  dungeon = new PIXI.Sprite(dungeonTexture);
+  stage.addChild(dungeon);
+
+  //2. Access the texture using `Texture.fromFrame`
+  var explorerTexture = PIXI.Texture.fromFrame("explorer.png");
+  explorer = new PIXI.Sprite(explorerTexture);
+  explorer.x = 68;
+  //Center the explorer vertically
+  explorer.y = stage.height / 2 - explorer.height / 2;
+  stage.addChild(explorer);
+  
+  //3. Make the texture and sprite in 
+  //one step using `Sprite.fromFrame`
+  treasure = new PIXI.Sprite.fromFrame("treasure.png");
+  //Position the treasure next to the right edge of the canvas
+  treasure.x = stage.width - treasure.width - 48;
+  treasure.y = stage.height / 2 - treasure.height / 2;
+  stage.addChild(treasure);
+
+  //Render the stage   
+  renderer.render(stage);
+}
+```
+Here's what this code displays:
+
+![Explorer, dungeon and treasure](/examples/images/screenshots/13.png)
+
+The stage dimensions are 512 by 512 pixels, and you can see in the
+code above that the `stage.height` and `stage.width` properties are used
+to align the sprites. Here's how the `explorer`'s `y` position is
+vertically centered:
+```
+explorer.y = stage.height / 2 - explorer.height / 2;
+```
+Learning to create and display sprites using a texture atlas is an
+important benchmark. So before we continue, let's take a look at the
+code you
+could write to add the remaining
+sprites: the `blob`s and `exit` door, so that you can produce a scene
+that looks like this:
+
+![All the texture atlas sprites](/examples/images/screenshots/14.png)
+
+Here's the entire code that does all this. I've also included the HTML
+code so you can see everything in its proper context.
+(You'll find this working code in the
+`examples/spriteFromTextureAtlas.html` file in this repository.)
+Notice that the `blob` sprites are created and added to the stage in
+loop, and assigned random positions. 
+```
+<!doctype html>
+<meta charset="utf-8">
+<title>Make a sprite from a texture atlas</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+//Create a Pixi stage and renderer and add the 
+//`renderer.view` to the DOM
+var stage = new PIXI.Stage(0x000000)
+var renderer = PIXI.autoDetectRenderer(
+  512, 512,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+//Load the texture atlas
+var loader = new PIXI.AssetLoader(["images/treasureHunter.json"]);
+loader.onComplete = setup;
+loader.load();
+
+//Define variables that might be used in more 
+//than one function
+var dungeon, explorer, treasure, door;
+
+function setup() {
+
+  //There are three ways to make sprites from textures atlas frames
+
+  //1. Access the `TextureCache` directly
+  var dungeonTexture = PIXI.TextureCache["dungeon.png"];
+  dungeon = new PIXI.Sprite(dungeonTexture);
+  stage.addChild(dungeon);
+
+  //2. Access the texture using `Texture.fromFrame`
+  var explorerTexture = PIXI.Texture.fromFrame("explorer.png");
+  explorer = new PIXI.Sprite(explorerTexture);
+  explorer.x = 68;
+  //Center the explorer vertically
+  explorer.y = stage.height / 2 - explorer.height / 2;
+  stage.addChild(explorer);
+  
+  //3. Make the texture and sprite in 
+  //one step using `Sprite.fromFrame`
+  treasure = new PIXI.Sprite.fromFrame("treasure.png");
+  //Position the treasure next to the right edge of the canvas
+  treasure.x = stage.width - treasure.width - 48;
+  treasure.y = stage.height / 2 - treasure.height / 2;
+  stage.addChild(treasure);
+
+  //Make the exit door
+  door = new PIXI.Sprite.fromFrame("door.png"); 
+  door.position.set(32, 0);
+  stage.addChild(door);
+
+  //Make the blobs
+  var numberOfBlobs = 6,
+      spacing = 48,
+      xOffset = 150;
+
+  //Make as many enemies as there are `numberOfBlobs`
+  for (var i = 0; i < numberOfBlobs; i++) {
+
+    //Make a blob
+    var blob = new PIXI.Sprite.fromFrame("blob.png");
+
+    //Space each blob horizontally according to the `spacing` value.
+    //`xOffset` determines the point from the left of the screen
+    //at which the first enemy should be added.
+    var x = spacing * i + xOffset;
+
+    //Give the blob a random y position
+    var y = randomInt(0, stage.height - blob.height);
+
+    //Set the blob's position
+    blob.x = x;
+    blob.y = y;
+
+    //Add the blob sprite to the stage
+    stage.addChild(blob);
+  }
+
+  //Render the stage   
+  renderer.render(stage);
+}
+
+//The `randomInt` helper function
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+</script>
+</body>
+
+```
+You can see in the code above that all the blobs are created using a
+`for` loop. Each `blob` is spaced evenly, and given a random `y` position
+using this bit of code:
+```
+var y = randomInt(0, stage.height - blob.height);
+```
+It uses a custom function called `randomInt`. `randomInt` returns a random number
+that's within a range any two numbers you supply.
+```
+randomInt(lowest, highest)
+```
+That means if you want a random number between 1 and 10, you can get
+one like this:
+```
+var randomNumber = randomInt(1, 10);
+```
+Here's the `randomInt` function definition that does all this work:
+```
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+```
+`randomInt` is a great little function to keep in your back pocket for
+making games - I use it all the time.
 
 
 

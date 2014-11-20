@@ -1,6 +1,6 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>Make a sprite from and image</title>
+<title>Make a sprite from an image</title>
 <body>
 <script src="../pixi.js/bin/pixi.js"></script>
 <script>
@@ -33,14 +33,11 @@ function setup() {
   var texture = PIXI.TextureCache["images/cat.png"],
       cat = new PIXI.Sprite(texture);
 
-  //Add the cat to the state
+  //Add the cat to the stage
   stage.addChild(cat);
   
   //Render the stage   
   renderer.render(stage);
-
-  console.log(cat.getLocalBounds());
-
 }
 </script>
 </body>
