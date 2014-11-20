@@ -7,14 +7,14 @@ the Pixi rendering engine.
 Introduction
 ------------
 
-Pixi’s is an extrmely fast 2D sprite rendering engine. What does that
+Pixi’s is an extremely fast 2D sprite rendering engine. What does that
 mean? It means that it helps you to display, animate and manage
 interactive graphics so that it's easy for you to make games and
 applications using
 JavaScript and other HTML5 technologies. It has a sensible,
 uncluttered API and includes many useful features, like supporting
 texture atlases and providing a streamlined system for animating
-sprites. It also gives you a complete scene graph so that you can
+sprites (interactive images). It also gives you a complete scene graph so that you can
 create hierarchies of nested sprites (sprites inside sprites), as well
 as letting you attach mouse and touch events directly to sprites. And,
 most
@@ -22,14 +22,20 @@ importantly, Pixi gets out or your way so that you can use as much or
 as little of it as you want to, adapt it to your personal coding
 style, and integrate it seamlessly with other useful frameworks.
 
-Pixi’s API is actually a refinement of a well-worn and battle-tested API pioneered by Macromedia/Adobe Flash. Old-skool Flash developers will feel right at home. Other current sprite rendering frameworks use a similar API: CreateJS, Starling, Sparrow and Apple’s SpriteKit. The strength of Pixi’s API is that it’s general-purpose: it’s not a game framework. That’s good because it gives you total expressive freedom to make anything you like, and wrap your own custom game engine around it.
+Pixi’s API is actually a refinement of a well-worn and battle-tested
+API pioneered by Macromedia/Adobe Flash. Old-skool Flash developers
+will feel right at home. Other current sprite rendering frameworks use
+a similar API: CreateJS, Starling, Sparrow and Apple’s SpriteKit. The
+strength of Pixi’s API is that it’s general-purpose: it’s not a game
+engine. That’s good because it gives you total expressive freedom to make anything you like, and wrap your own custom game engine around it.
 
 In this tutorial you’re going to find out how to combine Pixi’s
-powerful image rendering features and scene graph with to start making
+powerful image rendering features and scene graph to start making
 games. You’re also going to learn how to prepare your game graphics
 with a texture atlas, how to make particle effects using the Proton
 particle engine, and how to integrate Pixi into your own custom game
-engine.
+engine. But Pixi isn't just for games - you can use these same
+techniques to create any interactive media applications.
 
 What do you need to know before you get started with this tutorial? 
 
@@ -40,7 +46,7 @@ best place to start learning it is this book:
 
 [Foundation Game Design with HTML5 and JavaScript](http://www.apress.com/9781430247166)
 
-I know for a fact that it's the best book, because I wrote it :)
+I know for a fact that it's the best book, because I wrote it!
 
 There are also some good internet resources to help get you started:
 
@@ -50,11 +56,14 @@ Programming](http://www.khanacademy.org/computing/cs)
 [Code Academy:
 JavaScript](http://www.codecademy.com/tracks/javascript)
 
+Choose whichever best suits your learning style.
+
 Ok, got it?
 Do you know what JavaScript variables, functions, arrays and objects are and how to
 use them? 
 
-Pixi also requires a webserver to run. Do you know what a webserver is and
+To use Pixi, you'll also need to run a webserver in your root project
+directory. Do you know what a webserver is and
 how to launch one in your project folder? The best way is to use
 [node.js](http://nodejs.org) and then to install the extremely easy to use
 [http-server](https://github.com/nodeapps/http-server). However, you need to be comfortable working with the Unix
@@ -63,33 +72,35 @@ Unix [in this
 video](https://www.youtube.com/watch?feature=player_embedded&v=cX9ASUE3YAQ)
 and, when you're finished, follow it with [this
 video](https://www.youtube.com/watch?v=INk0ATBbclc). You should learn
-how to use Unix it only takes a couple of hours and is way fun and easy than working with a windows-based operating system.
+how to use Unix - it only takes a couple of hours to learn and is a
+really fun and easy way to interact with your computer.
 
-But if you don't want to mess with the command line, try the Mongoose
+But if you don't want to mess around with the command line just yet, try the Mongoose
 webserver:
 
 [Mongoose](http://cesanta.com/mongoose.shtml)
 
-Or, just use write your all your code using the [Brackets text
+Or, just use write your all your code using the excellent [Brackets text
 editor](http://brackets.io). Brackets automatically launches a webserver
-and browser for you when you click the lightening bolt button.
+and browser for you when you click the lightening bolt button in its
+main workspace.
 
 Now if you think you're ready, read on!
 
-### Setting up
+###Setting up
 
 Before you start writing any code, Create a folder for your project, and launch a
 webserver in the project's root directory.
 
-Download the latest version of Pixi at the GitHub
+Download the latest version of Pixi at Pixi's GitHub
 repository:
 
 [Pixi's GitHub Repo](https://github.com/GoodBoyDigital/pixi.js/)
 
-And copy it into a folder called `pixi.js` relative to your root
+... and copy it into a folder called `pixi.js` relative to your root
 project directory. 
 
-If you're using [git](http://git-scm.com) and the command line, `cd`
+If you're using [git](http://git-scm.com) and the command line, then `cd`
 into your root directory and type:
 ```
 git clone git@github.com:GoodBoyDigital/pixi.js.git
@@ -103,7 +114,7 @@ After Pixi is installed, create a basic HTML page, and use a
 `<script>` tag to include the
 `pixi.js` file from Pixi's `bin` folder. The `<script>` tag's `src`
 should be relative to your root directory where you webserver is
-running. 
+running. Your `<script>` tag might look something like this: 
 ```
 <script src="pixi.js/bin/pixi.js"></script>
 ```
@@ -144,7 +155,7 @@ automatically generates an HTML `<canvas>` element for you, and figures out how
 to display your images on the canvas. 
 
 Here’s how to create a black 265 pixel by 256 pixel canvas, and add it to your
-HTML document. Add this code between the `<script>` tags.
+HTML document. Add this code in your HTML document between the `<script>` tags.
 ```
 var stage = new PIXI.Stage(0x000000);
 var renderer = PIXI.autoDetectRenderer(
@@ -198,18 +209,20 @@ That third argument (the options object) is optional - if you're happy with Pixi
 settings you can leave it out, and there's usually no need to change
 them. (But, if you need to, see Pixi's documentation on the [canvas
 render](http://www.goodboydigital.com/pixijs/docs/classes/CanvasRenderer.html)
-and [WebGLRenderer](http://www.goodboydigital.com/pixijs/docs/classes/WebGLRenderer.html) for more information about what those
-options do.)
+and
+[WebGLRenderer](http://www.goodboydigital.com/pixijs/docs/classes/WebGLRenderer.html)
+for more information.)
 
 What do those options do? 
 ```
 {antialiasing: false, transparent: false, resolution: 1}  
 ```
-`antialiasing` smooths the edges of fonts and graphic primitives. (WebGL
+`antialiasing` smoothes the edges of fonts and graphic primitives. (WebGL
 Anti-aliasing isn’t available on all platforms, so you’ll need to test
 this on your game’s target platform.) `transparent` makes the canvas
 background transparent. `resolution` makes it easier to work with
-displays of varying resolutions and pixel densities. This is a little
+displays of varying resolutions and pixel densities. Setting
+resolutions is a little
 outside the scope of this tutorial, but check out [Mat Grove's
 explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
 about how to use `resolution` for all the details. But usually, just keep `resolution`
@@ -222,7 +235,7 @@ API rendering over WebGL, you can do it like this:
 ```
 renderer = new PIXI.CanvasRenderer(256, 256);
 ```
-Only the first two arguments are required: width and height. 
+Only the first two arguments are required: `width` and `height`. 
 
 You can force WebGL rendering like this:
 ```
@@ -245,14 +258,14 @@ sprites and add them to the stage, you're just a small step away from
 starting to makes games.
 
 Pixi has a `Sprite` class that is a versatile way to make game
-sprites. There are three main ways to create sprite images:
+sprites. There are three main ways to create them:
 
 •	From a single image file.
 •	From a sub-image on a **tileset**. A tileset is a single, big image that
 includes all images you'll need in your game.
 •	From a **texture atlas** (A JSON file that defines the size and position of an image on a tileset.)
 
-You’re going to learn all three ways, But, before you do, let’s find
+You’re going to learn all three ways, but, before you do, let’s find
 out what you need to know about images before you can display them
 with Pixi.
 
@@ -278,7 +291,7 @@ var sprite = new PIXI.Sprite(texture);
 ```
 But how do you load the image file and convert it into a texture? You
 can use Pixi’s built-in `AssetLoader`. Here’s how to use it to load an
-image and call the `setup` method when it’s ready to create the sprite:
+image and call a function called `setup` when it’s ready to create the sprite:
 ```
 var loader = new PIXI.AssetLoader(["images/cat.png"]);
 loader.onComplete = setup;
@@ -312,11 +325,20 @@ var texture = PIXI.Texture.fromImage(“images/cat.png”);
 That means if you want to be lazy, you don’t need to pre-load the
 image. However,
 loading and creating a texture using `fromImage` like this doesn't allow you to make sure all you images have
-loaded before the game or applications starts. If you try and access
+loaded before the game or application starts. If you try and access
 or use a sprite in your game code before the image has fully loaded, things won't work and you're going to get errors. So
 my advice is: don't use `fromImage`, just pre-load all the images
 you'll need with the `AssetLoader`.
 
+For optimization and efficiency it’s always best to make a sprite from
+a texture that’s been pre-loaded into Pixi’s texture cache. But if for
+some reason you need to make a texture from a regular JavaScript Image
+object, you can do that using Pixi’s `BaseTexture` class:
+```
+var base = new PIXI.BaseTexture(anyImageObject),
+    texture = new PIXI.Texture(base),
+    sprite = new PIXI.Sprite(texture);
+```
 ####Displaying sprites
 
 After you've loaded an image, and converted it into a sprite, there
@@ -333,14 +355,13 @@ The stage is the main container that holds all of your sprites.
 ```
 renderer.render(stage);
 ```
-None of your sprites will be visible before you add them to the stage,
-and then tell the `renderer` to render the stage.
+None of your sprites will be visible before you do these two things.
 
 Before we continue, let's look at a practical example of how to use what
 you've just learnt to display a single image. In the `examples/images`
 folder you'll find a 64 by 64 pixel PNG image of a cat.
 
-![Basic display](/examples/images/cat.png);
+![Basic display](/examples/images/cat.png)
 
 Here's the All the JavaScript code you to load the image, create a
 sprite, and display it on Pixi's stage:
@@ -374,22 +395,31 @@ function setup() {
 ```
 When this code runs, here's what you'll see:
 
-![Cat on the stage](/examples/images/screenshots/02.png);
+![Cat on the stage](/examples/images/screenshots/02.png)
 
 Now we're getting somewhere!
 
+If you ever need to remove a sprite from the stage, use the `removeChild` method: 
+```
+stage.removeChild(anySprite) 
+```
+But usually setting a sprite’s `visible` property to `false` will be a simpler and more efficient way of making sprites disappear.
+```
+anySprite.visible = false;
+```
+
 ####Positioning sprites
 
-You can in the previous example that has been cat is added to stage at
-the top left corner. That's at a `x` position of
+You can see in the previous example that has been cat was added to stage at
+the top left corner. The cat at a `x` position of
 0 and a `y` position of 0. You can change the position of the cat by
-change the values of is `x` and `y` properties. Here's how you can center the cat in the stage by
+changing the values of is `x` and `y` properties. Here's how you can center the cat in the stage by
 setting its `x` and `y` property values to 96. 
 ```
 cat.x = 96;
 cat.y = 96;
 ```
-You can add these two lines of code anywhere inside the `setup`
+Add these two lines of code anywhere inside the `setup`
 function, after you've created the sprite.
 ```
 function setup() {
@@ -409,26 +439,36 @@ function setup() {
   renderer.render(stage);
 }
 ```
-These two new lines of code will move the cat 96 pixels to the left,
+These two new lines of code will move the cat 96 pixels to the right,
 and 96 pixels down. Here's the result:
 
 ![Cat centered on the stage](/examples/images/screenshots/03.png);
 
-The cat's top left corner (its left ear) represents is `x` and `y`
-registration point. To make the cat move to the left, increase the
+The cat's top left corner (its left ear) represents its `x` and `y`
+anchor point. To make the cat move to the right, increase the
 value of its `x` property. To make the cat move down, increase the
 value of its `y` property. If the cat has an `x` of 0, it will be at
 the very left side of the stage. If it has a y property of 0, it will
 be at the very top of the stage.
 
-Sprites also have `width` and `height` properties that you can set.
-Here's how to give the cat a `width` of 80 pixels and a `height` of
-100 pixels.
+![Cat centered on the stage - diagram](/examples/images/screenshots/04.png);
+
+Instead of setting the sprite's `x` and `y` properties independently,
+you can set them together in a single like of code, like this:
+```
+sprite.position.set(x, y)
+```
+
+####Size and scale
+
+You can change a sprite's size by setting its `width` and `height`
+properties. Here's how to give the cat a `width` of 80 pixels and a `height` of
+120 pixels.
 ```
 cat.width = 80;
 cat.height = 120;
 ```
-Add these two lines of code to the `setup` function, like this:
+Add those two lines of code to the `setup` function, like this:
 ```
 function setup() {
 
@@ -450,11 +490,77 @@ function setup() {
 ```
 Here's the result:
 
-![Cat's height and width changed](/examples/images/screenshots/03.png);
+![Cat's height and width changed](/examples/images/screenshots/05.png);
 
 You can see that the cat's position (its top left corner) didn't
 change, only its height and width.
 
+![Cat's height and width changed - diagram](/examples/images/screenshots/06.png);
+
+Sprites also have `scale.x` and `scale.y` properties that change the
+sprite's width and height proportionately. Here's how to set the cat's
+scale to half size:
+```
+cat.scale.x = 0.5;
+cat.scale.y = 0.5;
+```
+Scale values are numbers between 0 and 1 that represent a
+percentage of the sprite's size. 1 means 100% (full size), while
+0.5 means 50% (half size). You can double the sprite's size by setting
+its scale values to 2, like this:
+```
+cat.scale.x = 2;
+cat.scale.y = 2;
+```
+Pixi has a alternative, concise way for you set sprite's scale in one
+line of code using the `scale.set` method.
+```
+cat.scale.set(0.5, 0.5); 
+```
+If that appeals to you, use it!
+
+####Rotation
+
+You can make a sprite rotate by setting it `rotation` property to a
+value in [in
+radians](http://www.mathsisfun.com/geometry/radians.html)).
+```
+cat.rotation = 0.5;
+```
+But around which point does that rotation happen?
+
+You've seen that a sprite's top left corner represents its `x` and `y` position. That point is
+called the **anchor point**. If you set the sprite’s `rotation`
+property to something like 0.5, the rotation will happen *around the
+sprite’s anchor point*. 
+This diagram shows what effect this will have on our cat sprite. 
+
+![Rotation around anchor point - diagram](/examples/images/screenshots/07.png);
+
+You can see that the anchor point, the cat’s left ear, is the center of the imaginary circle around which the cat is rotating. 
+What if you want the sprite to rotate around its center? Change the
+sprite’s `anchor` point so that it’s centered inside the sprite, like
+this:
+```
+cat.anchor.x = 0.5;
+cat.anchor.y = 0.5;
+```
+The `anchor.x` and `anchor.y` values represent a percentage of the texture’s dimensions, from 0 to 1 (0%
+to 100%). Setting it to 0.5 centers the texture over the point. The location of the point
+itself won’t change, just the way the texture is positioned over it.
+
+This next diagram shows what happens to the rotated sprite if you center its anchor point. 
+
+![Rotation around centered anchor point - diagram](/examples/images/screenshots/08.png);
+
+You can see that the sprite’s texture shifts up and to the left. This
+is an important side-effect to remember!
+
+Just like with `position` and `scale`, you can set the anchor’s x and
+y values with one line of code like this: 
+```
+sprite.anchor.set(x, y) 
+```
 
 
 

@@ -1,3 +1,4 @@
+
 <!doctype html>
 <meta charset="utf-8">
 <title>Make a sprite from and image</title>
@@ -19,19 +20,34 @@ var loader = new PIXI.AssetLoader(["images/cat.png"]);
 loader.onComplete = setup;
 loader.load();
 
-//Alternatively, you could use Pixi's `ImageLoader`, which
-//just loads images:
-/*
-var loader = new PIXI.ImageLoader("images/cat.png");
-loader.onLoaded = setup.bind(this);
-loader.load();
-*/
-
 function setup() {
 
   //Create the `cat` sprite from the texture
   var texture = PIXI.TextureCache["images/cat.png"],
       cat = new PIXI.Sprite(texture);
+
+  //Position the sprite and change its width and height
+  cat.x = 96;
+  cat.y = 96;
+
+  //Optionally change the width and height
+  cat.width = 80;
+  cat.height = 120;
+
+  //Optionally center the sprite's anchor point
+  cat.anchor.x = 0.5;
+  cat.anchor.y = 0.5;
+ 
+  //Rotate the sprite
+  cat.rotation = 0.3;
+
+  //You can use this alternative syntax to set the
+  //sprites anchor point, scale and rotation
+  /*
+  cat.anchor.set(0.5, 0.5);
+  cat.position.set(120, 120);
+  cat.scale.set(1.5, 3);
+  */
 
   //Add the cat to the state
   stage.addChild(cat);
