@@ -1,0 +1,60 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Velocity variables</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+//Create a Pixi stage and renderer
+var stage = new PIXI.Stage(0x000000);
+var renderer = PIXI.autoDetectRenderer(
+  256, 256,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+//Load an image
+var loader = new PIXI.AssetLoader(["images/cat.png"]);
+loader.onComplete = setup;
+loader.load();
+
+//Define any variables that are used in more than one function
+var cat;
+
+function setup() {
+
+  //Create the `cat` sprite 
+  var texture = PIXI.TextureCache["images/cat.png"];
+  cat = new PIXI.Sprite(texture);
+  stage.addChild(cat);
+
+  //Initialize the cat's velocity variables
+  cat.vx = 0;
+  cat.vy = 0;
+ 
+  //Start the game loop
+  gameLoop();
+}
+
+function gameLoop(){
+
+  //Loop this function 60 times per second
+  requestAnimationFrame(gameLoop);
+
+  //Update the cat's velocity
+  cat.vx = 1;
+  cat.vy = 1;
+
+  //Apply the velocity values to the cat's 
+  //position to make it move
+  cat.x += cat.vx;
+  cat.y += cat.vy;
+
+  //Render the stage
+  renderer.render(stage);
+}
+</script>
+</body>
+
+
+

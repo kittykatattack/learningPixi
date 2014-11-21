@@ -1,0 +1,50 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Moving sprites</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+//Create a Pixi stage and renderer
+var stage = new PIXI.Stage(0x000000);
+var renderer = PIXI.autoDetectRenderer(
+  256, 256,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+//Load an image
+var loader = new PIXI.AssetLoader(["images/cat.png"]);
+loader.onComplete = setup;
+loader.load();
+
+//Define any variables that are used in more than one function
+var cat;
+
+function setup() {
+
+  //Create the `cat` sprite 
+  var texture = PIXI.TextureCache["images/cat.png"];
+  cat = new PIXI.Sprite(texture);
+  cat.y = 96; 
+  stage.addChild(cat);
+ 
+  //Start the game loop
+  gameLoop();
+}
+
+function gameLoop(){
+
+  //Loop this function 60 times per second
+  requestAnimationFrame(gameLoop);
+
+  //Move the cat 1 pixel per frame
+  cat.x += 1;
+
+  //Render the stage
+  renderer.render(stage);
+}
+</script>
+</body>
+
+

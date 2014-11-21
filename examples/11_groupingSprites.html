@@ -1,0 +1,88 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Grouping sprites</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+//Create a Pixi stage and renderer and add the 
+//`renderer.view` to the DOM
+var stage = new PIXI.Stage(0x000000);
+var renderer = PIXI.autoDetectRenderer(
+  256, 256,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+//Load the texture atlas
+var loader = new PIXI.AssetLoader(["images/animals.json"]);
+loader.onComplete = setup;
+loader.load();
+
+function setup() {
+
+  //There are three ways to make sprites from textures atlas frames
+
+  //Make the three animal sprites
+
+  //The cat
+  var cat = new PIXI.Sprite.fromFrame("cat.png");
+  cat.position.set(16, 16);
+
+  //The hedgehog
+  var hedgehog = new PIXI.Sprite.fromFrame("hedgehog.png");
+  hedgehog.position.set(32, 32);
+
+  //The tiger
+  var tiger = new PIXI.Sprite.fromFrame("tiger.png");
+  tiger.position.set(64, 64);
+
+  //Group the animals
+  var animals = new PIXI.DisplayObjectContainer();
+  animals.addChild(cat);
+  animals.addChild(hedgehog);
+  animals.addChild(tiger);
+
+  //Add the `animals` group to the stage
+  stage.addChild(animals);
+
+  //Change the position of the group
+  animals.position.set(64, 64);
+
+  //Optionally change the group's width and height
+  animals.width = 200;
+  animals.height = 200;
+
+  //Find out what the `animal` groups's children are
+
+  console.log(animals.children);
+  //Displays: [b.Sprite, b.Sprite, b.Sprite]
+
+  //Find out what the group's position and size is
+
+  console.log(animals.position); 
+  //Displays: b.Point{x: 0, y: 0 ...}
+
+  console.log(animals.width);
+  //Displays: 112
+
+  console.log(animals.height);
+  //Displays: 112 
+
+  //Find the cat's local position
+  console.log(cat.x);
+  //Displays: 16
+  
+  //Find the cat's global position
+  console.log(animals.toGlobal(cat.position));
+  //Displays: b.Point{x: 80, y: 80...};
+
+  //Render the stage   
+  renderer.render(stage);
+}
+
+</script>
+</body>
+
+
+

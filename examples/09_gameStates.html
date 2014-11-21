@@ -1,0 +1,64 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Game states</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+//Create a Pixi stage and renderer
+var stage = new PIXI.Stage(0x000000);
+var renderer = PIXI.autoDetectRenderer(
+  256, 256,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+//Load an image
+var loader = new PIXI.AssetLoader(["images/cat.png"]);
+loader.onComplete = setup;
+loader.load();
+
+//Define any variables that are used in more than one function
+var cat, state;
+
+function setup() {
+
+  //Create the `cat` sprite 
+  var texture = PIXI.TextureCache["images/cat.png"];
+  cat = new PIXI.Sprite(texture);
+  cat.y = 96; 
+  cat.vx = 0;
+  cat.vy = 0;
+  stage.addChild(cat);
+
+  //Set the game state
+  state = play;
+ 
+  //Start the game loop
+  gameLoop();
+}
+
+function gameLoop(){
+
+  //Loop this function 60 times per second
+  requestAnimationFrame(gameLoop);
+
+  //Update the current game state:
+  state();
+
+  //Render the stage
+  renderer.render(stage);
+}
+
+function play() {
+
+  //Move the cat 1 pixel to the right each frame
+  cat.vx = 1
+  cat.x += cat.vx;
+}
+
+</script>
+</body>
+
+
+

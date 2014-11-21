@@ -379,7 +379,7 @@ Here's the All the JavaScript code you to load the image, create a
 sprite, and display it on Pixi's stage:
 ```
 //Create the Pixi `Stage` and `renderer`
-var stage = new PIXI.Stage(0x000000)
+var stage = new PIXI.Stage(0x000000);
 var renderer = PIXI.autoDetectRenderer(
   256, 256,
   {antialiasing: false, transparent: false, resolution: 1}  
@@ -868,7 +868,7 @@ loop, and assigned random positions.
 
 //Create a Pixi stage and renderer and add the 
 //`renderer.view` to the DOM
-var stage = new PIXI.Stage(0x000000)
+var stage = new PIXI.Stage(0x000000);
 var renderer = PIXI.autoDetectRenderer(
   512, 512,
   {antialiasing: false, transparent: false, resolution: 1}  
@@ -997,20 +997,584 @@ making games - I use it all the time.
 Moving Sprites
 --------------
 
+You now know how to display sprites, but how do you make them move?
+That's easy: create a looping function using `requestAnimationFrame`.
+This is called a **game loop**
+Any code you put inside the game loop will update 60 times per
+second. Here's some code you could write to make the `cat` sprite move to
+the rate  of 1 pixel per frame.
+```
+function gameLoop() {
+
+  //Loop this function at 60 frames per second
+  requestAnimationFrame(gameLoop);
+
+  //Move the cat 1 pixel to the right each frame
+  cat.x += 1;
+
+  //Render the stage to see the animation
+  renderer.render(stage);
+}
+
+//Start the game loop
+gameLoop();
+
+```
+If you run this bit of code, you'll see the sprite gradually move to
+the right side of the stage.
+
+![Moving sprites](/examples/images/screenshots/15.png)
+
+And that's really all there is to it! Just change any sprite property by small
+increments inside the loop, and they'll animate over time. If you want
+the sprite to animate in the opposite direction (to the left), just give it a
+negative value, like -1.
+You'll find this code in the `movingSprites.html` file - here's the
+complete code:
+```
+//Create a Pixi stage and renderer
+var stage = new PIXI.Stage(0x000000);
+var renderer = PIXI.autoDetectRenderer(
+  256, 256,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+//Load an image
+var loader = new PIXI.AssetLoader(["images/cat.png"]);
+loader.onComplete = setup;
+loader.load();
+
+//Define any variables that are used in more than one function
+var cat;
+
+function setup() {
+
+  //Create the `cat` sprite 
+  var texture = PIXI.TextureCache["images/cat.png"];
+  cat = new PIXI.Sprite(texture);
+  cat.y = 96; 
+  stage.addChild(cat);
+ 
+  //Start the game loop
+  gameLoop();
+}
+
+function gameLoop(){
+
+  //Loop this function 60 times per second
+  requestAnimationFrame(gameLoop);
+
+  //Move the cat 1 pixel per frame
+  cat.x += 1;
+
+  //Render the stage
+  renderer.render(stage);
+}
+```
+(Notice that the `cat` variable needs to be defined outside the
+`setup` and
+`gameLoop` functions so that you can access it inside both of them.)
+
+You can animate a sprite's scale, rotation, or size - whatever! You'll see
+many more examples of how to animate sprites ahead.
+
+Using velocity variables
+------------------------
+
+To give you more flexibility, its a good idea control a sprite's
+movement speed using two **velocity variables**: `vx` and `vy`. `vx`
+is used to set the sprite's speed and direction on the x axis. `vy` is
+used to set the sprite's speed and direction on the y axis. Instead of
+changing a sprite's `x` and `y` values directly, first update the velocity
+variables, and then assign those velocity values to the sprite. This is an
+extra bit of modularity that you'll need to have to do animation you'll need for games.
+
+The first step is to create `vx` and `vy` properties on your sprite,
+and give them an initial value.
+```
+cat.vx = 0;
+cat.vy = 0;
+```
+Setting `vx` and `vy` to 0 means that the sprite isn't moving.
+
+Next, in the game loop, update `vx` and `vy` with the velocity
+that you want the sprite to move at. Then assign those value's to the
+sprite's `x` and `y` properties. Here's how you could use this
+technique to make the cat sprite move down and to right at one pixel each
+frame:
+```
+function setup() {
+
+  //Create the `cat` sprite 
+  var texture = PIXI.TextureCache["images/cat.png"];
+  cat = new PIXI.Sprite(texture);
+  stage.addChild(cat);
+
+  //Initialize the cat's velocity variables
+  cat.vx = 0;
+  cat.vy = 0;
+ 
+  //Start the game loop
+  gameLoop();
+}
+
+function gameLoop(){
+
+  //Loop this function 60 times per second
+  requestAnimationFrame(gameLoop);
+
+  //Update the cat's velocity
+  cat.vx = 1;
+  cat.vy = 1;
+
+  //Apply the velocity values to the cat's 
+  //position to make it move
+  cat.x += cat.vx;
+  cat.y += cat.vy;
+
+  //Render the stage
+  renderer.render(stage);
+}
+
+```
+When you run this code, the cat will move down and to the right at one
+pixel per frame:
+
+![Moving sprites](/examples/images/screenshots/16.png)
+
+To make the cat move to the right, give it `vx` value of -1. To make
+it move up, give the cat a `vy` value of -1.
+
+You'll see ahead how modularizing a sprite's velocity with `vx` and
+`vy` velocity properties helps with keyboard and mouse pointer
+controls, as well as making it easier to implement physics.
+
+Game states
+-----------
+
+As a matter of style, and to help modularize your code, I
+recommend structuring your game loop like this:
+```
+//Set the game's current state to *play*:
+var state = play;
+
+function gameLoop() {
+
+  //Loop this function at 60 frames per second
+  requestAnimationFrame(gameLoop);
+
+  //Update the current game state:
+  state();
+
+  //Render the stage to see the animation
+  renderer.render(stage);
+}
+
+function play() {
+
+  //Move the cat 1 pixel to the right each frame
+  cat.x += 1;
+}
+```
+You can see that the `gameLoop` is calling a function called `state` 60 times
+per second. What is the `state` function? It's been assigned to
+`play`. That means all the code in the `play` function will run at 60
+times per second. 
+
+Here's how the code from the previous example can be re-factored to
+this new model:
+```
+//Define any variables that are used in more than one function
+var cat, state;
+
+function setup() {
+
+  //Create the `cat` sprite 
+  var texture = PIXI.TextureCache["images/cat.png"];
+  cat = new PIXI.Sprite(texture);
+  cat.y = 96; 
+  cat.vx = 0;
+  cat.vy = 0;
+  stage.addChild(cat);
+
+  //Set the game state
+  state = play;
+ 
+  //Start the game loop
+  gameLoop();
+}
+
+function gameLoop(){
+
+  //Loop this function 60 times per second
+  requestAnimationFrame(gameLoop);
+
+  //Update the current game state:
+  state();
+
+  //Render the stage
+  renderer.render(stage);
+}
+
+function play() {
+
+  //Move the cat 1 pixel to the right each frame
+  cat.vx = 1
+  cat.x += cat.vx;
+}
+```
+Yes, I know, this is a bit of [head-swirler](http://www.amazon.com/Electric-Psychedelic-Sitar-Headswirlers-1-5/dp/B004HZ14VS)! But, don't let it scare
+and you and spend a minute or two walking through in your mind how those
+functions are connected. As you'll see ahead, structuring your game
+loop like this will make it much, much easier to do things like switching
+game scenes and levels.
+
 Keyboard Movement
 -----------------
 
-Simple collision detection
---------------------------
+With just a little more work you can build a simple system to control
+a sprite using the keyboard. To simplify your code, I suggest you use
+this custom function called `keyboard` that listens for and captures
+keyboard events.
+```
+function keyboard(keyCode) {
+  var key = {};
+  key.code = keyCode;
+  key.isDown = false;
+  key.isUp = true;
+  key.press = undefined;
+  key.release = undefined;
+  //The `downHandler`
+  key.downHandler = function(event) {
+    if (event.keyCode === key.code) {
+      if (key.isUp && key.press) key.press();
+      key.isDown = true;
+      key.isUp = false;
+    }
+    event.preventDefault();
+  };
 
+  //The `upHandler`
+  key.upHandler = function(event) {
+    if (event.keyCode === key.code) {
+      if (key.isDown && key.release) key.release();
+      key.isDown = false;
+      key.isUp = true;
+    }
+    event.preventDefault();
+  };
+
+  //Attach event listeners
+  window.addEventListener(
+    "keydown", key.downHandler.bind(key), false
+  );
+  window.addEventListener(
+    "keyup", key.upHandler.bind(key), false
+  );
+  return key;
+}
+```
+The `keyboard` function is easy to use. Create a new keyboard object like this:
+```
+var keyObject = g.keyboard(asciiKeyCodeNumber);
+```
+([Here's a list of ascii keyboard code
+numbers][http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html].)
+
+Then assign `press` and `release` methods to the keyboard object like this:
+```
+keyObject.press = function() {
+  //key object pressed
+};
+keyObject.release = function() {
+  //key object released
+};
+```
+Keyboard objects also have `isDown` and `isUp` Boolean properties that
+you can use to check the state of each key. 
+
+Take a look at the
+`keyboardMovement.html` file in the `examples` folder to see how you
+can use this `keyboard` function to control a sprite using your
+keyboard's arrow keys. Run it and use the left, up, down, and right
+arrow keys to move the cat around the stage.
+
+![Keyboard movement](/examples/images/screenshots/17.png)
+
+Here's the code that does all this:
+```
+function setup() {
+
+  //Create the `cat` sprite 
+  var texture = PIXI.TextureCache["images/cat.png"];
+  cat = new PIXI.Sprite(texture);
+  cat.y = 96; 
+  cat.vx = 0;
+  cat.vy = 0;
+  stage.addChild(cat);
+
+  //Capture the keyboard arrow keys
+  var left = keyboard(37),
+      up = keyboard(38),
+      right = keyboard(39),
+      down = keyboard(40);
+
+  //Left arrow key `press` method
+  left.press = function() {
+    //Change the cat's velocity when the key is pressed
+    cat.vx = -5;
+    cat.vy = 0;
+  };
+
+  //Left arrow key `release` method
+  left.release = function() {
+    //If the left arrow has been released, and the right arrow isn't down,
+    //and the cat isn't moving vertically:
+    //Stop the cat
+    if (!right.isDown && cat.vy === 0) {
+      cat.vx = 0;
+    }
+  };
+
+  //Up
+  up.press = function() {
+    cat.vy = -5;
+    cat.vx = 0;
+  };
+  up.release = function() {
+    if (!down.isDown && cat.vx === 0) {
+      cat.vy = 0;
+    }
+  };
+
+  //Right
+  right.press = function() {
+    cat.vx = 5;
+    cat.vy = 0;
+  };
+  right.release = function() {
+    if (!left.isDown && cat.vy === 0) {
+      cat.vx = 0;
+    }
+  };
+
+  //Down
+  down.press = function() {
+    cat.vy = 5;
+    cat.vx = 0;
+  };
+  down.release = function() {
+    if (!up.isDown && cat.vx === 0) {
+      cat.vy = 0;
+    }
+  };
+
+  //Set the game state
+  state = play;
+ 
+  //Start the game loop
+  gameLoop();
+}
+
+function gameLoop(){
+  requestAnimationFrame(gameLoop);
+  state();
+  renderer.render(stage);
+}
+
+function play() {
+
+  //Use the cat's velocity to make it move
+  cat.x += cat.vx;
+  cat.y += cat.vy
+}
+```
 Grouping Sprites
 ----------------
+
+Groups let you create game scenes, and manage similar sprites together
+as single units. Pixi has an object called a `DisplayObjectContainer`
+that lets you do this. Let's find out how it works.
+
+Imagine that you want to displays three sprites: a cat, hedgehog and
+tiger. Create them, and set their positions - but don't add them to the
+stage.
+```
+//The cat
+var cat = new PIXI.Sprite.fromFrame("cat.png");
+cat.position.set(16, 16);
+
+//The hedgehog
+var hedgehog = new PIXI.Sprite.fromFrame("hedgehog.png");
+hedgehog.position.set(32, 32);
+
+//The tiger
+var tiger = new PIXI.Sprite.fromFrame("tiger.png");
+tiger.position.set(64, 64);
+```
+
+Next, create an `animals` container to group them all together like
+this:
+```
+var animals = new PIXI.DisplayObjectContainer();
+```
+Then use `addChild` to *add the sprites to the group*.
+```
+animals.addChild(cat);
+animals.addChild(hedgehog);
+animals.addChild(tiger);
+```
+Finally add the group to the stage.
+```
+stage.addChild(animals);
+renderer.render(stage);
+```
+(The stage object, by the way, is also a `DisplayObjectContainer`. It’s the root container for all Pixi sprites.)
+
+Here's what this code produces:
+
+![Grouping sprites](/examples/images/screenshots/18.png)
+
+What you can't see in that image is the invisible `animals` group
+that's containing the sprites.
+
+![Grouping sprites](/examples/images/screenshots/19.png)
+
+You can now treat the `animals` group as a single unit. You can think
+of a `DisplayObjectContainer` as a special kind of sprite that doesn’t
+have a texture. 
+
+If you need a list of all the child sprites that `animals` contains,
+use its `children` array to find out. 
+```
+console.log(animals.chidren}
+//Displays: [b.Sprite, b.Sprite, b.Sprite]
+```
+This tells you that `animals` has three sprites as children.
+
+Because the `animals` group is just like any other sprite, you can
+change its `x` and `y` values, `alpha`, `scale` and
+all the other sprite properties. Any property value you change on the
+parent container will affect the child sprites in a relative way. So if you
+set the group's `x` and `y` position, all the child sprites will
+be repositioned relative to the group's top left corner. What would
+happen if you set the `animals`'s `x` and `y` position to 64?
+```
+animals.position.set(64, 64);
+```
+The whole group of sprites will move 64 pixels right and 64 pixels to
+the left.
+
+![Grouping sprites](/examples/images/screenshots/20.png)
+
+The `animals` group also has its own dimensions, which is based on the area
+occupied by the containing sprites. You can find its `width` and
+`height` values like this:
+```
+console.log(animals.width);
+//Displays: 112
+
+console.log(animals.height);
+//Displays: 112 
+
+```
+![Group width and height](/examples/images/screenshots/21.png)
+
+What happens if you change a group's width or height? 
+```  
+animals.width = 200;
+animals.height = 200;
+```
+All the child
+sprites will scale to match that change.
+
+![Group width and height](/examples/images/screenshots/22.png)
+
+You can nest as many `DisplayObjectContainer`s inside other
+`DisplayObjectContainer`s as you like, to create deep hierarchies if
+you need to. However, a `DisplayObject` (like a `Sprite` or another
+`DisplayObjectContainer`) can only belong to one parent at a time. If
+you use `addChild` to make a sprite the child of another object, Pixi
+will automatically remove it from its current parent. That’s a useful
+bit of management that you don’t have to worry about.
+
+###Local and global positions
+
+When you add a sprite to a `DisplayObjectContainer`, its `x` and `y`
+position is *relative to the group’s top left corner*. That's the
+sprite's **local position** For example, what do you think the cat's
+position is in this image?
+
+![Grouping sprites](/examples/images/screenshots/20.png)
+
+Let's find out:
+```
+console.log(cat.x);
+//Displays: 16
+```
+16? Yes! That's because the cat is offset by only 16 pixel's from the
+group's top left corner. 16 is the cat's local position.
+
+Sprites also have a ***global position**. The global position is the
+distance from the top left corner of the stage, to the sprite's anchor
+point (usually the sprite's top left corner.) You can find a sprite's global
+position with the help of the `toGlobal` method.  here's how:
+```
+parentSprite.toGlobal(childSprite.position)
+```
+That means you can find the cat's global position inside the `animals`
+group like this:
+```
+console.log(animals.toGlobal(cat.position));
+//Displays: b.Point{x: 80, y: 80...};
+```
+That give you an `x` and `y` position of 80. That's exactly the cat's
+global position relative to the top left corner of the stage. (If you
+ever need to convert a global position to a local position, you can
+use the `toLocal` method - it works in the same way.)
+
+###Using a SpriteBatch to group sprites
+
+Pixi has an alternative, high-performance way to group sprites called
+a `SpriteBatch`. Any sprites inside a `SpriteBatch` will render 2 to 5
+times faster than they would if they were in a regular
+`DisplayObjectContainer`. It’s a great performance boost for games. 
+
+Create a SpriteBatch like this:
+```
+var superFastSprites = new PIXI.SpriteBatch();
+```
+Then use `addChild` to add sprites to it, just like you would with any
+ordinary `DisplayObjectContainer`.
+
+You have to make some compromises if you decide to use a
+`SpriteBatch`. The `SpriteBatch` only has a few  basic properties:
+`x`, `y`, `width`, `height`, `scale`, `alpha`, `visible` – and that’s
+about it. Also, the sprites that it contains can’t have nested
+children of their own. A `SpriteBatche` also can’t use Pixi’s advanced
+visual effects like filters and blend modes (you’ll learn about those
+ahead). But for the huge performance boost that you get, those
+compromises are usually worth it. And you can use
+`DisplayObjectContainer`s and `SpriteBatch`s simultaneously in the same project, so you can fine-tune your optimization. 
+
+Why are sprites in a `SpriteBatch` so fast? Because the positions of
+the sprites are being calculated directly on the GPU. The Pixi
+development team is working to offload as much sprite processing as
+possible on the GPU, so it’s likely that the latest version of Pixi
+that you’re using will have much more feature-rich `SpriteBatch` than
+what I've described here. Check the current [SpriteBatch
+documentation](http://www.goodboydigital.com/pixijs/docs/classes/SpriteBatch.html) for details.
+
 
 Displaying text
 ---------------
 
 Pixi's Graphic Primitives
 -------------------------
+
+Simple collision detection
+--------------------------
 
 Treasure Hunter
 ---------------
@@ -1025,13 +1589,13 @@ But before we do, let’s take closer look at Pixi’s `Sprite` class.
 Sprite properties and methods
 -----------------------------
 
-You've learnt how to use quite a few useful sprites properties so far, like `x`, `y`,
+You've learnt how to use quite a few useful sprite properties so far, like `x`, `y`,
 `visible`, and `rotation` that give you a lot of control over a
 sprite's position and appearance. But Pixi Sprites also have many more useful properties that are fun to play with.
 Before we look at all those properties and methods let’s find
 out how Pixi’s class inheritance system works. ([What is a **class**
 and what is **inheritence**? Click this link to find out.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)) Pixi’s sprites are
-built on an **inheritance*** model that follows this chain:
+built on an inheritance model that follows this chain:
 ```
 DisplayObject > DisplayObjectContainer > Sprite
 ```
@@ -1049,7 +1613,7 @@ Here's a big list all of Pixi’s sprite properties. Most of these have been
 inherited from `DisplayObject` and `DisplayObjectContainer`. Some of
 these properties, like `x` and `y`, will be very familiar. Others,
 like `interactive` and `filters` you’ll learn how to use a little
-later in this chapter. This information is adapted directly from
+later. This information is adapted directly from
 Pixi’s documentation, and you can find the most current list of
 properties and methods at here:
 www.goodboydigital.com/pixijs/docs/classes/Sprite.html.
@@ -1079,26 +1643,29 @@ www.goodboydigital.com/pixijs/docs/classes/Sprite.html.
   properties](per.mozilla.org/en-US/docs/Web/CSS/cursor), like `auto`
   or `crosshair`.
 - **filters**: An array that lets you manage the visual effect filters on a sprite.
+- **filterArea**: A `Rectangle` object that defines the area on a
+  sprite's texture that a filter is applied to.
 - **width**: The sprite’s width in pixels. (The `width` property
   actually modifies the sprite’s scale to achieve the correct pixel
   width.)
 - **height**: The sprite’s height in pixels. (Like `width`, the
   `height` property modifies the sprite’s scale.)
-- **hitArea**: Determines the area of a sprite that is sensitive to
+- **hitArea**: Determines the area of a sprite :wthat is sensitive to
   mouse or touch events. Supply it with a `PIXI.Rectangle` object.
   This is just 4 numbers that define a rectangular area in pixels: x,
   y, width and height.
 - **interactive**: A Boolean (`true`/`false` value) that determines whether or not the
   sprite responds to mouse or touch events.
 - **mask**: Sets a mask for the sprite. A mask is an object that limits
-  the visibility of a sprite to the shape of the mask applied to it. . Supply the `mask` property with a A PIXI.Graphics
+  the visibility of a sprite to the shape of the mask applied to it. .
+  Supply the `mask` property with a A `PIXI.Graphics`
   object. To remove a mask, set this property to `null`.
 - **parent**: A read-only property that tells you the sprite’s parent. This
   could be another sprite, or it could be a `DisplayObjectContainer`
   (which you’ll learn about ahead.)
 - **pivot**: A `PIXI.Point` object with `x` and `y` properties that lets you set
   the axis of rotation on the sprite. (There is currently [a
-  long-running
+  long-running and
   colourful debate going
   on](https://github.com/GoodBoyDigital/pixi.js/issues/997) about how
   `pivot` actually works and how to use
@@ -1113,7 +1680,7 @@ www.goodboydigital.com/pixijs/docs/classes/Sprite.html.
   2 makes the sprite double in size. Setting these values to 0.5 makes
   it half the size. 1 sets the sprite to its actual size. You can also
   set the sprite's scale with the `scale.set` method.
-- **texture**: A PIXI.Texture object that defines the sprite’s texture. (Don’t use
+- **texture**: A `PIXI.Texture` object that defines the sprite’s texture. (Don’t use
   this to change the sprite’s texture, use the `setTexture()` method
   instead.)
 - **tint**: The tint (color) that should be applied to the sprite.
@@ -1140,8 +1707,8 @@ www.goodboydigital.com/pixijs/docs/classes/Sprite.html.
 Pixi Sprites also have some useful methods. Here’s a complete list,
 and you’ll learn how to use these methods ahead.
 
-- **addChild**: Adds a display object as the child of another display
-  object. *arguments*: (`child`). The `child` argument can be any
+- **addChild**: Adds a `DisplayObject` as the child of another
+  `DisplayoObject`. *arguments*: (`child`). The `child` argument can be any
   `DisplayObject` (A
   `DisplayObject`, a `DisplayObjectContainer` or a `Sprite`).
 - **removeChild**: Removes the object as a child of the sprite.
@@ -1153,7 +1720,7 @@ and you’ll learn how to use these methods ahead.
   the second should be an array
   index position number.
 - **getChildAt**: Returns the `DisplayObject` at the specified array
-  index position in the sprite’s children array. *arguments*:
+  index position in the sprite’s `children` array. *arguments*:
   (`child`, `index`). The first argument should be `DisplayObject` and
   the second should be an array index position number.
 - **getBounds**: Gives you a `Rectangle` object with `x`, `y`, `width` and
@@ -1162,7 +1729,7 @@ and you’ll learn how to use these methods ahead.
   returns a `PIXI.Rectangle` object.
 - **getLocalBounds**: Gives you a `Rectangle` object with `x`, `y`,
   `width`
-  and `height` properties that match the sprite. The `x` and `y` properties
+  and `height` properties that match the sprite's size and position. The `x` and `y` properties
   are relative to the sprite’s own local anchor position, which is
   usually 0,0. It has no arguments, but returns a `PIXI.Rectangle` object.
 - **setTexture**: Sets the texture that the sprite should display.
@@ -1183,6 +1750,24 @@ and you’ll learn how to use these methods ahead.
 - **generateTexture**: Takes a snapshot of the sprite and lets you use
   it as a texture for another sprite. It doesn't take any arguments,
   but it returns a texture.
+- **toGlobal**: Calculates the global position of a `DisplayObject`.
+  *arguments*: (`position`). The `position` argument is a `PIXI.Point`
+  object which should be the local `position` object that you want to
+  find the global `x` and `y` coordinates for. `toGlobal` returns a `PIXI.Point`
+  object that contains `x` and `y` properties that tell you the global
+  position.
+- **toLocal**: Calculates the local position of a `DisplayObject`.
+  *arguments*: (`position`). The `position` argument is a `PIXI.Point`
+  object which should be the global `position` object that you want to
+  find the local `x` and `y` coordinates for. `toGlobal` returns a `PIXI.Point`
+  object that contains `x` and `y` properties that tell you the global
+  position.
+- **swapChildren**: Swaps the array index positions of two child
+  sprites inside their parent container. *arguments*: (`child1`,
+  `child2`). Both arguments should be `DisplayObject`s that are
+  children of the same parent container.
+- **updateCache**: Generates and updates the cached sprite for this
+  object. No arguments and doesn't return anything.
 
 In addition to these, sprites have a bunch of callback methods that
 are used with mouse and touch events. Later you’ll
