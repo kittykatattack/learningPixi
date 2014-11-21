@@ -343,6 +343,12 @@ var base = new PIXI.BaseTexture(anyImageObject),
     texture = new PIXI.Texture(base),
     sprite = new PIXI.Sprite(texture);
 ```
+If you want to change the texture the sprite is displaying, use the
+`setTexture` method. Supply it with any `Texture` object, like this:
+```
+anySprite.setTexture(PIXI.TextureCache["anyTexture.png"]);
+```  
+You can use this technique to interactively change the sprite’s appearance if something significant happens to it in the game.
 
 Displaying sprites
 ------------------
@@ -585,7 +591,8 @@ objects as sub-images.
 ![An example tileset](/examples/images/screenshots/09.png)
 
 The entire tileset is 192 by 192 pixels. Each image s in a its own 32 by 32
-pixel grid cell. Storing and accessing all your game graphics on tileset is very
+pixel grid cell. Storing and accessing all your game graphics on a
+tileset is a very
 processor and memory efficient way to work with graphics, and Pixi is
 optimized for them.
 
@@ -648,7 +655,8 @@ var rectangle = new PIXI.Rectangle(x, y, width, height);
 The rectangle object just a data object; it's up to you to decide how you want to use it. In
 our example we're using it to define the position and area of the
 sub-image on the tileset that we want to extract. Pixi textures have a useful
-method called `setFrame` that takes `Rectangle` objects as arguments uses them
+method called `setFrame` that takes `Rectangle` objects as arguments
+and uses them
 to crop the texture to those dimensions. Here's how to use `setFrame`
 to crop the texture to the size and position of the rocket.
 ```
@@ -672,7 +680,7 @@ If you’re working on a big, complex game, you’ll want a fast and
 efficient way to create sprites from tilesets. This is where a
 **texture atlas** becomes really useful. A texture atlas is a JSON
 data file that contains the positions and sizes of sub-images on a
-matching tileset PNG image. If you use a texture atlas, all you need to know about the sub-image you want to display is its name. You can arrange your tileset images in any order and, and the JSON file will keep track of their sizes and positions for you. This is really convenient because it means the sizes and positions of tileset images aren’t hard-coded into your game program. If you make changes to the tileset, like adding images, resizing them, or removing them, just re-publish the JSON file and your game will use that data to display the correct images. You won’t have to make any changes to your game code.
+matching tileset PNG image. If you use a texture atlas, all you need to know about the sub-image you want to display is its name. You can arrange your tileset images in any order and the JSON file will keep track of their sizes and positions for you. This is really convenient because it means the sizes and positions of tileset images aren’t hard-coded into your game program. If you make changes to the tileset, like adding images, resizing them, or removing them, just re-publish the JSON file and your game will use that data to display the correct images. You won’t have to make any changes to your game code.
 
 Pixi is compatible with a standard JSON texture atlas format that is
 output by a popular software tool called [Texture
@@ -769,17 +777,17 @@ Creating sprites from a loaded texture atlas
 Pixi gives you three alternative ways you can create a sprite from texture
 atlas.
 
-1. Using `PIXI.TextureCache`:
+-1. Using `PIXI.TextureCache`:
 ```
 var texture = PIXI.TextureCache["frameId.png"],
     sprite = new PIXI.Sprite(texture);
 ```
-2. Using `PIXI.Texture.fromFrame`:
+-2. Using `PIXI.Texture.fromFrame`:
 ```
 var texture = PIXI.Texture.fromFrame("frameId.png"),
     sprite = new PIXI.Sprite(texture);
 ```
-3. Using `new PIXI.Sprite.fromFrame`:
+-3. Using `new PIXI.Sprite.fromFrame`:
 ```
 var sprite = new PIXI.Sprite.fromFrame("frameId.png");
 ```
@@ -947,15 +955,30 @@ function randomInt(min, max) {
 
 ```
 You can see in the code above that all the blobs are created using a
-`for` loop. Each `blob` is spaced evenly, and given a random `y` position
-using this bit of code:
+`for` loop. Each `blob` is spaced evenly along the `x` axis like this:
+```   
+var x = spacing * i + xOffset;
+blob.x = x;
+```
+`spacing` has a value 48, and `xOffset` has a value of 150. What this
+means that that the first `blob` will have an `x` position of 150.
+This offsets it from the left side of the stage by 150 pixel. Each
+subsequent `blob` will have an `x` value that's 48 pixels greater than
+the `blob` created in the previous iteration of the loop. This creates
+an evenly spaced line of blob monsters, from left to right, along the dungeon floor.
+
+Each `blob` is also given a random `y` position. Here's the code that
+does this:
 ```
 var y = randomInt(0, stage.height - blob.height);
+blob.y = y;
 ```
-It uses a custom function called `randomInt`. `randomInt` returns a random number
-that's within a range any two numbers you supply.
+The `blob`'s `y` position could be assigned any random number between 0 and
+512, which is the value of `stage.height`. This works with the help of
+a custom function called `randomInt`. `randomInt` returns a random number
+that's within a range between any two numbers you supply.
 ```
-randomInt(lowest, highest)
+randomInt(lowestNumber, highestNumber)
 ```
 That means if you want a random number between 1 and 10, you can get
 one like this:
@@ -970,6 +993,204 @@ function randomInt(min, max) {
 ```
 `randomInt` is a great little function to keep in your back pocket for
 making games - I use it all the time.
+
+Moving Sprites
+--------------
+
+Keyboard Movement
+-----------------
+
+Simple collision detection
+--------------------------
+
+Grouping Sprites
+----------------
+
+Displaying text
+---------------
+
+Pixi's Graphic Primitives
+-------------------------
+
+Treasure Hunter
+---------------
+
+Now you know how to load images into the texture cache, create and use
+a texture atlas, and make sprites from textures. You even know how to
+use a `Rectangle` object to select sections of textures to make a new
+texture. All these skills give you a great deal of flexibility and
+control over the appearance of sprites, and you’ll ahead how we’ll use all these techniques in some creative ways.
+But before we do, let’s take closer look at Pixi’s `Sprite` class. 
+
+Sprite properties and methods
+-----------------------------
+
+You've learnt how to use quite a few useful sprites properties so far, like `x`, `y`,
+`visible`, and `rotation` that give you a lot of control over a
+sprite's position and appearance. But Pixi Sprites also have many more useful properties that are fun to play with.
+Before we look at all those properties and methods let’s find
+out how Pixi’s class inheritance system works. ([What is a **class**
+and what is **inheritence**? Click this link to find out.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)) Pixi’s sprites are
+built on an **inheritance*** model that follows this chain:
+```
+DisplayObject > DisplayObjectContainer > Sprite
+```
+Inheritance just means that the classes later in the chain use
+properties and methods from classes earlier in the chain. 
+The most basic class is `DisplayObject`. Anything that’s a
+`DisplayObject` can be rendered on the stage. `DisplayObjectContainer`
+is the next class in the inheritance chain. It allows `DisplayObject`s
+to act as containers for other `DisplayObject`s. Third up the chain is
+the `Sprite` class. That’s the class you’ll be using to make most of
+your game objects. However, later you’ll learn how to use
+`DisplayObjectContainer`s to group sprites together.
+
+Here's a big list all of Pixi’s sprite properties. Most of these have been
+inherited from `DisplayObject` and `DisplayObjectContainer`. Some of
+these properties, like `x` and `y`, will be very familiar. Others,
+like `interactive` and `filters` you’ll learn how to use a little
+later in this chapter. This information is adapted directly from
+Pixi’s documentation, and you can find the most current list of
+properties and methods at here:
+www.goodboydigital.com/pixijs/docs/classes/Sprite.html.
+
+- **alpha**: A number between 0 and 1 that determines how transparent
+  or opaque the sprite is. 0 is full transparency. 1 makes the sprite
+  completely opaque (solid). 0.5 will set the sprite to 50%
+  transparency. 
+- **anchor**: The origin point of the texture. The default is 0,0
+  this means the texture's origin is the sprite’s top left corner.
+  Setting the anchor to 0.5,0.5 centers the texture’s registration
+  point. Setting the anchor to 1,1 sets the texture’s registration
+  point to the bottom right corner. Use `anchor.x` and `anchor.y` to set these
+  values, or alternatively, use the `anchor.set` method.
+- **blendMode**: Determines how semi-transparent sprites blend with
+  sprites that they’re overlapping. You can supply it with any
+  `Pixi.blendModes` value. The default value is
+  `PIXI.blendModes.NORMAL`.
+- **buttonMode**: A Boolean (`true`/`false` value) that determines whether a hand icon should be displayed if the
+  pointer is over the sprite. 
+- **children**: a read-only array that tells you all the child sprites that this sprite
+  contains.
+- **defaultCursor**: Sets the cursor that will be used when the mouse is
+  over this object. To enable this the sprite must have both its
+  `interactive` and `buttonMode` properties set to `true`. It's value
+  should be a string that matches any of [the standard CSS cursor
+  properties](per.mozilla.org/en-US/docs/Web/CSS/cursor), like `auto`
+  or `crosshair`.
+- **filters**: An array that lets you manage the visual effect filters on a sprite.
+- **width**: The sprite’s width in pixels. (The `width` property
+  actually modifies the sprite’s scale to achieve the correct pixel
+  width.)
+- **height**: The sprite’s height in pixels. (Like `width`, the
+  `height` property modifies the sprite’s scale.)
+- **hitArea**: Determines the area of a sprite that is sensitive to
+  mouse or touch events. Supply it with a `PIXI.Rectangle` object.
+  This is just 4 numbers that define a rectangular area in pixels: x,
+  y, width and height.
+- **interactive**: A Boolean (`true`/`false` value) that determines whether or not the
+  sprite responds to mouse or touch events.
+- **mask**: Sets a mask for the sprite. A mask is an object that limits
+  the visibility of a sprite to the shape of the mask applied to it. . Supply the `mask` property with a A PIXI.Graphics
+  object. To remove a mask, set this property to `null`.
+- **parent**: A read-only property that tells you the sprite’s parent. This
+  could be another sprite, or it could be a `DisplayObjectContainer`
+  (which you’ll learn about ahead.)
+- **pivot**: A `PIXI.Point` object with `x` and `y` properties that lets you set
+  the axis of rotation on the sprite. (There is currently [a
+  long-running
+  colourful debate going
+  on](https://github.com/GoodBoyDigital/pixi.js/issues/997) about how
+  `pivot` actually works and how to use
+  it - so you might want to avoid using it until the specification stabilizes.)
+- **position**: Lets you access and change the sprite’s position like
+  this: `position.x`, `position.y`. Or, use the `position.set` method.
+- **renderable**: A Boolean value that determines whether or not the sprite should be
+  rendered.
+- **rotation**: A number, in radians, that sets the sprite's rotation.
+- **scale**: The sprite’s scale factor. Setting `scale.x` and
+  `scale.y` to
+  2 makes the sprite double in size. Setting these values to 0.5 makes
+  it half the size. 1 sets the sprite to its actual size. You can also
+  set the sprite's scale with the `scale.set` method.
+- **texture**: A PIXI.Texture object that defines the sprite’s texture. (Don’t use
+  this to change the sprite’s texture, use the `setTexture()` method
+  instead.)
+- **tint**: The tint (color) that should be applied to the sprite.
+  This is a [hexadecimal color
+  value](http://www.w3schools.com/tags/ref_colorpicker.asp).
+- **visible**: A Boolean value that determines whether or not the sprite is visible.
+  Setting `visible` to `false` is often the best way to remove sprites
+  from a game.
+- **worldAlpha**: Tells you the sprite’s `alpha` (transparency) value relative to its
+  parent’s `alpha`. This is a read-only value.
+- **worldVisible**: A read-only Boolean that tells you whether or not the sprite is
+  globally visible. For example, if the sprite has a parent that isn’t
+  visible, the sprite’s `worldVisible` property will be `false`.
+- **x**: Sets the sprite’s horizontal position, in pixels. This is a getter/setter for
+  `position.x`.
+- **y**: Sets the sprite’s vertical position, in pixels. This is a getter/setter for
+  `position.y`.
+- **cacheAsBitmap**: If `true`, `cacheAsBitmap` will turn the sprite or
+  `DisplayObject` into a bitmap image, so that it renders faster. If the
+  sprite contains any child sprites, they’ll stop animating. Set
+  `cacheAsBitmap` to `false` to restore the sprite and make child sprites
+  animate again.
+
+Pixi Sprites also have some useful methods. Here’s a complete list,
+and you’ll learn how to use these methods ahead.
+
+- **addChild**: Adds a display object as the child of another display
+  object. *arguments*: (`child`). The `child` argument can be any
+  `DisplayObject` (A
+  `DisplayObject`, a `DisplayObjectContainer` or a `Sprite`).
+- **removeChild**: Removes the object as a child of the sprite.
+  *arguments*: (`child`). The `child` argument can be any
+  `DisplayObject`.
+- **addChildAt**: Adds a `DisplayObject` to the sprite’s `children` array
+  at a specified array index position. *arguments*: (`child`,
+  `arrayIndexValue`). The first argument should be `DisplayObject` and
+  the second should be an array
+  index position number.
+- **getChildAt**: Returns the `DisplayObject` at the specified array
+  index position in the sprite’s children array. *arguments*:
+  (`child`, `index`). The first argument should be `DisplayObject` and
+  the second should be an array index position number.
+- **getBounds**: Gives you a `Rectangle` object with `x`, `y`, `width` and
+  `height` properties that match the sprite. The `x` and `y` properties are
+  relative to the sprite’s parent position. It has no arguments, but
+  returns a `PIXI.Rectangle` object.
+- **getLocalBounds**: Gives you a `Rectangle` object with `x`, `y`,
+  `width`
+  and `height` properties that match the sprite. The `x` and `y` properties
+  are relative to the sprite’s own local anchor position, which is
+  usually 0,0. It has no arguments, but returns a `PIXI.Rectangle` object.
+- **setTexture**: Sets the texture that the sprite should display.
+  *arguments*: (`texture`). Supply a `PIXI.Texture` object.
+- **fromImage**: A convenient function that lets you make a sprite
+  directly from an image file. If the image isn’t in Pixi’s texture
+  cache, Pixi will load it for you before it attempts to render the
+  sprite. *arguments*: (`imageFilePath`). Supply a file image path
+  string.
+- **fromFrame**: Used to make a sprite from an image in a tileset that
+  has been loaded with a texture atlas. *arguments*: (`frameId`). A
+  frame id (name) of a texture in the cache.
+- **setStageReference**: Lets you set the stage that this sprite or
+  `DisplayObject` is connected to. *arguments*: (stage). Supply a
+  `Pixi.Stage` object.
+- **removeStageReference**: Removes the reference to the sprite’s
+  stage. It doesn't take any arguments and doesn't return anything.
+- **generateTexture**: Takes a snapshot of the sprite and lets you use
+  it as a texture for another sprite. It doesn't take any arguments,
+  but it returns a texture.
+
+In addition to these, sprites have a bunch of callback methods that
+are used with mouse and touch events. Later you’ll
+learn how to use them to make interactive buttons. 
+
+
+
+
 
 
 
