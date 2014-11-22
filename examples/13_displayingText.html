@@ -1,0 +1,29 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Displaying text</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+//Create a Pixi stage and renderer
+var stage = new PIXI.Stage(0x000000);
+var renderer = PIXI.autoDetectRenderer(
+  256, 256,
+  {antialiasing: false, transparent: false, resolution: 1}  
+);
+document.body.appendChild(renderer.view);
+
+var message = new PIXI.Text(
+  "Hello Pixi!", 
+  {font: "32px sans-serif", fill: "white"}
+);
+
+message.position.set(54, 96);
+stage.addChild(message);
+
+//Render the stage
+renderer.render(stage);
+</script>
+</body>
+
+

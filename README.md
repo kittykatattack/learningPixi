@@ -168,7 +168,7 @@ document.body.appendChild(renderer.view);
 ```
 Here's what this looks like in a browser when you run this code.
 
-![Basic display](/examples/images/screenshots/01.png);
+![Basic display](/examples/images/screenshots/01.png)
 
 Yay, a [black square](http://rampantgames.com/blog/?p=7745)!
 
@@ -999,7 +999,7 @@ Moving Sprites
 
 You now know how to display sprites, but how do you make them move?
 That's easy: create a looping function using `requestAnimationFrame`.
-This is called a **game loop**
+This is called a **game loop**.
 Any code you put inside the game loop will update 60 times per
 second. Here's some code you could write to make the `cat` sprite move to
 the rate  of 1 pixel per frame.
@@ -1079,16 +1079,16 @@ function gameLoop(){
 You can animate a sprite's scale, rotation, or size - whatever! You'll see
 many more examples of how to animate sprites ahead.
 
-Using velocity variables
-------------------------
+Using velocity properties
+-------------------------
 
 To give you more flexibility, its a good idea control a sprite's
-movement speed using two **velocity variables**: `vx` and `vy`. `vx`
+movement speed using two **velocity properties**: `vx` and `vy`. `vx`
 is used to set the sprite's speed and direction on the x axis. `vy` is
 used to set the sprite's speed and direction on the y axis. Instead of
 changing a sprite's `x` and `y` values directly, first update the velocity
 variables, and then assign those velocity values to the sprite. This is an
-extra bit of modularity that you'll need to have to do animation you'll need for games.
+extra bit of modularity that you'll need for interactive game animation.
 
 The first step is to create `vx` and `vy` properties on your sprite,
 and give them an initial value.
@@ -1099,7 +1099,7 @@ cat.vy = 0;
 Setting `vx` and `vy` to 0 means that the sprite isn't moving.
 
 Next, in the game loop, update `vx` and `vy` with the velocity
-that you want the sprite to move at. Then assign those value's to the
+that you want the sprite to move at. Then assign those values to the
 sprite's `x` and `y` properties. Here's how you could use this
 technique to make the cat sprite move down and to right at one pixel each
 frame:
@@ -1143,12 +1143,12 @@ pixel per frame:
 
 ![Moving sprites](/examples/images/screenshots/16.png)
 
-To make the cat move to the right, give it `vx` value of -1. To make
+To make the cat move to the right, give it a `vx` value of -1. To make
 it move up, give the cat a `vy` value of -1.
 
 You'll see ahead how modularizing a sprite's velocity with `vx` and
 `vy` velocity properties helps with keyboard and mouse pointer
-controls, as well as making it easier to implement physics.
+control systems for games, as well as making it easier to implement physics.
 
 Game states
 -----------
@@ -1277,10 +1277,10 @@ function keyboard(keyCode) {
 ```
 The `keyboard` function is easy to use. Create a new keyboard object like this:
 ```
-var keyObject = g.keyboard(asciiKeyCodeNumber);
+var keyObject = keyboard(asciiKeyCodeNumber);
 ```
-([Here's a list of ascii keyboard code
-numbers][http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html].)
+[Here's a list of ascii keyboard code
+numbers](http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html).
 
 Then assign `press` and `release` methods to the keyboard object like this:
 ```
@@ -1398,8 +1398,8 @@ as single units. Pixi has an object called a `DisplayObjectContainer`
 that lets you do this. Let's find out how it works.
 
 Imagine that you want to displays three sprites: a cat, hedgehog and
-tiger. Create them, and set their positions - but don't add them to the
-stage.
+tiger. Create them, and set their positions - *but don't add them to the
+stage*.
 ```
 //The cat
 var cat = new PIXI.Sprite.fromFrame("cat.png");
@@ -1519,7 +1519,7 @@ group's top left corner. 16 is the cat's local position.
 Sprites also have a ***global position**. The global position is the
 distance from the top left corner of the stage, to the sprite's anchor
 point (usually the sprite's top left corner.) You can find a sprite's global
-position with the help of the `toGlobal` method.  here's how:
+position with the help of the `toGlobal` method.  Here's how:
 ```
 parentSprite.toGlobal(childSprite.position)
 ```
@@ -1529,7 +1529,7 @@ group like this:
 console.log(animals.toGlobal(cat.position));
 //Displays: b.Point{x: 80, y: 80...};
 ```
-That give you an `x` and `y` position of 80. That's exactly the cat's
+That gives you an `x` and `y` position of 80. That's exactly the cat's
 global position relative to the top left corner of the stage. (If you
 ever need to convert a global position to a local position, you can
 use the `toLocal` method - it works in the same way.)
@@ -1541,7 +1541,7 @@ a `SpriteBatch`. Any sprites inside a `SpriteBatch` will render 2 to 5
 times faster than they would if they were in a regular
 `DisplayObjectContainer`. It’s a great performance boost for games. 
 
-Create a SpriteBatch like this:
+Create a `SpriteBatch` like this:
 ```
 var superFastSprites = new PIXI.SpriteBatch();
 ```
@@ -1567,17 +1567,394 @@ what I've described here. Check the current [SpriteBatch
 documentation](http://www.goodboydigital.com/pixijs/docs/classes/SpriteBatch.html) for details.
 
 
-Displaying text
----------------
-
 Pixi's Graphic Primitives
 -------------------------
 
-Simple collision detection
+Using image textures is one of the most useful ways of making sprites,
+but Pixi also has its own low-level drawing tools. You can use them to
+make rectangles, shapes, lines, complex polygons and text. And,
+fortunately, it uses almost the same API as the [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas) so,
+if you're already familiar with canvas, here’s nothing really new to learn. But the big advantage is that, unlike the Canvas Drawing API, the shapes you draw with Pixi are rendered by WebGL on the GPU. Pixi lets you access all that untapped performance power.
+Let’s take a quick tour of how to make some basic shapes. Here are all
+the shapes we'll make in the code ahead.
+
+![Graphic primitives](/examples/images/screenshots/23.png)
+
+###Rectangles
+
+All shapes are made by first creating a new instance of
+`PIXI.Graphics()`.
+```
+var rectangle = new PIXI.Graphics();
+```
+Use `beginFill` with a hexadecimal color code value to set the
+rectangle’ s fill color. Here’ how to set to it to light blue.
+```
+rectangle.beginFill(0x66CCFF);
+```
+If you want to give it an outline, use the `lineStyle` method. Here's
+how to give the rectangle a 4 pixel wide red outline, with an `alpha`
+value of 1.
+```
+rectangle.lineStyle(4, 0xFF3300, 1);
+```
+Use the `drawRect` method to draw the rectangle. Its four arguments
+are `x`, `y`, `width` and `height`.
+```
+rectangle.drawRect(x, y, width, height);
+```
+Use `endFill` when you’re done.
+```
+rectangle.endFill();
+```
+It’s just like the Canvas Drawing API! Here’s all the code you need to
+draw a rectangle, change its position, and add it to the stage.
+```
+var rectangle = new PIXI.Graphics();
+rectangle.lineStyle(4, 0xFF3300, 1);
+rectangle.beginFill(0x66CCFF);
+rectangle.drawRect(0, 0, 64, 64);
+rectangle.endFill();
+rectangle.x = 170;
+rectangle.y = 170;
+stage.addChild(rectangle);
+
+```
+This code makes a 64 by 64 blue rectangle with a red border at an x and y position of 170.
+
+###Circles
+
+Make a circle with the `drawCircle` method. Its three arguments are
+`x`, `y` and `radius`
+```
+drawCircle(x, y, radius)
+```
+Unlike rectangles and sprites, a circle’s x and y position is also its
+center point. Here’s how to make a violet colored circle with a radius of 32 pixels.
+```
+var circle = new PIXI.Graphics();
+circle.beginFill(0x9966FF);
+circle.drawCircle(0, 0, 32);
+circle.endFill();
+circle.x = 64;
+circle.y = 130;
+stage.addChild(circle);
+```
+###Ellipses
+As a one-up on the canvas drawing API, Pixi lets you draw an ellipse
+with the `drawEllipse` method.
+```
+drawEllipse(x, y, width, height);
+```
+The x/y position defines the ellipse’s top left corner (imagine that
+the ellipse is surrounded by an invisible rectangular bounding box -
+the top left corner of that box will be the ellipse's x/y position). Here’s a yellow ellipse that’s 50 pixels wide and 20 pixels high.
+```
+var ellipse = new PIXI.Graphics();
+ellipse.beginFill(0xFFFF00);
+ellipse.drawEllipse(0, 0, 50, 20);
+ellipse.endFill();
+ellipse.x = 180;
+ellipse.y = 130;
+stage.addChild(ellipse);
+```
+###Rounded rectangles
+
+Pixi also lets you make rounded rectangles with the `drawRoundedRect`
+method. The last argument, `cornerRadius` is a number in pixels that
+determines by how much the corners should be rounded.
+```
+drawRoundedRect(x, y, width, height, cornerRadius)
+```
+Here's how to make a rounded rectangle with a corner radius of 10
+pixels.
+```
+var roundBox = new PIXI.Graphics();
+roundBox.lineStyle(4, 0x99CCFF, 1);
+roundBox.beginFill(0xFF9933);
+roundBox.drawRoundedRect(0, 0, 84, 36, 10)
+roundBox.endFill();
+roundBox.x = 48;
+roundBox.y = 190;
+stage.addChild(roundBox);
+
+```
+###Lines
+
+You've seen in the examples above that the `lineStyle` method lets you
+define a line.  You can use the `moveTo` and `lineTo` methods to draw the
+start and end points of the line, in just the same way you can with the Canvas
+Drawing API. Here’s how to draw a 4 pixel wide, white diagonal line.
+```
+var line = new PIXI.Graphics();
+line.lineStyle(4, 0xFFFFFF, 1);
+line.moveTo(0, 0);
+line.lineTo(80, 50);
+line.x = 32;
+line.y = 32;
+stage.addChild(line);
+
+```
+`PIXI.Graphics` objects, like lines, have `x` and `y` values, just
+like sprites, so you can position them anywhere on the stage after
+you've drawn them.
+
+###Polygons
+
+You can join lines together and fill them with colors to make complex
+shapes using the `drawPolygon` method. `drawPolygon`'s argument is an
+path array of x/y points that define the positions of each point on the
+shape.
+```
+var path = [
+  point1X, point1Y,
+  point2X, point2Y,
+  point3X, point3Y
+];
+
+graphicsObject.drawPolygon(path);
+```
+`drawPolygon` will join those three points together to make the path.
+Here’s how to use `drawPolygon` to connect three lines together to
+make a red triangle with a blue border. The triangle is drawn at
+position 0,0 and then moved to its position on the stage using its
+`x` and `y` properties.
+```
+var triangle = new PIXI.Graphics();
+triangle.beginFill(0x66FF33);
+
+//Use `drawPolygon` to define the triangle as
+//a path array of x/y positions
+
+triangle.drawPolygon([
+    -32, 64,             //First point
+    32, 64,              //Second point
+    0, 0                 //Third point 
+]);
+
+//Fill shape's color
+triangle.endFill();
+
+//Position the triangle after you've drawn it.
+//The triangle's x/y position is anchored to its first point in the path
+triangle.x = 180;
+triangle.y = 22;
+
+stage.addChild(triangle);
+```
+
+Displaying text
+---------------
+
+Use a `PIXI.Text` object to display text on the stage. The constructor
+takes two arguments: the text you want to display and a style object
+that defines the font’s properties. Here's how to display the words
+"Hello Pixi", in white, 32 pixel high sans-serif font. 
+```
+var message = new PIXI.Text(
+  "Hello Pixi!", 
+  {font: "32px sans-serif", fill: "white"}
+);
+
+message.position.set(54, 96);
+stage.addChild(message);
+```
+![Displaying text](/examples/images/screenshots/24.png)
+
+Pixi’s Text objects are inherited from the `Sprite` class, so they
+contain all the same properties like `x`, `y`, `width`, `height`,
+`alpha`, and `rotation`. Position and resize text on the stage just like you would any other sprite.
+
+If you want to change the content of a text object after you've
+created it, use the `setText` method.
+```
+message.setText("Text changed!");
+```
+Use `setStyle` if you want to redefine the font properties.
+```
+message.setStyle({fill: "black", font: "16px PetMe64"});
+```
+Pixi makes text objects by using the Canvas Drawing API to render the text to an invisible and temporary canvas element. It then turns the canvas into a WebGL texture so that it can be mapped onto a sprite. That’s why the text’s color needs to be wrapped in a string: it’s a Canvas Drawing API color value. As with any canvas color values, you can use words for common colors like “red” or “green”, or use rgba, hsla or hex values. 
+
+Other style properties that you can include are `stroke` for the font
+outline color and `strokeThickness` for the outline thickness. Set the
+text's `dropShadow` property to `true` to make the text display a
+shadow. Use `dropShadowColor` to set the shadow's hexadecimal color
+value, use `dropShadowAngle` to set the shadow's angle in radians, and
+use `dropShadowDistance` to set the pixel height of a shadow.
+
+Pixi can also wrap long lines of text. Set the text’s `wordWrap` style
+property to `true`, and then set `wordWrapWidth` to the maximum length
+in pixels, that the line of text should be. Use the `align` property
+to set the alignment for multi line text.
+```
+message.setStyle({wordWrap: true, wordWrapWidth: 100, align: center});
+```
+(Note: `align` doesn't affect single line text.)
+
+If you want to use a custom font file, use the CSS `@font-face` rule
+to link the font file to the HTML page where you Pixi application is
+running.
+```
+@font-face {
+  font-family: “fontFamilyName"; 
+  src: url("fonts/fontFile.ttf");
+}
+```
+Add this to your HTML page's CSS style sheet.
+
+[Pixi also has support for bitmap
+fonts](http://www.goodboydigital.com/text-updates/).
+
+Collision detection
 --------------------------
+
+You now know how to make a huge variety of graphics objects, but what
+can you do with them? A fun thing to do is to build a simple **collision
+detection** system. You can use a custom function called
+`hitTestRectangle` that checks whether any two rectangular Pixi sprites are
+touching.
+```
+hitTestRectangle(spriteOne, spriteTwo)
+```
+if they overlap, `hitTestRectangle` will return `true`. You can use `hitTestRectangle` with an `if` statement to check for a collision between two sprites like this:
+```
+if (hitTestRectangle(cat, box)) {
+  //There's a collision
+} else {
+  //There's no collision
+}
+```
+As you'll see, `hitTestRectangle` is the front door into the vast universe of game design. 
+
+Run the `collisionDetection.html` file in the `examples` folder for a
+working example of how to use `hitTestRectangle`. Use the arrow keys
+to move the cat. If the cat hits the box, the box becomes red
+and the "Hit!" is displayed by the text object.
+
+![Displaying text](/examples/images/screenshots/25.png)
+
+You've already seen all the code that creates all these elements, as
+well as the
+keyboard control system that makes the cat move. The only new thing is the
+way `hitTestRectangle` is used inside the `play` function to check for a
+collision.
+```
+function play() {
+
+  //use the cat's velocity to make it move
+  cat.x += cat.vx;
+  cat.y += cat.vy;
+
+  //check for a collision between the cat and the box
+  if (hitTestRectangle(cat, box)) {
+
+    //if there's a collision, change the message text
+    //and tint the box red
+    message.setText("hit!");
+    box.tint = 0xff3300;
+
+  } else {
+
+    //if there's no collision, reset the message
+    //text and the box's color
+    message.setText("no collision...");
+    box.tint = 0xccff99;
+
+  }
+}
+```
+
+Because the `play` function is being called by the game loop 60 times
+per second, this `if` statement is constantly checking for a collision
+between the cat and the box. If `hitTestRectangle` is `true`, the
+text `message` object uses `setText` to display "Hit":
+```
+message.setText("hit!");
+```
+The color of the box is then changed from green to red by setting the
+box's `tint` property to the hexadecimal red value.
+```
+box.tint = 0xff3300;
+```
+If there's no collision, the message and box are maintained in their
+original states:
+```
+message.setText("no collision...");
+box.tint = 0xccff99;
+```
+This code is pretty simple, but suddenly you've created an interactive
+world that seems to be completely alive. It's almost like magic! And, perhaps
+surprisingly, you now have all the skills you need to start making
+games with Pixi!
+
+###The hitTestRectangle function
+
+But what about the `hitTestRectangle` function? What does it do, and
+how does it work? The details of how collision detection algorithms
+like this work is a little bit outside the scope of this document.
+The most important thing is that you know how to use it. But, just for
+your reference, and in case you're curious, here's the complete
+`hitTestRectangle` function definition.
+```
+function hitTestRectangle(r1, r2) {
+
+  //Define the variables we'll need to calculate
+  var hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
+
+  //hit will determine whether there's a collision
+  hit = false;
+
+  //Find the center points of each sprite
+  r1.centerX = r1.x + r1.width / 2; 
+  r1.centerY = r1.y + r1.height / 2; 
+  r2.centerX = r2.x + r2.width / 2; 
+  r2.centerY = r2.y + r2.height / 2; 
+
+  //Find the half-widths and half-heights of each sprite
+  r1.halfWidth = r1.width / 2;
+  r1.halfHeight = r1.height / 2;
+  r2.halfWidth = r2.width / 2;
+  r2.halfHeight = r2.height / 2;
+
+  //Calculate the distance vector between the sprites
+  vx = r1.centerX - r2.centerX;
+  vy = r1.centerY - r2.centerY;
+
+  //Figure out the combined half-widths and half-heights
+  combinedHalfWidths = r1.halfWidth + r2.halfWidth;
+  combinedHalfHeights = r1.halfHeight + r2.halfHeight;
+
+  //Check for a collision on the x axis
+  if (Math.abs(vx) < combinedHalfWidths) {
+
+    //A collision might be occuring. Check for a collision on the y axis
+    if (Math.abs(vy) < combinedHalfHeights) {
+
+      //There's definitely a collision happening
+      hit = true;
+    } else {
+
+      //There's no collision on the y axis
+      hit = false;
+    }
+  } else {
+
+    //There's no collision on the x axis
+    hit = false;
+  }
+
+  //`hit` will be either `true` or `false`
+  return hit;
+};
+
+```
 
 Treasure Hunter
 ---------------
+
+So I told you that you know have all the skills you need to start
+making games. Do you believe me? Let me prove it to you!
 
 Now you know how to load images into the texture cache, create and use
 a texture atlas, and make sprites from textures. You even know how to
@@ -1768,6 +2145,12 @@ and you’ll learn how to use these methods ahead.
   children of the same parent container.
 - **updateCache**: Generates and updates the cached sprite for this
   object. No arguments and doesn't return anything.
+- **getChildIndex**: Returns the index position of a child sprite in
+  the parent's `children` array. *arguments* (child). Supply any
+  `DisplayObject`.
+- **setChildIndex**: Sets the index position of a child sprite in
+  the parent's `children` array. *arguments* (child). Supply any
+  `DisplayObject`.
 
 In addition to these, sprites have a bunch of callback methods that
 are used with mouse and touch events. Later you’ll
