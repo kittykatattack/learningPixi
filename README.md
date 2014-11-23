@@ -1648,7 +1648,8 @@ drawEllipse(x, y, width, height);
 ```
 The x/y position defines the ellipse’s top left corner (imagine that
 the ellipse is surrounded by an invisible rectangular bounding box -
-the top left corner of that box will be the ellipse's x/y position). Here’s a yellow ellipse that’s 50 pixels wide and 20 pixels high.
+the top left corner of that box will represent the ellipse's x/y
+anchor position). Here’s a yellow ellipse that’s 50 pixels wide and 20 pixels high.
 ```
 var ellipse = new PIXI.Graphics();
 ellipse.beginFill(0xFFFF00);
@@ -1677,7 +1678,6 @@ roundBox.endFill();
 roundBox.x = 48;
 roundBox.y = 190;
 stage.addChild(roundBox);
-
 ```
 ###Lines
 
@@ -1693,7 +1693,6 @@ line.lineTo(80, 50);
 line.x = 32;
 line.y = 32;
 stage.addChild(line);
-
 ```
 `PIXI.Graphics` objects, like lines, have `x` and `y` values, just
 like sprites, so you can position them anywhere on the stage after
@@ -1761,7 +1760,7 @@ stage.addChild(message);
 ```
 ![Displaying text](/examples/images/screenshots/24.png)
 
-Pixi’s Text objects are inherited from the `Sprite` class, so they
+Pixi’s Text objects inherit from the `Sprite` class, so they
 contain all the same properties like `x`, `y`, `width`, `height`,
 `alpha`, and `rotation`. Position and resize text on the stage just like you would any other sprite.
 
@@ -1801,7 +1800,7 @@ running.
   src: url("fonts/fontFile.ttf");
 }
 ```
-Add this to your HTML page's CSS style sheet.
+Add this `@font-face` rule to your HTML page's CSS style sheet.
 
 [Pixi also has support for bitmap
 fonts](http://www.goodboydigital.com/text-updates/).
@@ -1830,7 +1829,7 @@ As you'll see, `hitTestRectangle` is the front door into the vast universe of ga
 Run the `collisionDetection.html` file in the `examples` folder for a
 working example of how to use `hitTestRectangle`. Use the arrow keys
 to move the cat. If the cat hits the box, the box becomes red
-and the "Hit!" is displayed by the text object.
+and "Hit!" is displayed by the text object.
 
 ![Displaying text](/examples/images/screenshots/25.png)
 
@@ -1950,18 +1949,543 @@ function hitTestRectangle(r1, r2) {
 
 ```
 
-Treasure Hunter
+Case study: Treasure Hunter
 ---------------
 
-So I told you that you know have all the skills you need to start
-making games. Do you believe me? Let me prove it to you!
+So I told you that you now have all the skills you need to start
+making games. What? You don't believe me? Let me prove it to you! Let’s take a
+close at how to make a simple object collection and enemy
+avoidance game called **Treasure Hunter**. (You'll find it the `examples`
+folder.)
 
-Now you know how to load images into the texture cache, create and use
-a texture atlas, and make sprites from textures. You even know how to
-use a `Rectangle` object to select sections of textures to make a new
-texture. All these skills give you a great deal of flexibility and
-control over the appearance of sprites, and you’ll ahead how we’ll use all these techniques in some creative ways.
-But before we do, let’s take closer look at Pixi’s `Sprite` class. 
+![Displaying text](/examples/images/screenshots/26.png)
+
+Treasure Hunter is a good example of one of simplest complete
+games you can make using the tools you've learnt so far. Use the
+keyboard arrow
+keys to help the explorer find the treasure and carry it to the exit.
+Six blob monsters move up and down between the dungeon walls, and if
+they hit the explorer he becomes semi-transparent and the health meter
+at the top right corner shrinks. If all the health is used up, “You
+Lost!” is displayed on the stage; if the explorer reaches the exit with
+the treasure, “You Won!” is displayed. Although it’s a basic
+prototype, Treasure Hunter contains most of the elements you’ll find
+in much bigger games: texture atlas graphics, interactivity,
+collision, and multiple game scenes. Let’s go on a tour at how the
+game was put together so that you can use it as a starting point for one of your own games.
+
+### The code structure
+
+Open the `treasureHunter.html` file and you'll see that all the game
+code is in one big file. Here's birds-eye view of how all the code is
+organized.
+
+```
+//Setup Pixi and load the texture atlas files - call the `setup`
+//function when they've loaded
+
+function setup() {
+  //Initialize the game sprites, set the game `state` to `play`
+  //and start the 'gameLoop'
+}
+
+function gameLoop() {
+  //Runs the current game `state` in a loop and renders the sprites  
+}
+
+function play() {
+  //All the game logic goes here
+}
+
+function end() {
+  //All the code that should run at the end of the game  
+}
+
+//The game's helper functions: 
+//`keyboard`, `hitTestRectangle`, `contain` and `randomInt`
+```
+Use this as your world map to the game as we look at how each
+section works.
+
+### Initialize the game in the setup function
+
+As soon as the texture atlas images have loaded, the `setup` function
+runs. It only runs once, and lets you perform
+one-time setup tasks for your game. It's a great place to create and initialize
+objects, sprites, game scenes, populate data arrays or parse
+loaded JSON game data. 
+
+Here's an abridged view of the `setup` function in Treasure Hunter,
+and the tasks that it performs
+
+```
+function setup() {
+  //Create the `gameScene` group
+  //Create the `door` sprite
+  //Create the `player` sprite
+  //Create the `treasure` sprite
+  //Make the enemies
+  //Create the health bar
+  //Add some text for the game over message
+  //Create a `gameOverScene` group 
+  //Assign the player's keyboard controllers
+
+  //set the game state to `play`
+  state = play;
+
+  //Start the game loop
+  gameLoop();
+}
+
+```
+The last two lines of code, `state = play;` and `gameLoop()` are perhaps
+the most important. Running `gameLoop` switches on the game's engine,
+and causes the `play` function to be called in a continuous loop. But before we look at how that works, let's see what the
+specific code inside the `setup` function does.
+
+####Creating the game scenes
+
+The `setup` function creates two `DisplayObjectContainer` groups called
+`gameScene` and `gameOverScene`. Each of these are added to the stage.
+```
+gameScene = new PIXI.DisplayObjectContainer();
+stage.addChild(gameScene);
+
+gameOverScene = new PIXI.DisplayObjectContainer();
+stage.addChild(gameOverScene);
+
+```
+All of the sprites that are part of the main game are added to the
+`gameScene` group. The game over text that should be displayed at the
+end of the game is added to the `gameOverScene` group.
+
+![Displaying text](/examples/images/screenshots/27.png)
+
+Although it's created in the `setup` function, the `gameOverScene`
+shouldn't be visible when the game first starts, so its `visible`
+property is initialized to `false`.
+```
+gameOverScene.visible = false;
+```
+You'll see ahead that, when the game ends, the `gameOverScene`'s `visible`
+property will be set to `true` to display the text that appears at the
+end of the game.
+
+####Making the dungeon, door, explorer and treasure
+
+The player, exit door, treasure chest and the dungeon background image
+are all sprites made from texture atlas frames. Very importantly,
+they're all added to the `gameScene`.
+```
+//Dungeon
+dungeon = new PIXI.Sprite.fromFrame("dungeon.png");
+gameScene.addChild(dungeon);
+
+//Door
+door = new PIXI.Sprite.fromFrame("door.png"); 
+door.position.set(32, 0);
+gameScene.addChild(door);
+
+//Explorer
+explorer = new PIXI.Sprite.fromFrame("explorer.png");
+explorer.x = 68;
+explorer.y = gameScene.height / 2 - explorer.height / 2;
+explorer.vx = 0;
+explorer.vy = 0;
+gameScene.addChild(explorer);
+
+//Treasure
+treasure = new PIXI.Sprite.fromFrame("treasure.png");
+treasure.x = gameScene.width - treasure.width - 48;
+treasure.y = gameScene.height / 2 - treasure.height / 2;
+gameScene.addChild(treasure);
+```
+Keeping them together in the `gameScene` group will make it easy for
+us to hide the `gameScene` and display the `gameOverScene` when the game is finished.
+
+####Making the blob monsters
+
+The six blob monsters are created in a loop. Each blob is given a
+random initial position and velocity. The vertical velocity is
+alternately multiplied by 1 or -1 for each blob, and that’s what
+causes each blob to move in the opposite direction to the one next to
+it. Each blob monster that's created is pushed into an array called
+`blobs`.
+```
+var numberOfBlobs = 6,
+    spacing = 48,
+    xOffset = 150,
+    speed = 2,
+    direction = 1;
+
+//An array to store all the blob monsters
+blobs = [];
+
+//Make as many blobs as there are `numberOfBlobs`
+for (var i = 0; i < numberOfBlobs; i++) {
+
+  //Make a blob
+  var blob = new PIXI.Sprite.fromFrame("blob.png");
+
+  //Space each blob horizontally according to the `spacing` value.
+  //`xOffset` determines the point from the left of the screen
+  //at which the first blob should be added.
+  var x = spacing * i + xOffset;
+
+  //Give the blob a random `y` position
+  var y = randomInt(0, stage.height - blob.height);
+
+  //Set the blob's position
+  blob.x = x;
+  blob.y = y;
+
+  //Set the blob's vertical velocity. `direction` will be either `1` or
+  //`-1`. `1` means the enemy will move down and `-1` means the blob will
+  //move up. Multiplying `direction` by `speed` determines the blob's
+  //vertical direction
+  blob.vy = speed * direction;
+
+  //Reverse the direction for the next blob
+  direction *= -1;
+
+  //Push the blob into the `blobs` array
+  blobs.push(blob);
+
+  //Add the blob to the `gameScene`
+  gameScene.addChild(blob);
+}
+
+```
+
+####Making the health bar
+
+When you play Treasure Hunter you'll notice that when the explorer touches
+one of the enemies, the width of the health bar at the top right
+corner of the screen decreases. How was this health bar made? It's
+just two rectangle at the same position: a black rectangle behind, and
+a red rectangle in front. They're grouped into a single `healthBar`
+group. The `healthBar` is then added to the `gameScene` and positioned
+on the stage.
+```
+//Create the health bar
+healthBar = new PIXI.DisplayObjectContainer();
+healthBar.position.set(stage.width - 170, 6)
+gameScene.addChild(healthBar);
+
+//Create the black background rectangle
+var innerBar = new PIXI.Graphics();
+innerBar.beginFill(0x000000);
+innerBar.drawRect(0, 0, 128, 8);
+innerBar.endFill();
+healthBar.addChild(innerBar);
+
+//Create the front red rectangle
+var outerBar = new PIXI.Graphics();
+outerBar.beginFill(0xFF3300);
+outerBar.drawRect(0, 0, 128, 8);
+outerBar.endFill();
+healthBar.addChild(outerBar);
+
+healthBar.outer = outerBar;
+```
+You can see that a property called `outer` has been added to the
+`healthBar`. It just references the `outerBar` (the red rectangle) so that it will be convenient to access later.
+```
+healthBar.outer = outerBar;
+```
+You don't have to do this; but, hey why not! It means that if you want
+to control the width of the red `outerBar`, you can write some smooth code that looks like this:
+```
+healthBar.outer.width = 30;
+```
+That's pretty neat and readable, so we'll keep it!
+
+####Making the message text
+
+When the game is finished, some text displays “You won!” or “You
+lost!”, depending on the outcome of the game. This is made using a
+text sprite and adding it to the `gameOverScene`. Because the
+`gameOverScene`‘s `visible` property is set to `false` when the game
+starts, you can’t see this text. Here’s the code from the `setup`
+function that creates the message text and adds it to the
+`gameOverScene`.
+```
+message = new PIXI.Text(
+  "The End!", 
+  {font: "64px Futura", fill: "white"}
+);
+
+message.x = 120;
+message.y = stage.height / 2 - 32;
+
+gameOverScene.addChild(message);
+```
+
+###Playing the game
+
+All the game logic and the code that makes the sprites move happens
+inside the `play` function, which runs in a continuous loop. Here's an
+overview of what the `play` function does
+```
+function play() {
+  //Move the explorer and contain it inside the dungeon
+  //Move the blob monsters
+  //Check for a collision between the blobs and the explorer
+  //Check for a collision between the explorer and the treasure
+  //Check for a collsion between the treasure and the door
+  //Decide whether the game has been won or lost
+  //Change the game `state` to `end` when the game is finsihed
+}
+```
+Let's find out how all these features work.
+
+###Moving the explorer
+
+The explorer is controlled using the keyboard, and the code that does
+that is very similar to the keyboard control code you learnt earlier.
+The `keyboard` objects modify the explorer’s velocity, and that
+velocity is added to the explorer’s position inside the `play`
+function. 
+```
+explorer.x += explorer.vx;
+explorer.y += explorer.vy;
+```
+
+####Containing movement
+
+But what's new is that the explorer's movement is contained inside the walls of the
+dungeon. 
+
+![Displaying text](/examples/images/screenshots/28.png)
+
+That's done with the help of a custom function called
+`contain`. 
+```
+contain(explorer, {x: 28, y: 10, width: 488, height: 480});
+```
+`contain` takes two arguments. The first is the sprite you want to keep
+contained. The second is any object with `x`, `y`, `width` and
+`height` properties that define a rectangular area. In this example,
+the containing object defines an area that's just slightly offset
+from, and smaller than, the stage. It match dimensions of the dungeon
+walls.
+
+Here's the `contain` function that does all this work. The function checks
+to see if the sprite has crossed the boundaries of the containing
+object. If it has, the code moves the sprite back into that boundary.
+The `contain` function also returns a `collision` variable with the
+value "top", "right", "bottom" or "left", depending on which side of
+the boundary the sprite hit. (`collision` will be `undefined` if the
+sprite didn't hit any of the boundaries.)
+```
+function contain(sprite, container) {
+
+  var collision = undefined;
+
+  //Left
+  if (sprite.x < container.x) {
+    sprite.x = container.x;
+    collision = "left";
+  }
+
+  //Top
+  if (sprite.y < container.y) {
+    sprite.y = container.y;
+    collision = "top";
+  }
+
+  //Right
+  if (sprite.x + sprite.width > container.width) {
+    sprite.x = container.width - sprite.width;
+    collision = "right";
+  }
+
+  //Bottom
+  if (sprite.y + sprite.height > container.height) {
+    sprite.y = container.height - sprite.height;
+    collision = "bottom";
+  }
+
+  //Return the `collision` value
+  return collision;
+}
+```
+You'll see how the `collision` return value will be use in the code
+ahead to make the blob monsters bounce back and forth between the top
+and bottom dungeon walls.
+
+###Moving the monsters
+
+The `play` function also moves the blobs monsters, keeps them contained
+inside the dungeon walls, and checks each one for a collision with the
+player. If a blob bumps into the dungeon’s top or bottom walls, its
+direction is reversed. All this is done with the help of a `forEach` loop
+which iterates through each of `blob` sprites in the `blobs` array on
+every frame.
+```
+blobs.forEach(function(blob) {
+
+  //Move the blob
+  blob.y += blob.vy;
+
+  //Check the blob's screen boundaries
+  var blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
+
+  //If the blob hits the top or bottom of the stage, reverse
+  //its direction
+  if (blobHitsWall === "top" || blobHitsWall === "bottom") {
+    blob.vy *= -1;
+  }
+
+  //Test for a collision. If any of the enemies are touching
+  //the explorer, set `explorerHit` to `true`
+  if(hitTestRectangle(explorer, blob)) {
+    explorerHit = true;
+  }
+});
+
+```
+You can see in this code above how the return value of the `contain`
+function is used to make the blobs bounce off the walls. A variable
+called `blobHitsWall` is used to capture the return value: 
+```
+var blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
+```
+`blobHitsWall` will usually be `undefined`. But if the blob hits the
+top wall, `blobHitsWall` will have the value "top". If the blob hits
+the bottom wall, `blobHitsWall` will have the value "bottom". If
+either of these cases are `true`, you can reverse the blob's direction
+by reversing its velocity. Here's the code that does this:
+```
+if (blobHitsWall === "top" || blobHitsWall === "bottom") {
+  blob.vy *= -1;
+}
+
+```
+Multiplying the blob's `vy` (vertical velocity) value by -1 will flip
+the direction of its movement.
+
+###Checking for collisions
+
+The code in the loop above uses `hitTestRectangle` is to figure
+out if any of the enemies have touched the explorer. 
+```
+if(hitTestRectangle(explorer, blob)) {
+  explorerHit = true;
+}
+```
+If `hitTestRectangle` returns `true`, it means there’s been a collision
+and a variable called `explorerHit` is set to `true`. If `explorerHit`
+is `true`, the `play` function makes the explorer semi-transparent
+and reduces the width of the `health` bar by 1 pixel.
+```
+if(explorerHit) {
+
+  //Make the explorer semi-transparent
+  explorer.alpha = 0.5;
+
+  //Reduce the width of the health bar's inner rectangle by 1 pixel
+  healthBar.outer.width -= 1;
+
+} else {
+
+  //Make the explorer fully opaque (non-transparent) if it hasn't been hit
+  explorer.alpha = 1;
+}
+
+```
+If  `explorerHit` is `false`, the explorer's `alpha` property is
+maintained at 1, which makes it fully opaque. 
+
+The `play` function also checks for a collision between the treasure
+chest and the explorer. If there’s a hit, the `treasure` is set to the
+explorer’s position, with a slight offset. This makes it look like the
+explorer is carrying the treasure.
+
+![Displaying text](/examples/images/screenshots/29.png)
+
+Here's the code that does this:
+
+```
+if (hitTestRectangle(explorer, treasure)) {
+  treasure.x = explorer.x + 8;
+  treasure.y = explorer.y + 8;
+}
+```
+
+###Reaching the exit door and ending the game
+
+There are two ways the game can end: You can win if you carry the
+treasure to the exit, or you can loose if you run out of health. 
+
+To win the game, the treasure chest just needs to touch the exit door. If
+that happens, the game `state` is set to `end`, and the `message` text
+displays "You won".
+```
+if (hitTestRectangle(treasure, door)) {
+  state = end;
+  message.setText("You won!");
+} 
+```
+If you run out of health, you loose the game. The game `state` is also
+set to `end` and the `message` text displays "You Lost!"
+```
+if (healthBar.outer.width < 0) {
+  state = end;
+  message.setText("You lost!");
+}
+```
+But what does this mean?
+```
+state = end;
+```
+You'll remember from earlier examples that the `gameLoop` is constantly updating a function called
+`state` at 60 times per second. Here's the `gameLoop`that does this:
+```
+function gameLoop(){
+
+  //Loop this function 60 times per second
+  requestAnimationFrame(gameLoop);
+
+  //Update the current game state
+  state();
+
+  //Render the stage
+  renderer.render(stage);
+}
+```
+You'll remember that we initially set the value of
+`state` to `play`, which is why `play` function to run in a loop.
+By setting `state` to `end` we're telling the code that we want
+another function, called `end` to run in a loop. 
+
+So what is that `end` function? Here it is!
+```
+function end() {
+  gameScene.visible = false;
+  gameOverScene.visible = true;
+}
+```
+It just flips the visibility of the game scenes. This is what hides
+the `gameScene` and displays the `gameOverScene` when the game ends.
+
+This is a really simple example of how to switch a game's state, but
+you can have as many game states as you like in your games, and fill them
+with as much code as you need. Just change the value of `state` to
+whatever function you want to run in a loop.
+
+And that’s really all there is to Treasure Hunter! With a little more work you could turn this simple prototype into a full game – try it!
+
+We're not done yet!
+-------------------
+
+I need to take a short break, but there's much more content coming
+soon: Tiling sprites, filters, shaders, tinting, masking, blend modes,
+particle effects, mouse and touch events, drag and drop, interactive
+buttons and lots, lots more!
+
+But until then, enjoy this handy reference guide to all Pixi's `Sprite`
+properties and methods.
 
 Sprite properties and methods
 -----------------------------
