@@ -89,59 +89,6 @@ main workspace.
 
 Now if you think you're ready, read on!
 
-Table of contents
------------------
-
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
-
-- [Learning Pixi](#)
-	- [Introduction](#)
-	- [Setting up](#)
-	- [Creating the stage and renderer](#)
-	- [Pixi sprites](#)
-	- [Loading images into the texture cache](#)
-	- [Displaying sprites](#)
-	- [Positioning sprites](#)
-	- [Size and scale](#)
-	- [Rotation](#)
-	- [Make a sprite from a tileset sub-image](#)
-	- [Using a texture atlas](#)
-	- [Loading the texture atlas](#)
-	- [Creating sprites from a loaded texture atlas](#)
-	- [Moving Sprites](#)
-	- [Using velocity properties](#)
-	- [Game states](#)
-	- [Keyboard Movement](#)
-	- [Grouping Sprites](#)
-		- [Local and global positions](#)
-		- [Using a SpriteBatch to group sprites](#)
-	- [Pixi's Graphic Primitives](#)
-		- [Rectangles](#)
-		- [Circles](#)
-		- [Ellipses](#)
-		- [Rounded rectangles](#)
-		- [Lines](#)
-		- [Polygons](#)
-	- [Displaying text](#)
-	- [Collision detection](#)
-		- [The hitTestRectangle function](#)
-	- [Case study: Treasure Hunter](#)
-		- [The code structure](#)
-		- [Initialize the game in the setup function](#)
-			- [Creating the game scenes](#)
-			- [Making the dungeon, door, explorer and treasure](#)
-			- [Making the blob monsters](#)
-			- [Making the health bar](#)
-			- [Making the message text](#)
-		- [Playing the game](#)
-		- [Moving the explorer](#)
-			- [Containing movement](#)
-		- [Moving the monsters](#)
-		- [Checking for collisions](#)
-		- [Reaching the exit door and ending the game](#)
-	- [We're not done yet!](#)
-	- [Sprite properties and methods](#)
-
 Setting up
 ----------
 
