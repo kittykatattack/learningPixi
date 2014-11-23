@@ -60,7 +60,9 @@ Choose whichever best suits your learning style.
 
 Ok, got it?
 Do you know what JavaScript variables, functions, arrays and objects are and how to
-use them? Do you know what [JSON data files](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/) are?
+use them? Do you know what [JSON data
+files](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/)
+are? Have you used the [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)?
 
 To use Pixi, you'll also need to run a webserver in your root project
 directory. Do you know what a webserver is and
@@ -86,6 +88,55 @@ and browser for you when you click the lightening bolt button in its
 main workspace.
 
 Now if you think you're ready, read on!
+
+Table of contents
+-----------------
+
+- [Setting up](#)
+	- [Creating the stage and renderer](#)
+	- [Pixi sprites](#)
+	- [Loading images into the texture cache](#)
+	- [Displaying sprites](#)
+	- [Positioning sprites](#)
+	- [Size and scale](#)
+	- [Rotation](#)
+	- [Make a sprite from a tileset sub-image](#)
+	- [Using a texture atlas](#)
+	- [Loading the texture atlas](#)
+	- [Creating sprites from a loaded texture atlas](#)
+	- [Moving Sprites](#)
+	- [Using velocity properties](#)
+	- [Game states](#)
+	- [Keyboard Movement](#)
+	- [Grouping Sprites](#)
+		- [Local and global positions](#)
+		- [Using a SpriteBatch to group sprites](#)
+	- [Pixi's Graphic Primitives](#)
+		- [Rectangles](#)
+		- [Circles](#)
+		- [Ellipses](#)
+		- [Rounded rectangles](#)
+		- [Lines](#)
+		- [Polygons](#)
+	- [Displaying text](#)
+	- [Collision detection](#)
+		- [The hitTestRectangle function](#)
+	- [Case study: Treasure Hunter](#)
+		- [The code structure](#)
+		- [Initialize the game in the setup function](#)
+			- [Creating the game scenes](#)
+			- [Making the dungeon, door, explorer and treasure](#)
+			- [Making the blob monsters](#)
+			- [Making the health bar](#)
+			- [Making the message text](#)
+		- [Playing the game](#)
+		- [Moving the explorer](#)
+			- [Containing movement](#)
+		- [Moving the monsters](#)
+		- [Checking for collisions](#)
+		- [Reaching the exit door and ending the game](#)
+	- [We're not done yet!](#)
+	- [Sprite properties and methods](#)
 
 Setting up
 ----------
@@ -114,7 +165,7 @@ here](http://www.kittykatattack.com/#gettingstartedwithgit).
 After Pixi is installed, create a basic HTML page, and use a
 `<script>` tag to include the
 `pixi.js` file from Pixi's `bin` folder. The `<script>` tag's `src`
-should be relative to your root directory where you webserver is
+should be relative to your root directory where your webserver is
 running. Your `<script>` tag might look something like this: 
 ```
 <script src="pixi.js/bin/pixi.js"></script>
@@ -200,7 +251,7 @@ renderer.view.style.display = "block";
 Pixi’s `autoDetectRenderer` method figures out whether to use the
 Canvas Drawing API or WebGL to render graphics, depending on which is
 available. The first two arguments are the width and height of the
-canvas, the third is an object with some optional values you can set
+canvas, the third is an object with some optional values you can set.
 ```
 renderer = PIXI.autoDetectRenderer(
   256, 256,
@@ -263,10 +314,10 @@ starting to makes games.
 Pixi has a `Sprite` class that is a versatile way to make game
 sprites. There are three main ways to create them:
 
-•	From a single image file.
-•	From a sub-image on a **tileset**. A tileset is a single, big image that
+- From a single image file.
+- From a sub-image on a **tileset**. A tileset is a single, big image that
 includes all images you'll need in your game.
-•	From a **texture atlas** (A JSON file that defines the size and position of an image on a tileset.)
+- From a **texture atlas** (A JSON file that defines the size and position of an image on a tileset.)
 
 You’re going to learn all three ways, but, before you do, let’s find
 out what you need to know about images before you can display them
@@ -331,12 +382,13 @@ image. However,
 loading and creating a texture using `fromImage` like this doesn't allow you to make sure all you images have
 loaded before the game or application starts. If you try and access
 or use a sprite in your game code before the image has fully loaded, things won't work and you're going to get errors. So
-my advice is: don't use `fromImage`, just pre-load all the images
+my advice is: don't use `fromImage`; just pre-load all the images
 you'll need with the `AssetLoader`.
 
 For optimization and efficiency it’s always best to make a sprite from
 a texture that’s been pre-loaded into Pixi’s texture cache. But if for
-some reason you need to make a texture from a regular JavaScript Image
+some reason you need to make a texture from a regular JavaScript
+`Image`
 object, you can do that using Pixi’s `BaseTexture` class:
 ```
 var base = new PIXI.BaseTexture(anyImageObject),
@@ -357,13 +409,13 @@ After you've loaded an image, and converted it into a sprite, there
 are two more things you have to do before you can actually see it on
 the canvas:
 
-1. You need to add the sprite to Pixi's stage with the `stage.addChild` method, like this:
+-1. You need to add the sprite to Pixi's stage with the `stage.addChild` method, like this:
 ```
 stage.addChild(cat);
 ```
 The stage is the main container that holds all of your sprites.
 
-2. You need to tell Pixi's `renderer` to render the stage.
+-2. You need to tell Pixi's `renderer` to render the stage.
 ```
 renderer.render(stage);
 ```
@@ -424,7 +476,7 @@ Positioning sprites
 -------------------
 
 You can see in the previous example that has been cat was added to stage at
-the top left corner. The cat at a `x` position of
+the top left corner. The cat has an `x` position of
 0 and a `y` position of 0. You can change the position of the cat by
 changing the values of is `x` and `y` properties. Here's how you can center the cat in the stage by
 setting its `x` and `y` property values to 96. 
@@ -460,8 +512,8 @@ and 96 pixels down. Here's the result:
 The cat's top left corner (its left ear) represents its `x` and `y`
 anchor point. To make the cat move to the right, increase the
 value of its `x` property. To make the cat move down, increase the
-value of its `y` property. If the cat has an `x` of 0, it will be at
-the very left side of the stage. If it has a y property of 0, it will
+value of its `y` property. If the cat has an `x` value of 0, it will be at
+the very left side of the stage. If it has a `y` value of 0, it will
 be at the very top of the stage.
 
 ![Cat centered on the stage - diagram](/examples/images/screenshots/04.png)
@@ -507,7 +559,7 @@ Here's the result:
 ![Cat's height and width changed](/examples/images/screenshots/05.png)
 
 You can see that the cat's position (its top left corner) didn't
-change, only its height and width.
+change, only its width and height.
 
 ![Cat's height and width changed - diagram](/examples/images/screenshots/06.png)
 
@@ -526,7 +578,7 @@ its scale values to 2, like this:
 cat.scale.x = 2;
 cat.scale.y = 2;
 ```
-Pixi has a alternative, concise way for you set sprite's scale in one
+Pixi has an alternative, concise way for you set sprite's scale in one
 line of code using the `scale.set` method.
 ```
 cat.scale.set(0.5, 0.5); 
@@ -536,9 +588,9 @@ If that appeals to you, use it!
 Rotation
 --------
 
-You can make a sprite rotate by setting it `rotation` property to a
+You can make a sprite rotate by setting its `rotation` property to a
 value in [in
-radians](http://www.mathsisfun.com/geometry/radians.html)).
+radians](http://www.mathsisfun.com/geometry/radians.html).
 ```
 cat.rotation = 0.5;
 ```
@@ -590,7 +642,7 @@ objects as sub-images.
 
 ![An example tileset](/examples/images/screenshots/09.png)
 
-The entire tileset is 192 by 192 pixels. Each image s in a its own 32 by 32
+The entire tileset is 192 by 192 pixels. Each image is in a its own 32 by 32
 pixel grid cell. Storing and accessing all your game graphics on a
 tileset is a very
 processor and memory efficient way to work with graphics, and Pixi is
@@ -647,12 +699,12 @@ How does this work?
 Pixi has a built-in `Rectangle` object that is a general-purpose
 object for defining rectangular shapes. It takes four arguments. The
 first two arguments define the rectangle's `x` and `y` position. The
-last two define its size in `width` and `height`. Here's the format
+last two define its `width` and `height`. Here's the format
 for defining a new `Rectangle` object.
 ```
 var rectangle = new PIXI.Rectangle(x, y, width, height);
 ```
-The rectangle object just a data object; it's up to you to decide how you want to use it. In
+The rectangle object is just a *data object*; it's up to you to decide how you want to use it. In
 our example we're using it to define the position and area of the
 sub-image on the tileset that we want to extract. Pixi textures have a useful
 method called `setFrame` that takes `Rectangle` objects as arguments
@@ -710,11 +762,11 @@ It will automatically arrange the images on a single tileset image, and give the
 (If you're using the free version of
 Texture Packer, set **Algorithm** to `Basic`, set **Trim mode** to
 `None`, set **Size constraints** to `Any size` and slide the **PNG Opt
-Level** all the way to the left to `0`. These the basic
+Level** all the way to the left to `0`. These are the basic
 settings that will allow the free version of Texture Packer to create
 your files without any warnings or errors.) 
 
-When you’re done, click the **Publish** button. Choose file the name and
+When you’re done, click the **Publish** button. Choose the file name and
 location, and save the published files. You’ll end up with 2 files: a
 PNG file and a JSON file. In this example my file names are
 `treasureHunter.json` and `treasureHunter.png`. To make your life easier,
@@ -759,7 +811,7 @@ Loading the texture atlas
 To get the texture atlas into Pixi, load it using Pixi’s
 `AssetLoader`. If the JSON file was made with Texture Packer, the
 `AssetLoader` will interpret the data and create a texture from each
-frame on the tileset automatically.  Here’s how to use `AssetLoader` to load the `treasureHunter.json`
+frame on the tileset automatically.  Here’s how to use the `AssetLoader` to load the `treasureHunter.json`
 file. When it has loaded, the `setup` function will run.
 ```
 var loader = new PIXI.AssetLoader(["images/treasureHunter.json"]);
@@ -774,8 +826,8 @@ etc.).
 Creating sprites from a loaded texture atlas
 --------------------------------------------
 
-Pixi gives you three alternative ways you can create a sprite from texture
-atlas.
+Pixi gives you three alternative ways to create a sprite from texture
+atlas:
 
 -1. Using `PIXI.TextureCache`:
 ```
@@ -919,7 +971,7 @@ function setup() {
       spacing = 48,
       xOffset = 150;
 
-  //Make as many enemies as there are `numberOfBlobs`
+  //Make as many blobs as there are `numberOfBlobs`
   for (var i = 0; i < numberOfBlobs; i++) {
 
     //Make a blob
@@ -927,7 +979,7 @@ function setup() {
 
     //Space each blob horizontally according to the `spacing` value.
     //`xOffset` determines the point from the left of the screen
-    //at which the first enemy should be added.
+    //at which the first blob should be added.
     var x = spacing * i + xOffset;
 
     //Give the blob a random y position
@@ -1001,8 +1053,8 @@ You now know how to display sprites, but how do you make them move?
 That's easy: create a looping function using `requestAnimationFrame`.
 This is called a **game loop**.
 Any code you put inside the game loop will update 60 times per
-second. Here's some code you could write to make the `cat` sprite move to
-the rate  of 1 pixel per frame.
+second. Here's some code you could write to make the `cat` sprite move
+at a rate  of 1 pixel per frame.
 ```
 function gameLoop() {
 
@@ -1084,8 +1136,9 @@ Using velocity properties
 
 To give you more flexibility, its a good idea control a sprite's
 movement speed using two **velocity properties**: `vx` and `vy`. `vx`
-is used to set the sprite's speed and direction on the x axis. `vy` is
-used to set the sprite's speed and direction on the y axis. Instead of
+is used to set the sprite's speed and direction on the x axis
+(horizontally). `vy` is
+used to set the sprite's speed and direction on the y axis (vertically). Instead of
 changing a sprite's `x` and `y` values directly, first update the velocity
 variables, and then assign those velocity values to the sprite. This is an
 extra bit of modularity that you'll need for interactive game animation.
@@ -1397,7 +1450,7 @@ Groups let you create game scenes, and manage similar sprites together
 as single units. Pixi has an object called a `DisplayObjectContainer`
 that lets you do this. Let's find out how it works.
 
-Imagine that you want to displays three sprites: a cat, hedgehog and
+Imagine that you want to display three sprites: a cat, hedgehog and
 tiger. Create them, and set their positions - *but don't add them to the
 stage*.
 ```
@@ -1464,7 +1517,7 @@ happen if you set the `animals`'s `x` and `y` position to 64?
 animals.position.set(64, 64);
 ```
 The whole group of sprites will move 64 pixels right and 64 pixels to
-the left.
+the down.
 
 ![Grouping sprites](/examples/images/screenshots/20.png)
 
@@ -1592,7 +1645,7 @@ rectangle’ s fill color. Here’ how to set to it to light blue.
 ```
 rectangle.beginFill(0x66CCFF);
 ```
-If you want to give it an outline, use the `lineStyle` method. Here's
+If you want to give the shape an outline, use the `lineStyle` method. Here's
 how to give the rectangle a 4 pixel wide red outline, with an `alpha`
 value of 1.
 ```
@@ -1641,7 +1694,7 @@ circle.y = 130;
 stage.addChild(circle);
 ```
 ###Ellipses
-As a one-up on the canvas drawing API, Pixi lets you draw an ellipse
+As a one-up on the Canvas Drawing API, Pixi lets you draw an ellipse
 with the `drawEllipse` method.
 ```
 drawEllipse(x, y, width, height);
@@ -1713,7 +1766,7 @@ var path = [
 
 graphicsObject.drawPolygon(path);
 ```
-`drawPolygon` will join those three points together to make the path.
+`drawPolygon` will join those three points together to make the shape.
 Here’s how to use `drawPolygon` to connect three lines together to
 make a red triangle with a blue border. The triangle is drawn at
 position 0,0 and then moved to its position on the stage using its
@@ -1785,7 +1838,7 @@ use `dropShadowDistance` to set the pixel height of a shadow.
 Pixi can also wrap long lines of text. Set the text’s `wordWrap` style
 property to `true`, and then set `wordWrapWidth` to the maximum length
 in pixels, that the line of text should be. Use the `align` property
-to set the alignment for multi line text.
+to set the alignment for multi-line text.
 ```
 message.setStyle({wordWrap: true, wordWrapWidth: 100, align: center});
 ```
@@ -1857,7 +1910,7 @@ function play() {
 
     //if there's no collision, reset the message
     //text and the box's color
-    message.setText("no collision...");
+    message.setText("No collision...");
     box.tint = 0xccff99;
 
   }
@@ -1894,7 +1947,8 @@ how does it work? The details of how collision detection algorithms
 like this work is a little bit outside the scope of this document.
 The most important thing is that you know how to use it. But, just for
 your reference, and in case you're curious, here's the complete
-`hitTestRectangle` function definition.
+`hitTestRectangle` function definition. Can you figure out from the
+comments what it's doing?
 ```
 function hitTestRectangle(r1, r2) {
 
@@ -1977,7 +2031,7 @@ game was put together so that you can use it as a starting point for one of your
 ### The code structure
 
 Open the `treasureHunter.html` file and you'll see that all the game
-code is in one big file. Here's birds-eye view of how all the code is
+code is in one big file. Here's a birds-eye view of how all the code is
 organized.
 
 ```
@@ -2075,7 +2129,7 @@ end of the game.
 
 The player, exit door, treasure chest and the dungeon background image
 are all sprites made from texture atlas frames. Very importantly,
-they're all added to the `gameScene`.
+they're all added as children of the `gameScene`.
 ```
 //Dungeon
 dungeon = new PIXI.Sprite.fromFrame("dungeon.png");
@@ -2129,7 +2183,7 @@ for (var i = 0; i < numberOfBlobs; i++) {
 
   //Space each blob horizontally according to the `spacing` value.
   //`xOffset` determines the point from the left of the screen
-  //at which the first blob should be added.
+  //at which the first blob should be added
   var x = spacing * i + xOffset;
 
   //Give the blob a random `y` position
@@ -2162,7 +2216,7 @@ for (var i = 0; i < numberOfBlobs; i++) {
 When you play Treasure Hunter you'll notice that when the explorer touches
 one of the enemies, the width of the health bar at the top right
 corner of the screen decreases. How was this health bar made? It's
-just two rectangle at the same position: a black rectangle behind, and
+just two overlapping rectangles at exactly the same position: a black rectangle behind, and
 a red rectangle in front. They're grouped into a single `healthBar`
 group. The `healthBar` is then added to the `gameScene` and positioned
 on the stage.
@@ -2254,7 +2308,8 @@ explorer.y += explorer.vy;
 ####Containing movement
 
 But what's new is that the explorer's movement is contained inside the walls of the
-dungeon. 
+dungeon. The green outline shows the limits of the explorer's
+movement.
 
 ![Displaying text](/examples/images/screenshots/28.png)
 
@@ -2267,7 +2322,7 @@ contain(explorer, {x: 28, y: 10, width: 488, height: 480});
 contained. The second is any object with `x`, `y`, `width` and
 `height` properties that define a rectangular area. In this example,
 the containing object defines an area that's just slightly offset
-from, and smaller than, the stage. It match dimensions of the dungeon
+from, and smaller than, the stage. It matches dimensions of the dungeon
 walls.
 
 Here's the `contain` function that does all this work. The function checks
@@ -2316,7 +2371,7 @@ and bottom dungeon walls.
 
 ###Moving the monsters
 
-The `play` function also moves the blobs monsters, keeps them contained
+The `play` function also moves the blob monsters, keeps them contained
 inside the dungeon walls, and checks each one for a collision with the
 player. If a blob bumps into the dungeon’s top or bottom walls, its
 direction is reversed. All this is done with the help of a `forEach` loop
@@ -2360,14 +2415,13 @@ by reversing its velocity. Here's the code that does this:
 if (blobHitsWall === "top" || blobHitsWall === "bottom") {
   blob.vy *= -1;
 }
-
 ```
 Multiplying the blob's `vy` (vertical velocity) value by -1 will flip
 the direction of its movement.
 
 ###Checking for collisions
 
-The code in the loop above uses `hitTestRectangle` is to figure
+The code in the loop above uses `hitTestRectangle` to figure
 out if any of the enemies have touched the explorer. 
 ```
 if(hitTestRectangle(explorer, blob)) {
@@ -2454,10 +2508,12 @@ function gameLoop(){
   renderer.render(stage);
 }
 ```
-You'll remember that we initially set the value of
-`state` to `play`, which is why `play` function to run in a loop.
+You'll also remember that we initially set the value of
+`state` to `play`, which is why the `play` function runs in a loop.
 By setting `state` to `end` we're telling the code that we want
-another function, called `end` to run in a loop. 
+another function, called `end` to run in a loop. In a bigger game you
+could have a `tileScene` state, and states for each game level, like
+`leveOne`, `levelTwo` and `levelThree`.
 
 So what is that `end` function? Here it is!
 ```

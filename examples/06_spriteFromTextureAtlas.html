@@ -58,7 +58,7 @@ function setup() {
       spacing = 48,
       xOffset = 150;
 
-  //Make as many enemies as there are `numberOfBlobs`
+  //Make as many blobs as there are `numberOfBlobs`
   for (var i = 0; i < numberOfBlobs; i++) {
 
     //Make a blob
@@ -66,7 +66,7 @@ function setup() {
 
     //Space each blob horizontally according to the `spacing` value.
     //`xOffset` determines the point from the left of the screen
-    //at which the first enemy should be added.
+    //at which the first blob should be added.
     var x = spacing * i + xOffset;
 
     //Give the blob a random y position
