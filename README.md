@@ -92,7 +92,11 @@ Now if you think you're ready, read on!
 Table of contents
 -----------------
 
-- [Setting up](#)
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Learning Pixi](#)
+	- [Introduction](#)
+	- [Setting up](#)
 	- [Creating the stage and renderer](#)
 	- [Pixi sprites](#)
 	- [Loading images into the texture cache](#)
