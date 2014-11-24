@@ -191,11 +191,19 @@ created it, use the `Stage` object’s `setBackgroundColor` method:
 ```
 stage.setBackgroundColor(anyHexColorValue);
 ```
+If you want to find the width of the height of the `renderer`, use
+`renderer.view.width` and `renderer.view.height`. 
+
+(Importantly: although the `stage` also has `width` and `height` properties, *they don't refer to
+the size of the rendering window*. The stage's `width` and `height`
+just tell you the area occupied by the things you put inside it - more
+on that ahead!)
+
 To change the size of the canvas, use the `renderer`’s `resize`
 method, and supply any new `width` and `height` values:
 ```
 renderer.resize(512, 512);
-```
+``` 
 If you want make the canvas fill the entire window, you can apply this
 CSS styling:
 ```
@@ -1542,6 +1550,19 @@ That gives you an `x` and `y` position of 80. That's exactly the cat's
 global position relative to the top left corner of the stage. (If you
 ever need to convert a global position to a local position, you can
 use the `toLocal` method - it works in the same way.)
+
+What if you want to find the global position of a sprite, but don't
+know what the sprite's parent container
+is? Every sprite has a property called `parent` that will what the
+sprite's parent is. If you add a sprite directly to the `stage`, then
+`stage` will be the sprite's parent. In the example above, the `cat`'s
+parent is `animals`. That means you can alternatively get the cat's global position
+by writing code like this:
+```
+cat.parent.toGlobal(cat.position);
+```
+And it will work even if you don't know what the cat's parent
+container currently is.
 
 ###Using a SpriteBatch to group sprites
 

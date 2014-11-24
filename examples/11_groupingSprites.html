@@ -77,6 +77,10 @@ function setup() {
   console.log(animals.toGlobal(cat.position));
   //Displays: b.Point{x: 80, y: 80...};
 
+  //If you don't know what group the sprite belongs to, use the
+  //sprite's `parent` property.
+  //console.log(cat.parent.toGlobal(cat.position));
+
   //Render the stage   
   renderer.render(stage);
 }
