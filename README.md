@@ -91,7 +91,7 @@ Now if you think you're ready, read on!
 
 (Request to readers: this is a *living document*. If you have any
 questions about specific details or need any of the content clarified, please
-create a **issue** in this GitHub repository and I'll update the text
+create an **issue** in this GitHub repository and I'll update the text
 with more information.)
 
 Setting up
