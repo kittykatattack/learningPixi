@@ -703,7 +703,7 @@ output by a popular software tool called [Texture
 Packer](https://www.codeandweb.com/texturepacker). Texture Packer’s
 “Essential” license is free. Let’s find out how to use it to make a
 texture atlas, and load the atlas into Pixi. (You don’t have to use
-Texture Packer. Similar tools, like [Shoebox](http://renderhjs.net/shoebox/), output PNG and JSON files
+Texture Packer. Similar tools, like [Shoebox](http://renderhjs.net/shoebox/) or [spritesheet.js](https://github.com/krzysztof-o/spritesheet.js/), output PNG and JSON files
 in a standard format that is compatible with Pixi.)
 
 First, start with a collection of individual image files that you'd
