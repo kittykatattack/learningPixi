@@ -326,11 +326,11 @@ function setup() {
 You can load multiple images at single time by listing them in the `AssetLoader`'s argument array,
 like this:
 ```
-var loader = new PIXI.AssetLoader(
-  ["images/imageOne.png"],
-  ["images/imageTwo.png"],
-  ["images/imageThree.png"]
-);
+var loader = new PIXI.AssetLoader([
+  "images/imageOne.png",
+  "images/imageTwo.png",
+  "images/imageThree.png"
+]);
 ```
 (The `AssetLoader` also lets you load JSON files, which you'll learn
 about ahead.)
