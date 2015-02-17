@@ -12,7 +12,7 @@ the Pixi rendering engine.
 5. [Loading images into the texture cache](#loading)
 6. [Displaying sprites](#displaying)
 7. [Positioning sprites](#positioning)
-8. [Size and scale](sizenscale)
+8. [Size and scale](#sizenscale)
 9. [Rotation](#rotation)
 10. [Make a sprite from a tileset sub-image](#tileset)
 11. [Using a texture atlas](#textureatlas)
@@ -1224,7 +1224,7 @@ it move up, give the cat a `vy` value of -1.
 You'll see ahead how modularizing a sprite's velocity with `vx` and
 `vy` velocity properties helps with keyboard and mouse pointer
 control systems for games, as well as making it easier to implement physics.
-
+/
 <a id='gamestates'></a>
 Game states
 -----------
