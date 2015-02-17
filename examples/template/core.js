@@ -71,53 +71,83 @@
         loopId = window.requestAnimationFrame(update, Q.canvas);
     };
 
-    Q.keyboard = {
-        init: function() {
-            this.pressedKeys = {};
-            this.specialKeys = {
-                9 : 'ENTER',
-                15: 'COMMAND',
-                16: 'SHIFT',
-                17: 'CONTROL',
-                27: 'ESC',
-                32: 'SPACE',
-                33: 'PAGEUP',
-                34: 'PAGEDOWN',
-                35: 'END',
-                36: 'HOME',
-                37: 'LEFT',
-                38: 'UP',
-                39: 'RIGHT',
-                40: 'DOWN',
-                45: 'INSERT',
-                65: 'A',
-                68: 'D',
-                83: 'S',
-                87: 'W'
-            };
-            var me = this;
-            document.addEventListener('keydown', function(e) {
-                me.setKey.call(me, e, true);
-                e.preventDefault()
-            });
+    Q.Keyboard = function(keyCode) {
+        this.keyCode = keyCode;
+        this.isDown = false;
+        this.isUp = true;
+        this.press = null;
+        this.release = null;
 
-            document.addEventListener('keyup', function(e) {
-                me.setKey.call(me, e, false);
-                e.preventDefault()
-            });
-        },
-        setKey: function(event, status) {
-            var code = event.keyCode;
-            if(code in this.specialKeys) {
-                this.pressedKeys[this.specialKeys[code]] = status;
-            }
-            else {
-                this.pressedKeys[String.fromCharCode(code)] = status;
-            }
-        },
-        isKeyDown: function(key) {
-            return this.pressedKeys[key.toUpperCase()];
+        this.enable();
+    };
+
+    Q.Keboard.Keys = {
+        ENTER: 9,
+        COMMAND: 15,
+        SHIFT: 16,
+        CONTROL: 17,
+        ESC: 27,
+        SPACE: 32,
+        PAGEUP: 33,
+        PAGEDOWN: 34,
+        END: 35,
+        HOME: 36,
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40,
+        INSERT: 45,
+        A: 65,
+        D: 68,
+        S: 83,
+        W: 87
+    };
+
+    Q.Keyboard.prototype.downHandler = function(event) {
+        if(event.keyCode === this.keyCode) {
+            if(this.isUp && this.press) this.press();
+            this.isDown = true;
+            this.isUp = false;
         }
+        event.preventDefault();
+    };
+
+    Q.Keyboard.prototype.upHandler = function(event) {
+        if(event.keyCode === this.keyCode) {
+            if(this.isDown && this.release) this.release();
+            this.isDown = false;
+            this.isUp = true;
+        }
+        event.preventDefault();
+    };
+
+    Q.Keyboard.prototype.enable = function() {
+        window.addEventListener('keydown', this.downHandler.bind(this), false);
+        window.addEventListener('keyup', this.upHandler.bind(this), false);
+    };
+
+    Q.Keyboard.prototype.disable = function() {
+        window.removeEventListener('keydown', this.downHandler.bind(this), false);
+        window.removeEventListener('keyup', this.upHandler.bind(this), false);
+    };
+
+    // Returns a random number between min and max
+    Q.random = function(min, max) {
+        if(max === undefined) {
+            max = min;
+            min = 0;
+        }
+        return Math.random() * (max - min) + min;
+    };
+
+    // Returns a random integer between min and max
+    // Using Math.round() will give you a non-uniform distribution!
+    Q.randomInt = function(min, max) {
+        if(max === undefined) {
+            max = min;
+            min = 0;
+        }
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
     root.Core = Q;

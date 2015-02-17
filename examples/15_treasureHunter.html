@@ -9,7 +9,7 @@
 var stage = new PIXI.Stage(0x000000);
 var renderer = PIXI.autoDetectRenderer(
   512, 512,
-  {antialiasing: false, transparent: false, resolution: 1}  
+  {antialiasing: false, transparent: false, resolution: 1}
 );
 document.body.appendChild(renderer.view);
 
@@ -18,9 +18,9 @@ var loader = new PIXI.AssetLoader(["images/treasureHunter.json"]);
 loader.onComplete = setup;
 loader.load();
 
-//Define variables that might be used in more 
+//Define variables that might be used in more
 //than one function
-var state, world, player, treasure, blobs, chimes, exit, player,
+var state, dungeon, explorer, treasure, blobs, chimes, door,
     healthBar, message, gameScene, gameOverScene, enemies;
 
 function setup() {
@@ -36,7 +36,7 @@ function setup() {
   gameScene.addChild(dungeon);
 
   //Door
-  door = new PIXI.Sprite.fromFrame("door.png"); 
+  door = new PIXI.Sprite.fromFrame("door.png");
   door.position.set(32, 0);
   gameScene.addChild(door);
 
@@ -47,7 +47,7 @@ function setup() {
   explorer.vx = 0;
   explorer.vy = 0;
   gameScene.addChild(explorer);
-  
+
   //Treasure
   treasure = new PIXI.Sprite.fromFrame("treasure.png");
   treasure.x = gameScene.width - treasure.width - 48;
@@ -129,7 +129,7 @@ function setup() {
 
   //Create the text sprite and add it to the `gameOver` scene
   message = new PIXI.Text(
-    "The End!", 
+    "The End!",
     {font: "64px Futura", fill: "white"}
   );
   message.x = 120;
@@ -193,7 +193,7 @@ function setup() {
 
   //Set the game state
   state = play;
- 
+
   //Start the game loop
   gameLoop();
 }
@@ -280,7 +280,7 @@ function play() {
   if (hitTestRectangle(treasure, door)) {
     state = end;
     message.setText("You won!");
-  } 
+  }
 }
 
 function end() {
@@ -332,10 +332,10 @@ function hitTestRectangle(r1, r2) {
   hit = false;
 
   //Find the center points of each sprite
-  r1.centerX = r1.x + r1.width / 2; 
-  r1.centerY = r1.y + r1.height / 2; 
-  r2.centerX = r2.x + r2.width / 2; 
-  r2.centerY = r2.y + r2.height / 2; 
+  r1.centerX = r1.x + r1.width / 2;
+  r1.centerY = r1.y + r1.height / 2;
+  r2.centerX = r2.x + r2.width / 2;
+  r2.centerY = r2.y + r2.height / 2;
 
   //Find the half-widths and half-heights of each sprite
   r1.halfWidth = r1.width / 2;
