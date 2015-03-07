@@ -66,7 +66,7 @@ sprites (interactive images). It also gives you a complete scene graph so that y
 create hierarchies of nested sprites (sprites inside sprites), as well
 as letting you attach mouse and touch events directly to sprites. And,
 most
-importantly, Pixi gets out or your way so that you can use as much or
+importantly, Pixi gets out of your way so that you can use as much or
 as little of it as you want to, adapt it to your personal coding
 style, and integrate it seamlessly with other useful frameworks.
 
@@ -176,7 +176,7 @@ running. Your `<script>` tag might look something like this:
 <script src="pixi.js/bin/pixi.js"></script>
 ```
 In this **Learning Pixi** repository (what you're reading now!) you'll find a folder called
-`examples`. Open it and you'll a file called `helloWorld.html`.
+`examples`. Open it and you'll find a file called `helloWorld.html`.
 Assuming that the wesberver is running in this repository's root directory, this is
 how the `helloWorld.html` file correctly links to Pixi and checks that it's
 working:
@@ -241,7 +241,7 @@ created it, use the `Stage` object’s `setBackgroundColor` method:
 ```
 stage.setBackgroundColor(anyHexColorValue);
 ```
-If you want to find the width of the height of the `renderer`, use
+If you want to find the width or the height of the `renderer`, use
 `renderer.view.width` and `renderer.view.height`.
 
 (Importantly: although the `stage` also has `width` and `height` properties, *they don't refer to
@@ -254,7 +254,7 @@ method, and supply any new `width` and `height` values:
 ```
 renderer.resize(512, 512);
 ```
-If you want make the canvas fill the entire window, you can apply this
+If you want to make the canvas fill the entire window, you can apply this
 CSS styling:
 ```
 renderer.view.style.position = "absolute"
@@ -1224,7 +1224,7 @@ it move up, give the cat a `vy` value of -1.
 You'll see ahead how modularizing a sprite's velocity with `vx` and
 `vy` velocity properties helps with keyboard and mouse pointer
 control systems for games, as well as making it easier to implement physics.
-/
+
 <a id='gamestates'></a>
 Game states
 -----------
