@@ -172,7 +172,7 @@ After Pixi is installed, create a basic HTML page, and use a
 `pixi.js` file from Pixi's `bin` folder. The `<script>` tag's `src`
 should be relative to your root directory where your webserver is
 running. Your `<script>` tag might look something like this:
-```
+``` html
 <script src="pixi.js/bin/pixi.js"></script>
 ```
 In this **Learning Pixi** repository (what you're reading now!) you'll find a folder called
@@ -180,7 +180,7 @@ In this **Learning Pixi** repository (what you're reading now!) you'll find a fo
 Assuming that the wesberver is running in this repository's root directory, this is
 how the `helloWorld.html` file correctly links to Pixi and checks that it's
 working:
-```
+``` html
 <!doctype html>
 <meta charset="utf-8">
 <title>Hello World</title>
@@ -197,7 +197,7 @@ console.log(PIXI);
 This is the [minimal amount of HTML](http://stackoverflow.com/questions/9797046/whats-a-valid-html5-document) you need to start creating projects
 with Pixi. If Pixi is linking correctly, `console.log(PIXI)` will
 display something like this in your web browser's JavaScript console:
-```
+``` js
 Object {WEBGL_RENDERER: 0, CANVAS_RENDERER: 1...
 ```
 If you see that (or something similar), you know everything is working properly.
@@ -215,7 +215,7 @@ to display your images on the canvas.
 
 Here’s how to create a black 265 pixel by 256 pixel canvas, and add it to your
 HTML document. Add this code in your HTML document between the `<script>` tags.
-```
+``` js
 var stage = new PIXI.Stage(0x000000);
 var renderer = PIXI.autoDetectRenderer(
   256, 256,
@@ -233,12 +233,12 @@ The `renderer.view` object is just a plain old ordinary `<canvas>`
 object, so you can control it the same way you would control any other
 canvas object. Here's how to give the canvas an optional dashed
 border.
-```
+``` js
 renderer.view.style.border = "1px dashed black";
 ```
 If you need to change the background color of the canvas after you’ve
 created it, use the `Stage` object’s `setBackgroundColor` method:
-```
+``` js
 stage.setBackgroundColor(anyHexColorValue);
 ```
 If you want to find the width or the height of the `renderer`, use
@@ -251,12 +251,12 @@ on that ahead!)
 
 To change the size of the canvas, use the `renderer`’s `resize`
 method, and supply any new `width` and `height` values:
-```
+``` js
 renderer.resize(512, 512);
 ```
 If you want to make the canvas fill the entire window, you can apply this
 CSS styling:
-```
+``` js
 renderer.view.style.position = "absolute"
 renderer.view.style.width = window.innerWidth + "px";
 renderer.view.style.height = window.innerHeight + "px";
@@ -266,7 +266,7 @@ Pixi’s `autoDetectRenderer` method figures out whether to use the
 Canvas Drawing API or WebGL to render graphics, depending on which is
 available. The first two arguments are the width and height of the
 canvas, the third is an object with some optional values you can set.
-```
+``` js
 renderer = PIXI.autoDetectRenderer(
   256, 256,
   {antialiasing: false, transparent: false, resolution: 1}
@@ -281,7 +281,7 @@ and
 for more information.)
 
 What do those options do?
-```
+``` js
 {antialiasing: false, transparent: false, resolution: 1}
 ```
 `antialiasing` smoothes the edges of fonts and graphic primitives. (WebGL
@@ -299,13 +299,13 @@ The renderer will default to WebGL, which is good, because WebGL is
 incredibly fast, and lets you use some spectacular visual effects that
 you’ll learn all about ahead. But if you need to force Canvas Drawing
 API rendering over WebGL, you can do it like this:
-```
+``` js
 renderer = new PIXI.CanvasRenderer(256, 256);
 ```
 Only the first two arguments are required: `width` and `height`.
 
 You can force WebGL rendering like this:
-```
+``` js
 renderer = new PIXI.WebGLRenderer(256, 256);
 ```
 <a id='sprites'></a>
@@ -350,19 +350,19 @@ a **texture cache** to store and reference all the textures your
 sprites will need. The names of the textures are strings that match
 the file locations of the images they refer to. That means if you have
 a texture that was loaded from `“images/cat.png”`, you could find it in the texture cache like this:
-```
+``` js
 PIXI.TextureCache["images/cat.png"];
 ```
 The textures are stored in a WebGL compatible format that’s efficient
 for Pixi’s renderer to work with. You can then use Pixi’s `Sprite` class to make a new sprite using the texture.
-```
+``` js
 var texture = PIXI.TextureCache["images/anySpriteImage.png"];
 var sprite = new PIXI.Sprite(texture);
 ```
 But how do you load the image file and convert it into a texture? You
 can use Pixi’s built-in `AssetLoader`. Here’s how to use it to load an
 image and call a function called `setup` when it’s ready to create the sprite:
-```
+``` js
 var loader = new PIXI.AssetLoader(["images/cat.png"]);
 loader.onComplete = setup;
 loader.load();
@@ -376,7 +376,7 @@ function setup() {
 ```
 You can load multiple images at single time by listing them in the `AssetLoader`'s argument array,
 like this:
-```
+``` js
 var loader = new PIXI.AssetLoader([
   "images/imageOne.png",
   "images/imageTwo.png",
@@ -389,7 +389,7 @@ about ahead.)
 Alternatively, you can use Pixi’s `Texture.fromImage` method to load
 and create the texture in a single step.
 `fromImage` will load the image for you automatically from its file location if it’s not already in the cache.
-```
+``` js
 var texture = PIXI.Texture.fromImage(“images/cat.png”);
 ```
 That means if you want to be lazy, you don’t need to pre-load the
@@ -405,14 +405,14 @@ a texture that’s been pre-loaded into Pixi’s texture cache. But if for
 some reason you need to make a texture from a regular JavaScript
 `Image`
 object, you can do that using Pixi’s `BaseTexture` class:
-```
+``` js
 var base = new PIXI.BaseTexture(anyImageObject),
     texture = new PIXI.Texture(base),
     sprite = new PIXI.Sprite(texture);
 ```
 If you want to change the texture the sprite is displaying, use the
 `setTexture` method. Supply it with any `Texture` object, like this:
-```
+``` js
 anySprite.setTexture(PIXI.TextureCache["anyTexture.png"]);
 ```
 You can use this technique to interactively change the sprite’s appearance if something significant happens to it in the game.
@@ -425,14 +425,14 @@ After you've loaded an image, and converted it into a sprite, there
 are two more things you have to do before you can actually see it on
 the canvas:
 
--1. You need to add the sprite to Pixi's stage with the `stage.addChild` method, like this:
-```
+1. You need to add the sprite to Pixi's stage with the `stage.addChild` method, like this:
+``` js
 stage.addChild(cat);
 ```
 The stage is the main container that holds all of your sprites.
 
--2. You need to tell Pixi's `renderer` to render the stage.
-```
+2. You need to tell Pixi's `renderer` to render the stage.
+``` js
 renderer.render(stage);
 ```
 None of your sprites will be visible before you do these two things.
@@ -445,7 +445,7 @@ folder you'll find a 64 by 64 pixel PNG image of a cat.
 
 Here's the All the JavaScript code you to load the image, create a
 sprite, and display it on Pixi's stage:
-```
+``` js
 //Create the Pixi `Stage` and `renderer`
 var stage = new PIXI.Stage(0x000000);
 var renderer = PIXI.autoDetectRenderer(
@@ -480,11 +480,11 @@ When this code runs, here's what you'll see:
 Now we're getting somewhere!
 
 If you ever need to remove a sprite from the stage, use the `removeChild` method:
-```
+``` js
 stage.removeChild(anySprite)
 ```
 But usually setting a sprite’s `visible` property to `false` will be a simpler and more efficient way of making sprites disappear.
-```
+``` js
 anySprite.visible = false;
 ```
 <a id='positioning'></a>
@@ -496,13 +496,13 @@ the top left corner. The cat has an `x` position of
 0 and a `y` position of 0. You can change the position of the cat by
 changing the values of is `x` and `y` properties. Here's how you can center the cat in the stage by
 setting its `x` and `y` property values to 96.
-```
+``` js
 cat.x = 96;
 cat.y = 96;
 ```
 Add these two lines of code anywhere inside the `setup`
 function, after you've created the sprite.
-```
+``` js
 function setup() {
 
   //Create the `cat` sprite from the texture
@@ -536,7 +536,7 @@ be at the very top of the stage.
 
 Instead of setting the sprite's `x` and `y` properties independently,
 you can set them together in a single like of code, like this:
-```
+``` js
 sprite.position.set(x, y)
 ```
 <a id='sizenscale'></a>
@@ -546,12 +546,12 @@ Size and scale
 You can change a sprite's size by setting its `width` and `height`
 properties. Here's how to give the cat a `width` of 80 pixels and a `height` of
 120 pixels.
-```
+``` js
 cat.width = 80;
 cat.height = 120;
 ```
 Add those two lines of code to the `setup` function, like this:
-```
+``` js
 function setup() {
 
   //Create the `cat` sprite from the texture
@@ -582,7 +582,7 @@ change, only its width and height.
 Sprites also have `scale.x` and `scale.y` properties that change the
 sprite's width and height proportionately. Here's how to set the cat's
 scale to half size:
-```
+``` js
 cat.scale.x = 0.5;
 cat.scale.y = 0.5;
 ```
@@ -590,13 +590,13 @@ Scale values are numbers between 0 and 1 that represent a
 percentage of the sprite's size. 1 means 100% (full size), while
 0.5 means 50% (half size). You can double the sprite's size by setting
 its scale values to 2, like this:
-```
+``` js
 cat.scale.x = 2;
 cat.scale.y = 2;
 ```
 Pixi has an alternative, concise way for you set sprite's scale in one
 line of code using the `scale.set` method.
-```
+``` js
 cat.scale.set(0.5, 0.5);
 ```
 If that appeals to you, use it!
@@ -608,7 +608,7 @@ Rotation
 You can make a sprite rotate by setting its `rotation` property to a
 value in [in
 radians](http://www.mathsisfun.com/geometry/radians.html).
-```
+``` js
 cat.rotation = 0.5;
 ```
 But around which point does that rotation happen?
@@ -625,7 +625,7 @@ You can see that the anchor point, the cat’s left ear, is the center of the im
 What if you want the sprite to rotate around its center? Change the
 sprite’s `anchor` point so that it’s centered inside the sprite, like
 this:
-```
+``` js
 cat.anchor.x = 0.5;
 cat.anchor.y = 0.5;
 ```
@@ -642,7 +642,7 @@ is an important side-effect to remember!
 
 Just like with `position` and `scale`, you can set the anchor’s x and
 y values with one line of code like this:
-```
+``` js
 sprite.anchor.set(x, y)
 ```
 <a id='tileset'></a>
@@ -675,7 +675,7 @@ the tileset.
 
 Let's look at the code that does this. First, load the `tileset.png` image
 with Pixi’s `AssetLoader`, just as you did in the first example.
-```
+``` js
 var loader = new PIXI.AssetLoader(["images/tileset.png"]);
 loader.onComplete = setup;
 loader.load();
@@ -683,7 +683,7 @@ loader.load();
 Next, when the image has loaded, use a rectangular sub-section of the tileset to create the
 sprite’s image. Here's the code that extracts the sub image, creates
 the rocket sprite, and positions and displays it on the canvas.
-```
+``` js
 function setup() {
 
   //Create the `tileset` sprite from the texture
@@ -718,7 +718,7 @@ object for defining rectangular shapes. It takes four arguments. The
 first two arguments define the rectangle's `x` and `y` position. The
 last two define its `width` and `height`. Here's the format
 for defining a new `Rectangle` object.
-```
+``` js
 var rectangle = new PIXI.Rectangle(x, y, width, height);
 ```
 The rectangle object is just a *data object*; it's up to you to decide how you want to use it. In
@@ -728,12 +728,12 @@ method called `setFrame` that takes `Rectangle` objects as arguments
 and uses them
 to crop the texture to those dimensions. Here's how to use `setFrame`
 to crop the texture to the size and position of the rocket.
-```
+``` js
 var rectangle = new PIXI.Rectangle(192, 128, 64, 64);
 texture.setFrame(rectangle);
 ```
 You can then use that cropped texture create the sprite:
-```
+``` js
 var rocket = new PIXI.Sprite(texture);
 ```
 And that's how it works!
@@ -793,7 +793,7 @@ The JSON file describes the name, size and position of each of the
 sub-images
 in the tileset. Here’s an excerpt that describes the blob monster
 sub-image.
-```
+``` js
 "blob.png":
 {
 	"frame": {"x":55,"y":2,"w":32,"h":24},
@@ -832,7 +832,7 @@ To get the texture atlas into Pixi, load it using Pixi’s
 `AssetLoader` will interpret the data and create a texture from each
 frame on the tileset automatically.  Here’s how to use the `AssetLoader` to load the `treasureHunter.json`
 file. When it has loaded, the `setup` function will run.
-```
+``` js
 var loader = new PIXI.AssetLoader(["images/treasureHunter.json"]);
 loader.onComplete = setup;
 loader.load();
@@ -849,18 +849,18 @@ Creating sprites from a loaded texture atlas
 Pixi gives you three alternative ways to create a sprite from texture
 atlas:
 
--1. Using `PIXI.TextureCache`:
-```
+1. Using `PIXI.TextureCache`:
+``` js
 var texture = PIXI.TextureCache["frameId.png"],
     sprite = new PIXI.Sprite(texture);
 ```
--2. Using `PIXI.Texture.fromFrame`:
-```
+2. Using `PIXI.Texture.fromFrame`:
+``` js
 var texture = PIXI.Texture.fromFrame("frameId.png"),
     sprite = new PIXI.Sprite(texture);
 ```
--3. Using `new PIXI.Sprite.fromFrame`:
-```
+3. Using `new PIXI.Sprite.fromFrame`:
+``` js
 var sprite = new PIXI.Sprite.fromFrame("frameId.png");
 ```
 Which of these three different ways should you use? They have exactly
@@ -870,7 +870,7 @@ use the last one - it's less work!
 Here's how you could use these three different sprite creation
 techniques in the `setup` function to create and display the
 `dungeon`, `exlplorer` and `treasure` sprites.
-```
+``` js
 //Define any variables that might be used in more
 //than one function
 var dungeon, explorer, treasure;
@@ -912,7 +912,7 @@ The stage dimensions are 512 by 512 pixels, and you can see in the
 code above that the `stage.height` and `stage.width` properties are used
 to align the sprites. Here's how the `explorer`'s `y` position is
 vertically centered:
-```
+``` js
 explorer.y = stage.height / 2 - explorer.height / 2;
 ```
 Learning to create and display sprites using a texture atlas is an
@@ -930,7 +930,7 @@ code so you can see everything in its proper context.
 `examples/spriteFromTextureAtlas.html` file in this repository.)
 Notice that the `blob` sprites are created and added to the stage in
 loop, and assigned random positions.
-```
+``` js
 <!doctype html>
 <meta charset="utf-8">
 <title>Make a sprite from a texture atlas</title>
@@ -1028,7 +1028,7 @@ function randomInt(min, max) {
 ```
 You can see in the code above that all the blobs are created using a
 `for` loop. Each `blob` is spaced evenly along the `x` axis like this:
-```
+``` js
 var x = spacing * i + xOffset;
 blob.x = x;
 ```
@@ -1041,7 +1041,7 @@ an evenly spaced line of blob monsters, from left to right, along the dungeon fl
 
 Each `blob` is also given a random `y` position. Here's the code that
 does this:
-```
+``` js
 var y = randomInt(0, stage.height - blob.height);
 blob.y = y;
 ```
@@ -1049,16 +1049,16 @@ The `blob`'s `y` position could be assigned any random number between 0 and
 512, which is the value of `stage.height`. This works with the help of
 a custom function called `randomInt`. `randomInt` returns a random number
 that's within a range between any two numbers you supply.
-```
+``` js
 randomInt(lowestNumber, highestNumber)
 ```
 That means if you want a random number between 1 and 10, you can get
 one like this:
-```
+``` js
 var randomNumber = randomInt(1, 10);
 ```
 Here's the `randomInt` function definition that does all this work:
-```
+``` js
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -1076,7 +1076,7 @@ This is called a **game loop**.
 Any code you put inside the game loop will update 60 times per
 second. Here's some code you could write to make the `cat` sprite move
 at a rate  of 1 pixel per frame.
-```
+``` js
 function gameLoop() {
 
   //Loop this function at 60 frames per second
@@ -1104,7 +1104,7 @@ the sprite to animate in the opposite direction (to the left), just give it a
 negative value, like -1.
 You'll find this code in the `movingSprites.html` file - here's the
 complete code:
-```
+``` js
 //Create a Pixi stage and renderer
 var stage = new PIXI.Stage(0x000000);
 var renderer = PIXI.autoDetectRenderer(
@@ -1167,7 +1167,7 @@ extra bit of modularity that you'll need for interactive game animation.
 
 The first step is to create `vx` and `vy` properties on your sprite,
 and give them an initial value.
-```
+``` js
 cat.vx = 0;
 cat.vy = 0;
 ```
@@ -1178,7 +1178,7 @@ that you want the sprite to move at. Then assign those values to the
 sprite's `x` and `y` properties. Here's how you could use this
 technique to make the cat sprite move down and to right at one pixel each
 frame:
-```
+``` js
 function setup() {
 
   //Create the `cat` sprite
@@ -1231,7 +1231,7 @@ Game states
 
 As a matter of style, and to help modularize your code, I
 recommend structuring your game loop like this:
-```
+``` js
 //Set the game's current state to *play*:
 var state = play;
 
@@ -1260,7 +1260,7 @@ times per second.
 
 Here's how the code from the previous example can be re-factored to
 this new model:
-```
+``` js
 //Define any variables that are used in more than one function
 var cat, state;
 
@@ -1314,7 +1314,7 @@ With just a little more work you can build a simple system to control
 a sprite using the keyboard. To simplify your code, I suggest you use
 this custom function called `keyboard` that listens for and captures
 keyboard events.
-```
+``` js
 function keyboard(keyCode) {
   var key = {};
   key.code = keyCode;
@@ -1353,14 +1353,14 @@ function keyboard(keyCode) {
 }
 ```
 The `keyboard` function is easy to use. Create a new keyboard object like this:
-```
+``` js
 var keyObject = keyboard(asciiKeyCodeNumber);
 ```
 [Here's a list of ascii keyboard code
 numbers](http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html).
 
 Then assign `press` and `release` methods to the keyboard object like this:
-```
+``` js
 keyObject.press = function() {
   //key object pressed
 };
@@ -1380,7 +1380,7 @@ arrow keys to move the cat around the stage.
 ![Keyboard movement](/examples/images/screenshots/17.png)
 
 Here's the code that does all this:
-```
+``` js
 function setup() {
 
   //Create the `cat` sprite
@@ -1478,7 +1478,7 @@ that lets you do this. Let's find out how it works.
 Imagine that you want to display three sprites: a cat, hedgehog and
 tiger. Create them, and set their positions - *but don't add them to the
 stage*.
-```
+``` js
 //The cat
 var cat = new PIXI.Sprite.fromFrame("cat.png");
 cat.position.set(16, 16);
@@ -1494,17 +1494,17 @@ tiger.position.set(64, 64);
 
 Next, create an `animals` container to group them all together like
 this:
-```
+``` js
 var animals = new PIXI.DisplayObjectContainer();
 ```
 Then use `addChild` to *add the sprites to the group*.
-```
+``` js
 animals.addChild(cat);
 animals.addChild(hedgehog);
 animals.addChild(tiger);
 ```
 Finally add the group to the stage.
-```
+``` js
 stage.addChild(animals);
 renderer.render(stage);
 ```
@@ -1525,7 +1525,7 @@ have a texture.
 
 If you need a list of all the child sprites that `animals` contains,
 use its `children` array to find out.
-```
+``` js
 console.log(animals.chidren}
 //Displays: [b.Sprite, b.Sprite, b.Sprite]
 ```
@@ -1538,7 +1538,7 @@ parent container will affect the child sprites in a relative way. So if you
 set the group's `x` and `y` position, all the child sprites will
 be repositioned relative to the group's top left corner. What would
 happen if you set the `animals`'s `x` and `y` position to 64?
-```
+``` js
 animals.position.set(64, 64);
 ```
 The whole group of sprites will move 64 pixels right and 64 pixels to
@@ -1549,7 +1549,7 @@ the down.
 The `animals` group also has its own dimensions, which is based on the area
 occupied by the containing sprites. You can find its `width` and
 `height` values like this:
-```
+``` js
 console.log(animals.width);
 //Displays: 112
 
@@ -1560,7 +1560,7 @@ console.log(animals.height);
 ![Group width and height](/examples/images/screenshots/21.png)
 
 What happens if you change a group's width or height?
-```
+``` js
 animals.width = 200;
 animals.height = 200;
 ```
@@ -1588,23 +1588,23 @@ position is in this image?
 ![Grouping sprites](/examples/images/screenshots/20.png)
 
 Let's find out:
-```
+``` js
 console.log(cat.x);
 //Displays: 16
 ```
 16? Yes! That's because the cat is offset by only 16 pixel's from the
 group's top left corner. 16 is the cat's local position.
 
-Sprites also have a ***global position**. The global position is the
+Sprites also have a **global position**. The global position is the
 distance from the top left corner of the stage, to the sprite's anchor
 point (usually the sprite's top left corner.) You can find a sprite's global
 position with the help of the `toGlobal` method.  Here's how:
-```
+``` js
 parentSprite.toGlobal(childSprite.position)
 ```
 That means you can find the cat's global position inside the `animals`
 group like this:
-```
+``` js
 console.log(animals.toGlobal(cat.position));
 //Displays: b.Point{x: 80, y: 80...};
 ```
@@ -1620,7 +1620,7 @@ sprite's parent is. If you add a sprite directly to the `stage`, then
 `stage` will be the sprite's parent. In the example above, the `cat`'s
 parent is `animals`. That means you can alternatively get the cat's global position
 by writing code like this:
-```
+``` js
 cat.parent.toGlobal(cat.position);
 ```
 And it will work even if you don't know what the cat's parent
@@ -1635,7 +1635,7 @@ times faster than they would if they were in a regular
 `DisplayObjectContainer`. It’s a great performance boost for games.
 
 Create a `SpriteBatch` like this:
-```
+``` js
 var superFastSprites = new PIXI.SpriteBatch();
 ```
 Then use `addChild` to add sprites to it, just like you would with any
@@ -1678,32 +1678,32 @@ the shapes we'll make in the code ahead.
 
 All shapes are made by first creating a new instance of
 `PIXI.Graphics()`.
-```
+``` js
 var rectangle = new PIXI.Graphics();
 ```
 Use `beginFill` with a hexadecimal color code value to set the
 rectangle’ s fill color. Here’ how to set to it to light blue.
-```
+``` js
 rectangle.beginFill(0x66CCFF);
 ```
 If you want to give the shape an outline, use the `lineStyle` method. Here's
 how to give the rectangle a 4 pixel wide red outline, with an `alpha`
 value of 1.
-```
+``` js
 rectangle.lineStyle(4, 0xFF3300, 1);
 ```
 Use the `drawRect` method to draw the rectangle. Its four arguments
 are `x`, `y`, `width` and `height`.
-```
+``` js
 rectangle.drawRect(x, y, width, height);
 ```
 Use `endFill` when you’re done.
-```
+``` js
 rectangle.endFill();
 ```
 It’s just like the Canvas Drawing API! Here’s all the code you need to
 draw a rectangle, change its position, and add it to the stage.
-```
+``` js
 var rectangle = new PIXI.Graphics();
 rectangle.lineStyle(4, 0xFF3300, 1);
 rectangle.beginFill(0x66CCFF);
@@ -1721,12 +1721,12 @@ This code makes a 64 by 64 blue rectangle with a red border at an x and y positi
 
 Make a circle with the `drawCircle` method. Its three arguments are
 `x`, `y` and `radius`
-```
+``` js
 drawCircle(x, y, radius)
 ```
 Unlike rectangles and sprites, a circle’s x and y position is also its
 center point. Here’s how to make a violet colored circle with a radius of 32 pixels.
-```
+``` js
 var circle = new PIXI.Graphics();
 circle.beginFill(0x9966FF);
 circle.drawCircle(0, 0, 32);
@@ -1739,14 +1739,14 @@ stage.addChild(circle);
 ###Ellipses
 As a one-up on the Canvas Drawing API, Pixi lets you draw an ellipse
 with the `drawEllipse` method.
-```
+``` js
 drawEllipse(x, y, width, height);
 ```
 The x/y position defines the ellipse’s top left corner (imagine that
 the ellipse is surrounded by an invisible rectangular bounding box -
 the top left corner of that box will represent the ellipse's x/y
 anchor position). Here’s a yellow ellipse that’s 50 pixels wide and 20 pixels high.
-```
+``` js
 var ellipse = new PIXI.Graphics();
 ellipse.beginFill(0xFFFF00);
 ellipse.drawEllipse(0, 0, 50, 20);
@@ -1761,12 +1761,12 @@ stage.addChild(ellipse);
 Pixi also lets you make rounded rectangles with the `drawRoundedRect`
 method. The last argument, `cornerRadius` is a number in pixels that
 determines by how much the corners should be rounded.
-```
+``` js
 drawRoundedRect(x, y, width, height, cornerRadius)
 ```
 Here's how to make a rounded rectangle with a corner radius of 10
 pixels.
-```
+``` js
 var roundBox = new PIXI.Graphics();
 roundBox.lineStyle(4, 0x99CCFF, 1);
 roundBox.beginFill(0xFF9933);
@@ -1783,7 +1783,7 @@ You've seen in the examples above that the `lineStyle` method lets you
 define a line.  You can use the `moveTo` and `lineTo` methods to draw the
 start and end points of the line, in just the same way you can with the Canvas
 Drawing API. Here’s how to draw a 4 pixel wide, white diagonal line.
-```
+``` js
 var line = new PIXI.Graphics();
 line.lineStyle(4, 0xFFFFFF, 1);
 line.moveTo(0, 0);
@@ -1803,7 +1803,7 @@ You can join lines together and fill them with colors to make complex
 shapes using the `drawPolygon` method. `drawPolygon`'s argument is an
 path array of x/y points that define the positions of each point on the
 shape.
-```
+``` js
 var path = [
   point1X, point1Y,
   point2X, point2Y,
@@ -1817,7 +1817,7 @@ Here’s how to use `drawPolygon` to connect three lines together to
 make a red triangle with a blue border. The triangle is drawn at
 position 0,0 and then moved to its position on the stage using its
 `x` and `y` properties.
-```
+``` js
 var triangle = new PIXI.Graphics();
 triangle.beginFill(0x66FF33);
 
@@ -1848,7 +1848,7 @@ Use a `PIXI.Text` object to display text on the stage. The constructor
 takes two arguments: the text you want to display and a style object
 that defines the font’s properties. Here's how to display the words
 "Hello Pixi", in white, 32 pixel high sans-serif font.
-```
+``` js
 var message = new PIXI.Text(
   "Hello Pixi!",
   {font: "32px sans-serif", fill: "white"}
@@ -1865,11 +1865,11 @@ contain all the same properties like `x`, `y`, `width`, `height`,
 
 If you want to change the content of a text object after you've
 created it, use the `setText` method.
-```
+``` js
 message.setText("Text changed!");
 ```
 Use `setStyle` if you want to redefine the font properties.
-```
+``` js
 message.setStyle({fill: "black", font: "16px PetMe64"});
 ```
 Pixi makes text objects by using the Canvas Drawing API to render the text to an invisible and temporary canvas element. It then turns the canvas into a WebGL texture so that it can be mapped onto a sprite. That’s why the text’s color needs to be wrapped in a string: it’s a Canvas Drawing API color value. As with any canvas color values, you can use words for common colors like “red” or “green”, or use rgba, hsla or hex values.
@@ -1885,7 +1885,7 @@ Pixi can also wrap long lines of text. Set the text’s `wordWrap` style
 property to `true`, and then set `wordWrapWidth` to the maximum length
 in pixels, that the line of text should be. Use the `align` property
 to set the alignment for multi-line text.
-```
+``` js
 message.setStyle({wordWrap: true, wordWrapWidth: 100, align: center});
 ```
 (Note: `align` doesn't affect single line text.)
@@ -1893,7 +1893,7 @@ message.setStyle({wordWrap: true, wordWrapWidth: 100, align: center});
 If you want to use a custom font file, use the CSS `@font-face` rule
 to link the font file to the HTML page where you Pixi application is
 running.
-```
+``` css
 @font-face {
   font-family: “fontFamilyName";
   src: url("fonts/fontFile.ttf");
@@ -1913,11 +1913,11 @@ can you do with them? A fun thing to do is to build a simple **collision
 detection** system. You can use a custom function called
 `hitTestRectangle` that checks whether any two rectangular Pixi sprites are
 touching.
-```
+``` js
 hitTestRectangle(spriteOne, spriteTwo)
 ```
 if they overlap, `hitTestRectangle` will return `true`. You can use `hitTestRectangle` with an `if` statement to check for a collision between two sprites like this:
-```
+``` js
 if (hitTestRectangle(cat, box)) {
   //There's a collision
 } else {
@@ -1938,7 +1938,7 @@ well as the
 keyboard control system that makes the cat move. The only new thing is the
 way `hitTestRectangle` is used inside the `play` function to check for a
 collision.
-```
+``` js
 function play() {
 
   //use the cat's velocity to make it move
@@ -1968,17 +1968,17 @@ Because the `play` function is being called by the game loop 60 times
 per second, this `if` statement is constantly checking for a collision
 between the cat and the box. If `hitTestRectangle` is `true`, the
 text `message` object uses `setText` to display "Hit":
-```
+``` js
 message.setText("hit!");
 ```
 The color of the box is then changed from green to red by setting the
 box's `tint` property to the hexadecimal red value.
-```
+``` js
 box.tint = 0xff3300;
 ```
 If there's no collision, the message and box are maintained in their
 original states:
-```
+``` js
 message.setText("no collision...");
 box.tint = 0xccff99;
 ```
@@ -1997,7 +1997,7 @@ The most important thing is that you know how to use it. But, just for
 your reference, and in case you're curious, here's the complete
 `hitTestRectangle` function definition. Can you figure out from the
 comments what it's doing?
-```
+``` js
 function hitTestRectangle(r1, r2) {
 
   //Define the variables we'll need to calculate
@@ -2082,7 +2082,7 @@ Open the `treasureHunter.html` file and you'll see that all the game
 code is in one big file. Here's a birds-eye view of how all the code is
 organized.
 
-```
+``` js
 //Setup Pixi and load the texture atlas files - call the `setup`
 //function when they've loaded
 
@@ -2121,7 +2121,7 @@ loaded JSON game data.
 Here's an abridged view of the `setup` function in Treasure Hunter,
 and the tasks that it performs
 
-```
+``` js
 function setup() {
   //Create the `gameScene` group
   //Create the `door` sprite
@@ -2151,7 +2151,7 @@ specific code inside the `setup` function does.
 
 The `setup` function creates two `DisplayObjectContainer` groups called
 `gameScene` and `gameOverScene`. Each of these are added to the stage.
-```
+``` js
 gameScene = new PIXI.DisplayObjectContainer();
 stage.addChild(gameScene);
 
@@ -2168,7 +2168,7 @@ end of the game is added to the `gameOverScene` group.
 Although it's created in the `setup` function, the `gameOverScene`
 shouldn't be visible when the game first starts, so its `visible`
 property is initialized to `false`.
-```
+``` js
 gameOverScene.visible = false;
 ```
 You'll see ahead that, when the game ends, the `gameOverScene`'s `visible`
@@ -2181,7 +2181,7 @@ end of the game.
 The player, exit door, treasure chest and the dungeon background image
 are all sprites made from texture atlas frames. Very importantly,
 they're all added as children of the `gameScene`.
-```
+``` js
 //Dungeon
 dungeon = new PIXI.Sprite.fromFrame("dungeon.png");
 gameScene.addChild(dungeon);
@@ -2217,7 +2217,7 @@ alternately multiplied by 1 or -1 for each blob, and that’s what
 causes each blob to move in the opposite direction to the one next to
 it. Each blob monster that's created is pushed into an array called
 `blobs`.
-```
+``` js
 var numberOfBlobs = 6,
     spacing = 48,
     xOffset = 150,
@@ -2272,7 +2272,7 @@ just two overlapping rectangles at exactly the same position: a black rectangle 
 a red rectangle in front. They're grouped into a single `healthBar`
 group. The `healthBar` is then added to the `gameScene` and positioned
 on the stage.
-```
+``` js
 //Create the health bar
 healthBar = new PIXI.DisplayObjectContainer();
 healthBar.position.set(stage.width - 170, 6)
@@ -2296,12 +2296,12 @@ healthBar.outer = outerBar;
 ```
 You can see that a property called `outer` has been added to the
 `healthBar`. It just references the `outerBar` (the red rectangle) so that it will be convenient to access later.
-```
+``` js
 healthBar.outer = outerBar;
 ```
 You don't have to do this; but, hey why not! It means that if you want
 to control the width of the red `outerBar`, you can write some smooth code that looks like this:
-```
+``` js
 healthBar.outer.width = 30;
 ```
 That's pretty neat and readable, so we'll keep it!
@@ -2316,7 +2316,7 @@ text sprite and adding it to the `gameOverScene`. Because the
 starts, you can’t see this text. Here’s the code from the `setup`
 function that creates the message text and adds it to the
 `gameOverScene`.
-```
+``` js
 message = new PIXI.Text(
   "The End!",
   {font: "64px Futura", fill: "white"}
@@ -2333,7 +2333,7 @@ gameOverScene.addChild(message);
 All the game logic and the code that makes the sprites move happens
 inside the `play` function, which runs in a continuous loop. Here's an
 overview of what the `play` function does
-```
+``` js
 function play() {
   //Move the explorer and contain it inside the dungeon
   //Move the blob monsters
@@ -2354,7 +2354,7 @@ that is very similar to the keyboard control code you learnt earlier.
 The `keyboard` objects modify the explorer’s velocity, and that
 velocity is added to the explorer’s position inside the `play`
 function.
-```
+``` js
 explorer.x += explorer.vx;
 explorer.y += explorer.vy;
 ```
@@ -2369,7 +2369,7 @@ movement.
 
 That's done with the help of a custom function called
 `contain`.
-```
+``` js
 contain(explorer, {x: 28, y: 10, width: 488, height: 480});
 ```
 `contain` takes two arguments. The first is the sprite you want to keep
@@ -2386,7 +2386,7 @@ The `contain` function also returns a `collision` variable with the
 value "top", "right", "bottom" or "left", depending on which side of
 the boundary the sprite hit. (`collision` will be `undefined` if the
 sprite didn't hit any of the boundaries.)
-```
+``` js
 function contain(sprite, container) {
 
   var collision = undefined;
@@ -2432,7 +2432,7 @@ player. If a blob bumps into the dungeon’s top or bottom walls, its
 direction is reversed. All this is done with the help of a `forEach` loop
 which iterates through each of `blob` sprites in the `blobs` array on
 every frame.
-```
+``` js
 blobs.forEach(function(blob) {
 
   //Move the blob
@@ -2458,7 +2458,7 @@ blobs.forEach(function(blob) {
 You can see in this code above how the return value of the `contain`
 function is used to make the blobs bounce off the walls. A variable
 called `blobHitsWall` is used to capture the return value:
-```
+``` js
 var blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 ```
 `blobHitsWall` will usually be `undefined`. But if the blob hits the
@@ -2466,7 +2466,7 @@ top wall, `blobHitsWall` will have the value "top". If the blob hits
 the bottom wall, `blobHitsWall` will have the value "bottom". If
 either of these cases are `true`, you can reverse the blob's direction
 by reversing its velocity. Here's the code that does this:
-```
+``` js
 if (blobHitsWall === "top" || blobHitsWall === "bottom") {
   blob.vy *= -1;
 }
@@ -2479,7 +2479,7 @@ the direction of its movement.
 
 The code in the loop above uses `hitTestRectangle` to figure
 out if any of the enemies have touched the explorer.
-```
+``` js
 if(hitTestRectangle(explorer, blob)) {
   explorerHit = true;
 }
@@ -2488,7 +2488,7 @@ If `hitTestRectangle` returns `true`, it means there’s been a collision
 and a variable called `explorerHit` is set to `true`. If `explorerHit`
 is `true`, the `play` function makes the explorer semi-transparent
 and reduces the width of the `health` bar by 1 pixel.
-```
+``` js
 if(explorerHit) {
 
   //Make the explorer semi-transparent
@@ -2516,7 +2516,7 @@ explorer is carrying the treasure.
 
 Here's the code that does this:
 
-```
+``` js
 if (hitTestRectangle(explorer, treasure)) {
   treasure.x = explorer.x + 8;
   treasure.y = explorer.y + 8;
@@ -2531,7 +2531,7 @@ treasure to the exit, or you can loose if you run out of health.
 To win the game, the treasure chest just needs to touch the exit door. If
 that happens, the game `state` is set to `end`, and the `message` text
 displays "You won".
-```
+``` js
 if (hitTestRectangle(treasure, door)) {
   state = end;
   message.setText("You won!");
@@ -2539,19 +2539,19 @@ if (hitTestRectangle(treasure, door)) {
 ```
 If you run out of health, you loose the game. The game `state` is also
 set to `end` and the `message` text displays "You Lost!"
-```
+``` js
 if (healthBar.outer.width < 0) {
   state = end;
   message.setText("You lost!");
 }
 ```
 But what does this mean?
-```
+``` js
 state = end;
 ```
 You'll remember from earlier examples that the `gameLoop` is constantly updating a function called
 `state` at 60 times per second. Here's the `gameLoop`that does this:
-```
+``` js
 function gameLoop(){
 
   //Loop this function 60 times per second
@@ -2572,7 +2572,7 @@ could have a `tileScene` state, and states for each game level, like
 `leveOne`, `levelTwo` and `levelThree`.
 
 So what is that `end` function? Here it is!
-```
+``` js
 function end() {
   gameScene.visible = false;
   gameOverScene.visible = true;
