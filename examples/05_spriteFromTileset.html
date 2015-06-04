@@ -4,39 +4,47 @@
 <body>
 <script src="../pixi.js/bin/pixi.js"></script>
 <script>
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    TextureCache = PIXI.utils.TextureCache,
+    Sprite = PIXI.Sprite,
+    Rectangle = PIXI.Rectangle;
 
 //Create a Pixi stage and renderer and add the 
-//`renderer.view` to the DOM
-var stage = new PIXI.Stage(0x000000)
-var renderer = PIXI.autoDetectRenderer(
-  256, 256,
-  {antialiasing: false, transparent: false, resolution: 1}  
-);
+//renderer.view to the DOM
+var stage = new Container(),
+    renderer = autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
 
-//Load the tileset image
-var loader = new PIXI.AssetLoader(["images/tileset.png"]);
-loader.onComplete = setup;
-loader.load();
+//load an image and run the `setup` function when it's done
+loader
+  .add("images/tileset.png")
+  .load(setup);
 
 function setup() {
 
   //Create the `tileset` sprite from the texture
-  var texture = PIXI.TextureCache["images/tileset.png"];
+  var texture = TextureCache["images/tileset.png"];
 
   //Create a rectangle object that defines the position and
   //size of the sub-image you want to extract from the texture
-  var rectangle = new PIXI.Rectangle(192, 128, 64, 64);
+  var rectangle = new Rectangle(192, 128, 64, 64);
 
   //Tell the texture to use that rectangular section
-  texture.setFrame(rectangle);
+  texture.frame = rectangle;
 
   //Create the sprite from the texture
-  var rocket = new PIXI.Sprite(texture);
+  var rocket = new Sprite(texture);
 
   //Position the rocket sprite on the canvas
   rocket.x = 32;
   rocket.y = 32;
+
+  rocket.pivot.set(32, 32);
+  rocket.rotation = 0.3;
+  console.log(rocket.position)
 
   //Add the rocket to the stage
   stage.addChild(rocket);

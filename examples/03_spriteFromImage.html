@@ -5,39 +5,52 @@
 <script src="../pixi.js/bin/pixi.js"></script>
 <script>
 
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    TextureCache = PIXI.utils.TextureCache,
+    Sprite = PIXI.Sprite;
+
 //Create a Pixi stage and renderer and add the 
 //renderer.view to the DOM
-var stage = new PIXI.Stage(0x000000);
-var renderer = PIXI.autoDetectRenderer(
-  256, 256,
-  {antialiasing: false, transparent: false, resolution: 1}  
-);
+var stage = new Container(),
+    renderer = autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
 
-//Use Pixi's built-in `AssetLoader` to load an image
-var loader = new PIXI.AssetLoader(["images/cat.png"]);
-loader.onComplete = setup;
-loader.load();
+//load an image and run the `setup` function when it's done
+loader
+  .add("images/cat.png")
+  .load(setup);
 
-//Alternatively, you could use Pixi's `ImageLoader`, which
-//just loads images:
-/*
-var loader = new PIXI.ImageLoader("images/cat.png");
-loader.onLoaded = setup.bind(this);
-loader.load();
-*/
-
+//This `setup` function will run when the image has loaded
 function setup() {
 
   //Create the `cat` sprite from the texture
-  var texture = PIXI.TextureCache["images/cat.png"],
-      cat = new PIXI.Sprite(texture);
+  var cat = new Sprite(TextureCache["images/cat.png"]);
+
+  /*
+  //Everything that Pixi loads is in the `loader.resources` object
+  console.log(loader.resources);
+
+  //That means you can alternatively create the sprite from the
+  //texture in one step like this: 
+  var cat = new Sprite(loader.resources["images/cat.png"].texture);
+  */
 
   //Add the cat to the stage
   stage.addChild(cat);
   
   //Render the stage   
   renderer.render(stage);
+
+  //If you ever need to, here's how you can clean out WebGL's GPU
+  //memory manually
+  /*
+  Object.keys(TextureCache).forEach(function(texture) {
+    TextureCache[texture].destroy(true);
+  });
+  */
 }
 </script>
 </body>

@@ -6,25 +6,28 @@
 <script src="../pixi.js/bin/pixi.js"></script>
 <script>
 
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    TextureCache = PIXI.utils.TextureCache,
+    Sprite = PIXI.Sprite;
+
 //Create a Pixi stage and renderer and add the 
 //renderer.view to the DOM
-var stage = new PIXI.Stage(0x000000)
-var renderer = PIXI.autoDetectRenderer(
-  256, 256,
-  {antialiasing: false, transparent: false, resolution: 1}  
-);
+var stage = new Container(),
+    renderer = autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
 
-//Use Pixi's built-in `AssetLoader` to load an image
-var loader = new PIXI.AssetLoader(["images/cat.png"]);
-loader.onComplete = setup;
-loader.load();
+//load an image and run the `setup` function when it's done
+loader
+  .add("images/cat.png")
+  .load(setup);
 
 function setup() {
 
   //Create the `cat` sprite from the texture
-  var texture = PIXI.TextureCache["images/cat.png"],
-      cat = new PIXI.Sprite(texture);
+  var cat = new Sprite(TextureCache["images/cat.png"]);
 
   //Position the sprite and change its width and height
   cat.x = 96;
