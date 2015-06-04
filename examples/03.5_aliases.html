@@ -1,0 +1,40 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Using aliases</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    TextureCache = PIXI.utils.TextureCache,
+    Sprite = PIXI.Sprite;
+
+//Create a Pixi stage and renderer and add the 
+//renderer.view to the DOM
+var stage = new Container(),
+    renderer = autoDetectRenderer(256, 256);
+document.body.appendChild(renderer.view);
+
+//Use Pixi's built-in `loader` module to load an image
+loader
+  .add("images/cat.png")
+  .load(setup);
+
+//This `setup` function will run when the image has loaded
+function setup() {
+
+  //Create the `cat` sprite from the texture
+  var cat = new Sprite(TextureCache["images/cat.png"]);
+
+  //Add the cat to the stage
+  stage.addChild(cat);
+  
+  //Render the stage   
+  renderer.render(stage);
+}
+</script>
+</body>
+
