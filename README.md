@@ -179,12 +179,12 @@ Next, create a basic HTML page, and use a
 `pixi.min.js` file that you've just downloaded. The `<script>` tag's `src`
 should be relative to your root directory where your webserver is
 running. Your `<script>` tag might look something like this:
-```
+```html
 <script src="pixi.min.js"></script>
 ```
 Here's a basic HTML page that you could use to link Pixi and test that
 it's working:
-```
+```html
 <!doctype html>
 <meta charset="utf-8">
 <title>Hello World</title>
@@ -201,7 +201,7 @@ console.log(PIXI);
 This is the [minimal amount of HTML](http://stackoverflow.com/questions/9797046/whats-a-valid-html5-document) you need to start creating projects
 with Pixi. If Pixi is linking correctly, `console.log(PIXI)` will
 display something like this in your web browser's JavaScript console:
-```
+```js
 Object { VERSION: "3.0.3" ...
 ```
 If you see that (or something similar) you know everything is working properly.
@@ -230,7 +230,7 @@ After Pixi is installed, create a basic HTML document, and use a
 `pixi.js` file from Pixi's `bin` folder. The `<script>` tag's `src`
 should be relative to your root directory where your webserver is
 running. Your `<script>` tag might look something like this:
-```
+```html
 <script src="pixi.js/bin/pixi.js"></script>
 ```
 (If you prefer, you could link to the `pixi.min.js` file instead as I
@@ -248,7 +248,7 @@ In this **Learning Pixi** repository (what you're reading now!) you'll find a fo
 Assuming that the webserver is running in this repository's root directory, this is
 how the `helloWorld.html` file correctly links to Pixi and checks that it's
 working:
-```
+```html
 <!doctype html>
 <meta charset="utf-8">
 <title>Hello World</title>
@@ -296,7 +296,7 @@ that hold all the thing you want Pixi to display.
 
 Here’s the code you need to write to create a `renderer`
 and `stage`. Add this code in your HTML document between the `<script>` tags:
-```
+```js
 //Create the renderer
 var renderer = PIXI.autoDetectRenderer(256, 256);
 
@@ -324,7 +324,7 @@ canvas. However, you can include an optional third argument with some
 additional values you can set. This third argument is an object
 literal, and here's how could use it set anti-aliasing, transparency
 and resolution:
-```
+```js
 renderer = PIXI.autoDetectRenderer(
   256, 256,
   {antialiasing: false, transparent: false, resolution: 1}
@@ -339,7 +339,7 @@ and
 for more information.)
 
 What do those options do?
-```
+```js
 {antialiasing: false, transparent: false, resolution: 1}
 ```
 `antialiasing` smoothes the edges of fonts and graphic primitives. (WebGL
@@ -362,7 +362,7 @@ Pixi's renderer object will default to WebGL, which is good, because WebGL is
 incredibly fast, and lets you use some spectacular visual effects that
 you’ll learn all about ahead. But if you need to force Canvas Drawing
 API rendering over WebGL, you can do it like this:
-```
+```js
 renderer = new PIXI.CanvasRenderer(256, 256);
 ```
 Only the first two arguments are required: `width` and `height`.
@@ -370,24 +370,24 @@ Only the first two arguments are required: `width` and `height`.
 You can also force Canvas rendering by setting the
 `autoDetectRenderer`'s fourth (optional) `noWebGl` parameter to
 `true`:
-```
+```js
 var renderer = PIXI.autoDetectRenderer(width, height, {}, true);
 ```
 You can force WebGL rendering like this:
-```
+```js
 renderer = new PIXI.WebGLRenderer(256, 256);
 ```
 The `renderer.view` object is just a plain old ordinary `<canvas>`
 object, so you can control it the same way you would control any other
 canvas object. Here's how to give the canvas an optional dashed
 border:
-```
+```js
 renderer.view.style.border = "1px dashed black";
 ```
 If you need to change the background color of the canvas after you’ve
 created it, set the `renderer` object’s `backgroundColor` property to
 any hexadecimal color value:
-```
+```js
 renderer.backgroundColor = 0x061639;
 ```
 If you want to find the width or the height of the `renderer`, use
@@ -400,7 +400,7 @@ on that ahead!)
 
 To change the size of the canvas, use the `renderer`’s `resize`
 method, and supply any new `width` and `height` values:
-```
+```js
 renderer.resize(512, 512);
 ```
 If you want to make the canvas fill the entire window, you can apply this
@@ -418,7 +418,7 @@ Pixi sprites
 
 In the previous section you learned how to create a `stage` object,
 like this:
-```
+```js
 var stage = new PIXI.Container();
 ```
 The `stage` is a Pixi `Container` object. You can think of a container
@@ -427,7 +427,7 @@ put inside it.
 The `stage` object that we created is the root container for all the visible
 things in your scene. Pixi requires that you have one root container
 object, because the `renderer` needs something to render:
-```
+```js
 renderer.render(stage);
 ```
 Whatever you put inside the `stage` will be
@@ -472,19 +472,19 @@ a **texture cache** to store and reference all the textures your
 sprites will need. The names of the textures are strings that match
 the file locations of the images they refer to. That means if you have
 a texture that was loaded from `“images/cat.png”`, you could find it in the texture cache like this:
-```
+```js
 PIXI.utils.TextureCache["images/cat.png"];
 ```
 The textures are stored in a WebGL compatible format that’s efficient
 for Pixi’s renderer to work with. You can then use Pixi’s `Sprite` class to make a new sprite using the texture.
-```
+```js
 var texture = PIXI.utils.TextureCache["images/anySpriteImage.png"];
 var sprite = new PIXI.Sprite(texture);
 ```
 But how do you load the image file and convert it into a texture? You
 can use Pixi’s built-in `loader` object to help you do this. Here’s how to use it to load an
 image and call a function called `setup` when it’s ready to create the sprite:
-```
+```js
 PIXI.loader
   .add("images/cat.png")
   .load(setup);
@@ -495,7 +495,7 @@ function setup() {
 ```
 You can load multiple images at single time by listing them with
 chainable `add` methods, like this:
-```
+```js
 PIXI.loader
   .add("images/imageOne.png")
   .add("images/imageTwo.png")
@@ -504,7 +504,7 @@ PIXI.loader
 ```
 Better yet, just list all the files you want to load in
 an array inside a single `add` method, like this:
-```
+```js
 PIXI.loader
   .add([
     "images/imageOne.png",
@@ -525,13 +525,13 @@ are two more things you have to do before you can actually see it on
 the canvas:
 
 -1. You need to add the sprite to Pixi's stage with the `stage.addChild` method, like this:
-```
+```js
 stage.addChild(cat);
 ```
 The stage is the main container that holds all of your sprites.
 
 -2. You need to tell Pixi's `renderer` to render the stage.
-```
+```js
 renderer.render(stage);
 ```
 **None of your sprites will be visible before you do these two
@@ -545,7 +545,7 @@ folder you'll find a 64 by 64 pixel PNG image of a cat.
 
 Here's the All the JavaScript code you to load the image, create a
 sprite, and display it on Pixi's stage:
-```
+```js
 var stage = new PIXI.Container(),
     renderer = PIXI.autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
@@ -577,11 +577,11 @@ When this code runs, here's what you'll see:
 Now we're getting somewhere!
 
 If you ever need to remove a sprite from the stage, use the `removeChild` method:
-```
+```js
 stage.removeChild(anySprite)
 ```
 But usually setting a sprite’s `visible` property to `false` will be a simpler and more efficient way of making sprites disappear.
-```
+```js
 anySprite.visible = false;
 ```
 <a id='usingaliases'></a>
@@ -593,11 +593,11 @@ use frequently. For example, is `PIXI.utils.TextureCache` too much to
 type? I think so, especially in a big project where you might use it
 it dozens of times. So, create a shorter alias that points to it, like
 this:
-```
+```js
 var TextureCache = PIXI.utils.TextureCache
 ```
 Then, use that alias in place of the original, like this:
-```
+```js
 var texture = TextureCache["images/cat.png"];
 ```
 In addition to letting you write more succinct code, using aliases has
@@ -611,7 +611,7 @@ rearrange the furniture a bit, you'll be one step ahead of them!
 
 To see how to do this, let's re-write the code we wrote to load an image and display it,
 using aliases for all the Pixi objects and methods.
-```
+```js
 //Aliases
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
@@ -664,11 +664,11 @@ After an image or file has been loaded, you can access it in the `loader.resourc
 Each image resource has a `texture` property that lets you access its
 texture. That means you can access an image texture on the
 `loader.resources` object like this:
-```
+```js
 PIXI.loader.resources["images/cat.png"].texture
 ```
 So, if you want to, create a sprite and assign its texture like this:
-```
+```js
 var cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
 ```
 Just so you know!
@@ -680,12 +680,12 @@ Alternatively, you can use Pixi’s `Texture.fromImage` method to load
 and create the texture in a single step.
 You don't have to use the `loader` object at all!
 `fromImage` will load the image for you automatically from its file location if it’s not already in the cache.
-```
+```js
 var texture = PIXI.Texture.fromImage(“images/cat.png”);
 ```
 You can also use `fromImage` on the `Spirte` class to quickly create
 a sprite from an image file - also without needing to use the loader.
-```
+```js
 var cat = PIXI.Sprite.fromImage("images/cat.png");
 ```
 This means, if you want to be lazy, you can use `fromImage` to create
@@ -707,19 +707,19 @@ a texture that’s been pre-loaded into Pixi’s texture cache. But if for
 some reason you need to make a texture from a regular JavaScript
 `Image`
 object, you can do that using Pixi’s `BaseTexture` class:
-```
+```js
 var base = new PIXI.BaseTexture(anyImageObject),
     texture = new PIXI.Texture(base),
     sprite = new PIXI.Sprite(texture);
 ```
 You can use `BaseTexture.fromCanvas` if you want to make a texture
 from any existing canvas element:
-```
+```js
 var base = new PIXI.BaseTexture.fromCanvas(anyCanvasElement),
 ```
 If you want to change the texture the sprite is displaying, use the
 `texture` property. Set it to any `Texture` object, like this:
-```
+```js
 anySprite.texture = PIXI.utils.TextureCache["anyTexture.png"]);
 ```
 You can use this technique to interactively change the sprite’s
@@ -732,14 +732,14 @@ It's possible to assign a unique name to each resource you want to
 load. Just supply the name (a string) as the first argument in the
 `add` method. For example, here's how to name an image of a cat as
 `catImage`.
-```
+```js
 PIXI.loader
   .add("catImage", "images/cat.png")
   .load(setup);
 ```
 This creates an object called `catImage` in `loader.resources`.
 That means you can create a sprite by referencing the `catImage` object, like this:
-```
+```js
 var cat = new PIXI.Sprite(PIXI.loader.resources.catImage.texture);
 ```
 However, I recommend you don't use this feature! That's because you'll
@@ -753,12 +753,12 @@ examples is simpler and less error prone.
 Pixi's loader has a special `progress` event that will call a
 customizable function that will run each time a file loads. `progress` events are called by the
 loader's `on` method, like this:
-```
+```js
 PIXI.loader.on("progress", loadProgressHandler);
 ```
 Here's how to include the `on` method in the loading chain, and call
 a user-definable function called `loadProgressHandler` each time a file loads.
-```
+```js
 PIXI.loader
   .add([
     "images/one.png",
@@ -779,7 +779,7 @@ function setup() {
 Each time one of the files loads, the progress event calls
 `loadProgressHandler` to display "loading" in the console. When all three files have loaded, the `setup`
 function will run. Here's the output of the above code in the console:
-```
+```js
 loading
 loading
 loading
@@ -789,7 +789,7 @@ That's neat, but it gets better. You can also find out exactly which file
 has loaded and what percentage of overall files are have currently
 loaded. You can do this by adding optional `loader` and
 `resource` parameters to the `loadProgressHandler`, like this:
-```
+```js
 function loadProgressHandler(loader, resource) { //...
 ```
 You can then use `resource.url` to find the file that's currently
@@ -798,7 +798,7 @@ that you might have assigned to the file, as the first argument in the
 `add` method.) And you can use `loader.progress` to find what
 percentage of total resources have currently loaded. Here's some code
 that does just that.
-```
+```js
 PIXI.loader
   .add([
     "images/one.png",
@@ -826,7 +826,7 @@ function setup() {
 }
 ```
 Here's what this code will display in the console when it runs:
-```
+```js
 loading: images/one.png
 progress: 33.333333333333336%
 loading: images/two.png
@@ -852,7 +852,7 @@ take a quick bird-eye view of it's usage to
 get you started.
 
 The loader's chainable `add` method takes 4 basic arguments:
-```
+```js
 add(name, url, optionObject, callbackFunction)
 ```
 Here's what the loader's source code documentation has to say about
@@ -872,13 +872,13 @@ load.)
 
 Here are some examples of some ways you could use the `add`
 method to load files. This first are what the docs call the loader's "normal syntax":
-```
+```js
 .add('key', 'http://...', function () {})
 .add('http://...', function () {})
 .add('http://...')
 ```
 And these are the loader's "object syntax":
-```
+```js
 .add({
   name: 'key2',
   url: 'http://...'
@@ -902,7 +902,7 @@ And these are the loader's "object syntax":
 ```
 You can also pass the `add` method an array of object, or urls, or
 both:
-```
+```js
 .add([
   {name: 'key4', url: 'http://...', onComplete: function () {} },
   {url: 'http://...', onComplete: function () {} },
@@ -927,13 +927,13 @@ the top left corner. The cat has an `x` position of
 0 and a `y` position of 0. You can change the position of the cat by
 changing the values of is `x` and `y` properties. Here's how you can center the cat in the stage by
 setting its `x` and `y` property values to 96.
-```
+```js
 cat.x = 96;
 cat.y = 96;
 ```
 Add these two lines of code anywhere inside the `setup`
 function, after you've created the sprite. 
-```
+```js
 function setup() {
 
   //Create the `cat` sprite from the texture
@@ -972,7 +972,7 @@ be at the very top of the stage.
 
 Instead of setting the sprite's `x` and `y` properties independently,
 you can set them together in a single like of code, like this:
-```
+```js
 sprite.position.set(x, y)
 ```
 <a id='sizenscale'></a>
@@ -982,12 +982,12 @@ Size and scale
 You can change a sprite's size by setting its `width` and `height`
 properties. Here's how to give the cat a `width` of 80 pixels and a `height` of
 120 pixels.
-```
+```js
 cat.width = 80;
 cat.height = 120;
 ```
 Add those two lines of code to the `setup` function, like this:
-```
+```js
 function setup() {
 
   //Create the `cat` sprite from the texture
@@ -1018,7 +1018,7 @@ change, only its width and height.
 Sprites also have `scale.x` and `scale.y` properties that change the
 sprite's width and height proportionately. Here's how to set the cat's
 scale to half size:
-```
+```js
 cat.scale.x = 0.5;
 cat.scale.y = 0.5;
 ```
@@ -1026,13 +1026,13 @@ Scale values are numbers between 0 and 1 that represent a
 percentage of the sprite's size. 1 means 100% (full size), while
 0.5 means 50% (half size). You can double the sprite's size by setting
 its scale values to 2, like this:
-```
+```js
 cat.scale.x = 2;
 cat.scale.y = 2;
 ```
 Pixi has an alternative, concise way for you set sprite's scale in one
 line of code using the `scale.set` method.
-```
+```js
 cat.scale.set(0.5, 0.5);
 ```
 If that appeals to you, use it!
@@ -1044,7 +1044,7 @@ Rotation
 You can make a sprite rotate by setting its `rotation` property to a
 value in [in
 radians](http://www.mathsisfun.com/geometry/radians.html).
-```
+```js
 cat.rotation = 0.5;
 ```
 But around which point does that rotation happen?
@@ -1061,7 +1061,7 @@ You can see that the anchor point, the cat’s left ear, is the center of the im
 What if you want the sprite to rotate around its center? Change the
 sprite’s `anchor` point so that it’s centered inside the sprite, like
 this:
-```
+```js
 cat.anchor.x = 0.5;
 cat.anchor.y = 0.5;
 ```
@@ -1078,7 +1078,7 @@ is an important side-effect to remember!
 
 Just like with `position` and `scale`, you can set the anchor’s x and
 y values with one line of code like this:
-```
+```js
 sprite.anchor.set(x, y)
 ```
 Sprites also have a `pivot` property which works in a similar way to
@@ -1087,7 +1087,7 @@ of the sprite's x/y origin point. If you change the pivot point and
 then rotate the sprite, it will
 rotate around that origin point. For example, the following code will
 set the sprite's `pivot.x` point to 32, and its `pivot.y` point to 32
-```
+```js
 cat.pivot.set(32, 32)
 ```
 Assuming that the sprite is 64x64 pixels, the sprite will now rotate
@@ -1124,7 +1124,7 @@ the tileset.
 
 Let's look at the code that does this. First, load the `tileset.png` image
 with Pixi’s `loader`, just as you've done in earlier examples.
-```
+```js
 loader
   .add("images/tileset.png")
   .load(setup);
@@ -1132,7 +1132,7 @@ loader
 Next, when the image has loaded, use a rectangular sub-section of the tileset to create the
 sprite’s image. Here's the code that extracts the sub image, creates
 the rocket sprite, and positions and displays it on the canvas.
-```
+```js
 function setup() {
 
   //Create the `tileset` sprite from the texture
@@ -1166,7 +1166,7 @@ object for defining rectangular shapes. It takes four arguments. The
 first two arguments define the rectangle's `x` and `y` position. The
 last two define its `width` and `height`. Here's the format
 for defining a new `Rectangle` object.
-```
+```js
 var rectangle = new PIXI.Rectangle(x, y, width, height);
 ```
 The rectangle object is just a *data object*; it's up to you to decide how you want to use it. In
@@ -1176,12 +1176,12 @@ property called `frame` that can be set to any `Rectangle` objects.
 The `frame` crops the texture to the dimensions of the `Rectangle`.
 Here's how to use `frame`
 to crop the texture to the size and position of the rocket.
-```
+```js
 var rectangle = new Rectangle(192, 128, 64, 64);
 texture.frame = rectangle;
 ```
 You can then use that cropped texture create the sprite:
-```
+```js
 var rocket = new Sprite(texture);
 ```
 And that's how it works!
@@ -1243,7 +1243,7 @@ The JSON file describes the name, size and position of each of the
 sub-images
 in the tileset. Here’s an excerpt that describes the blob monster
 sub-image.
-```
+```js
 "blob.png":
 {
 	"frame": {"x":55,"y":2,"w":32,"h":24},
@@ -1288,7 +1288,7 @@ To get the texture atlas into Pixi, load it using Pixi’s
 `loader` will interpret the data and create a texture from each
 frame on the tileset automatically.  Here’s how to use the `loader` to load the `treasureHunter.json`
 file. When it has loaded, the `setup` function will run.
-```
+```js
 loader
   .add("images/treasureHunter.json")
   .load(setup);
@@ -1326,7 +1326,7 @@ use the last one - it's less work!
 Here's how you could use these three different sprite creation
 techniques in the `setup` function to create and display the
 `dungeon`, `exlplorer` and `treasure` sprites.
-```
+```js
 //Define any variables that might be used in more
 //than one function
 var dungeon, explorer, treasure;
@@ -1370,7 +1370,7 @@ The stage dimensions are 512 by 512 pixels, and you can see in the
 code above that the `stage.height` and `stage.width` properties are used
 to align the sprites. Here's how the `explorer`'s `y` position is
 vertically centered:
-```
+```js
 explorer.y = stage.height / 2 - explorer.height / 2;
 ```
 Learning to create and display sprites using a texture atlas is an
@@ -1388,7 +1388,7 @@ code so you can see everything in its proper context.
 `examples/spriteFromTextureAtlas.html` file in this repository.)
 Notice that the `blob` sprites are created and added to the stage in
 loop, and assigned random positions.
-```
+```js
 <!doctype html>
 <meta charset="utf-8">
 <title>Make a sprite from a texture atlas</title>
@@ -1493,7 +1493,7 @@ function randomInt(min, max) {
 ```
 You can see in the code above that all the blobs are created using a
 `for` loop. Each `blob` is spaced evenly along the `x` axis like this:
-```
+```js
 var x = spacing * i + xOffset;
 blob.x = x;
 ```
@@ -1506,7 +1506,7 @@ an evenly spaced line of blob monsters, from left to right, along the dungeon fl
 
 Each `blob` is also given a random `y` position. Here's the code that
 does this:
-```
+```js
 var y = randomInt(0, stage.height - blob.height);
 blob.y = y;
 ```
@@ -1514,16 +1514,16 @@ The `blob`'s `y` position could be assigned any random number between 0 and
 512, which is the value of `stage.height`. This works with the help of
 a custom function called `randomInt`. `randomInt` returns a random number
 that's within a range between any two numbers you supply.
-```
+```js
 randomInt(lowestNumber, highestNumber)
 ```
 That means if you want a random number between 1 and 10, you can get
 one like this:
-```
+```js
 var randomNumber = randomInt(1, 10);
 ```
 Here's the `randomInt` function definition that does all this work:
-```
+```js
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
