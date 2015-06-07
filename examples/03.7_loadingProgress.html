@@ -46,9 +46,9 @@ function setup() {
   console.log("setup"); 
 
   //Create the sprites
-  var cat = new Sprite(TextureCache["images/cat.png"]),
-      blob = new Sprite(TextureCache["images/blob.png"]),
-      explorer = new Sprite(TextureCache["images/explorer.png"]);
+  var cat = new Sprite.fromImage("images/cat.png"),
+      blob = new Sprite.fromImage("images/blob.png"),
+      explorer = new Sprite.fromImage("images/explorer.png");
 
   //Add the sprites to the stage
   stage.addChild(cat);

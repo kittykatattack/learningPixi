@@ -26,8 +26,10 @@ loader
 //This `setup` function will run when the image has loaded
 function setup() {
 
-  //Create the `cat` sprite from the texture
-  var cat = new Sprite(TextureCache["images/cat.png"]);
+  var cat = new Sprite.fromImage("images/cat.png");
+  
+  //You can also creat `cat` sprite from the texture, like this:
+  //var cat = new Sprite(TextureCache["images/cat.png"]);
 
   /*
   //Everything that Pixi loads is in the `loader.resources` object

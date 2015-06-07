@@ -27,7 +27,7 @@ loader
 function setup() {
 
   //Create the `cat` sprite from the texture
-  var cat = new Sprite(TextureCache["images/cat.png"]);
+  var cat = new Sprite.fromImage("images/cat.png");
 
   //Add the cat to the stage
   stage.addChild(cat);

@@ -15,13 +15,12 @@ the Pixi rendering engine.
 5. [Loading images into the texture cache](#loading)
 6. [Displaying sprites](#displaying)
   1. [Using Aliases](#usingaliases)
- 2. [A little more about loading things](#alittlemoreaboutloadingthings)
+  2. [A little more about loading things](#alittlemoreaboutloadingthings)
     1.[The loader.resources object](#theloaderresourcesobject)
-    2.[Automatically loading a texture with Texture.fromImage](#automaticallyloadingatexturewithtexturefromimage)
-    3.[Make a sprite from an ordinary JavaScript Image object or Canvas](#makeaspritefromanordinaryjavascriptimageobject)
-    4.[Assigning a name to a loaded file](#assigninganametoaloadingfile)
-    5.[Monitoring load progress](#monitoringloadprogress)
-    6.[More about Pixi's loader](#moreaboutpixisloader)
+    2.[Make a sprite from an ordinary JavaScript Image object or Canvas](#makeaspritefromanordinaryjavascriptimageobject)
+    3.[Assigning a name to a loaded file](#assigninganametoaloadingfile)
+    4.[Monitoring load progress](#monitoringloadprogress)
+    5.[More about Pixi's loader](#moreaboutpixisloader)
 7. [Positioning sprites](#positioning)
 8. [Size and scale](#sizenscale)
 9. [Rotation](#rotation)
@@ -212,7 +211,7 @@ Now you can start working with Pixi!
 ### Installing Pixi with Git
 
 You can also use Git to install use Pixi. (What is **git**? If you don't know [you can find out
-here](http://www.kittykatattack.com/#gettingstartedwithgit).) This has some advantages:
+here](https://github.com/kittykatattack/learningGit).) This has some advantages:
 you can just run `git pull` from the command line to updated Pixi to
 the latest version. And, if you think you've found a bug in Pixi, 
 you can fix it and submit a pull request to have the bug fix added to the main repository.
@@ -292,10 +291,10 @@ automatically generates an HTML `<canvas>` element and figures out how
 to display your images on the canvas. You then need to create a
 special Pixi `Container` object called the `stage`. As you'll see
 ahead, this stage object is going to be used as the root container
-that hold all the thing you want Pixi to display. 
+that holds all the things you want Pixi to display. 
 
 Here’s the code you need to write to create a `renderer`
-and `stage`. Add this code in your HTML document between the `<script>` tags:
+and `stage`. Add this code to your HTML document between the `<script>` tags:
 ```js
 //Create the renderer
 var renderer = PIXI.autoDetectRenderer(256, 256);
@@ -411,6 +410,13 @@ renderer.view.style.width = window.innerWidth + "px";
 renderer.view.style.height = window.innerHeight + "px";
 renderer.view.style.display = "block";
 ```
+But, if you do that, make sure you also set the default padding and
+margins to 0 on all your HTML elements with this bit of CSS code:
+```html
+<style>* {padding: 0; margin: 0}</style>
+```
+(The asterisk, *, in the code above, is the CSS "universal selector",
+which just means "all the tags".)
 
 <a id='sprites'></a>
 Pixi sprites
@@ -481,6 +487,12 @@ for Pixi’s renderer to work with. You can then use Pixi’s `Sprite` class to 
 var texture = PIXI.utils.TextureCache["images/anySpriteImage.png"];
 var sprite = new PIXI.Sprite(texture);
 ```
+But because this is such a common thing do, the `Sprite` class has a
+`fromImage` method that let you make a sprite directly from the
+texture, like this:
+```
+var sprite = new PIXI.Sprite.fromImage("images/anySpriteImage.png");
+```
 But how do you load the image file and convert it into a texture? You
 can use Pixi’s built-in `loader` object to help you do this. Here’s how to use it to load an
 image and call a function called `setup` when it’s ready to create the sprite:
@@ -513,8 +525,18 @@ PIXI.loader
   ])
   .load(setup);
 ```
-(The `loader` also lets you load JSON files, which you'll learn
-about ahead.)
+The `loader` also lets you load JSON files, which you'll learn
+about ahead.
+
+(Note: If `Sprite.fromImage` detects that the texture you're trying to
+load isn't already in Pixi's texture cache, it will helpfully try and load it
+for you automatically, without you needing to use the loader. However,
+  I suggest you don't use this feature and always pre-load a texture with Pixi's loader. That's so that you
+  have a guarantee that the texture truly has loaded. If you write
+  some code that tries to access a texture that hasn't fully loaded,
+  you could encounter all kinds of strange errors. Pixi also a
+  `Texture` class with a `fromImage` method that works in the same
+  way.)
 
 <a id='displaying'></a>
 Displaying sprites
@@ -559,8 +581,7 @@ PIXI.loader
 function setup() {
 
   //Create the `cat` sprite from the texture
-  var texture = PIXI.utils.TextureCache["images/cat.png"],
-      cat = new PIXI.Sprite(texture);
+  var cat = new Sprite.fromImage("images/cat.png");
 
   //Add the cat to the stage
   stage.addChild(cat);
@@ -633,7 +654,7 @@ loader
 function setup() {
 
   //Create the `cat` sprite, add it to the stage, and render it
-  var cat = new Sprite(TextureCache["images/cat.png"]);
+  var cat = new Sprite.fromImage("images/cat.png");
   stage.addChild(cat);
   renderer.render(stage);
 }
@@ -673,32 +694,6 @@ var cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
 ```
 Just so you know!
 
-<a id='automaticallyloadingatexturewithtexturefromimage'></a>
-####Automatically loading a texture with `fromImage`
-
-Alternatively, you can use Pixi’s `Texture.fromImage` method to load
-and create the texture in a single step.
-You don't have to use the `loader` object at all!
-`fromImage` will load the image for you automatically from its file location if it’s not already in the cache.
-```js
-var texture = PIXI.Texture.fromImage(“images/cat.png”);
-```
-You can also use `fromImage` on the `Spirte` class to quickly create
-a sprite from an image file - also without needing to use the loader.
-```js
-var cat = PIXI.Sprite.fromImage("images/cat.png");
-```
-This means, if you want to be lazy, you can use `fromImage` to create
-your textures and sprites without having to pre-load the
-images. However,
-loading and creating a texture using `fromImage` like this doesn't
-allow you to make sure all your images have
-loaded before the game or application starts. If you try and access
-or use a sprite in your game code before the image has fully loaded, things won't work and you're going to get errors. So
-my advice is: don't use `fromImage`; just pre-load all the images
-with the `loader` object, like we did in the first
-examples. It will make things easier for you in the long run.
-
 <a id='makeaspritefromanordinaryjavascriptimageobject'></a>
 ####Make a sprite from an ordinary JavaScript Image object or Canvas
 
@@ -706,7 +701,8 @@ For optimization and efficiency it’s always best to make a sprite from
 a texture that’s been pre-loaded into Pixi’s texture cache. But if for
 some reason you need to make a texture from a regular JavaScript
 `Image`
-object, you can do that using Pixi’s `BaseTexture` class:
+object, you can do that using Pixi’s `BaseTexture` and `Texture`
+classes:
 ```js
 var base = new PIXI.BaseTexture(anyImageObject),
     texture = new PIXI.Texture(base),
@@ -912,7 +908,10 @@ both:
 (Note: If you ever need to reset the loader to load a new batch of files, call the
 loader's `reset` method: `PIXI.loader.reset();`)
 
-Pixi's loader has many more advanced features, including options to let you load and parse binary files of all types. [Make sure to check out the loader's Github repository
+Pixi's loader has many more advanced features, including options to
+let you load and parse binary files of all types. This is not
+something you'll need to do on a day-to-day basis, and way outside the
+scope of this tutorial, so [make sure to check out the loader's GitHub repository
 for more information](https://github.com/englercj/resource-loader).
 
 <a id='positioning'></a>
@@ -936,8 +935,8 @@ function, after you've created the sprite.
 ```js
 function setup() {
 
-  //Create the `cat` sprite from the texture
-  var cat = new Sprite(TextureCache["images/cat.png"]);
+  //Create the `cat` sprite
+  var cat = new Sprite.fromImage("images/cat.png");
 
   //Change the sprite's position
   cat.x = 96;
@@ -990,9 +989,8 @@ Add those two lines of code to the `setup` function, like this:
 ```js
 function setup() {
 
-  //Create the `cat` sprite from the texture
-  var texture = TextureCache["images/cat.png"],
-      cat = new Sprite(texture);
+  //Create the `cat` sprite
+  var cat = new Sprite.fromImage("images/cat.png");
 
   //Change the sprite's position
   cat.x = 96;
@@ -1161,7 +1159,7 @@ function setup() {
 ```
 How does this work?
 
-Pixi has a built-in `Rectangle` object that is a general-purpose
+Pixi has a built-in `Rectangle` object (PIXI.Rectangle) that is a general-purpose
 object for defining rectangular shapes. It takes four arguments. The
 first two arguments define the rectangle's `x` and `y` position. The
 last two define its `width` and `height`. Here's the format
@@ -1180,7 +1178,7 @@ to crop the texture to the size and position of the rocket.
 var rectangle = new Rectangle(192, 128, 64, 64);
 texture.frame = rectangle;
 ```
-You can then use that cropped texture create the sprite:
+You can then use that cropped texture to create the sprite:
 ```js
 var rocket = new Sprite(texture);
 ```
@@ -1274,10 +1272,10 @@ Processing Unit) decides how to round fractional pixels values. Should it round 
 way Pixi is displaying it, try changing the texture's scale mode
 algorithm. Here's how: `texture.baseTexture.scaleMode =
 PIXI.SCALE_MODES.NEAREST;`. These glitches can sometimes happen
-because of WebGL floating point rounding errors.)
+because of GPU floating point rounding errors.)
 
 Now that you know how to create a texture atlas, let's find out how to
-load it into you game code.
+load it into your game code.
 
 <a id='loadingatlas'></a>
 Loading the texture atlas
@@ -1386,7 +1384,7 @@ Here's the entire code that does all this. I've also included the HTML
 code so you can see everything in its proper context.
 (You'll find this working code in the
 `examples/spriteFromTextureAtlas.html` file in this repository.)
-Notice that the `blob` sprites are created and added to the stage in
+Notice that the `blob` sprites are created and added to the stage in a
 loop, and assigned random positions.
 ```js
 <!doctype html>
@@ -1533,7 +1531,7 @@ making games - I use it all the time.
 
 WARNING: The rest of this tutorial has not yet been updated to Pixi
 v3.0! I'm working on it, but until then much of the code ahead won't
-work as-is.
+work as-is. Proceed with caution!
 
 <a id='movingsprites'></a>
 Moving Sprites
