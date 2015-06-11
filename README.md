@@ -331,8 +331,8 @@ renderer = PIXI.autoDetectRenderer(
 ```
 This third argument (the options object) is optional - if you're happy with Pixi's default
 settings you can leave it out, and there's usually no need to change
-them. (But, if you need to, see Pixi's documentation on the [canvas
-render](http://pixijs.github.io/docs/PIXI.CanvasRenderer.html#toc1)
+them. (But, if you need to, see Pixi's documentation on the [Canvas
+Render](http://pixijs.github.io/docs/PIXI.CanvasRenderer.html#toc1)
 and
 [WebGLRenderer](http://pixijs.github.io/docs/PIXI.CanvasRenderer.html)
 for more information.)
@@ -342,7 +342,7 @@ What do those options do?
 {antialiasing: false, transparent: false, resolution: 1}
 ```
 `antialiasing` smoothes the edges of fonts and graphic primitives. (WebGL
-Anti-aliasing isn’t available on all platforms, so you’ll need to test
+anti-aliasing isn’t available on all platforms, so you’ll need to test
 this on your game’s target platform.) `transparent` makes the canvas
 background transparent. `resolution` makes it easier to work with
 displays of varying resolutions and pixel densities. Setting
@@ -352,7 +352,7 @@ explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/
 about how to use `resolution` for all the details. But usually, just keep `resolution`
 at 1 for most projects and you'll be fine. 
 
-(Note: There's an additional option called `preserveDrawingBuffer` that
+(Note: The renderer has an additional, fourth, option called `preserveDrawingBuffer` that
 defaults to `false`. The only reason to it set it
 to `true` is if you ever need to call Pixi's specialized `dataToURL`
 method on a WebGL canvas context.)
@@ -366,12 +366,6 @@ renderer = new PIXI.CanvasRenderer(256, 256);
 ```
 Only the first two arguments are required: `width` and `height`.
 
-You can also force Canvas rendering by setting the
-`autoDetectRenderer`'s fourth (optional) `noWebGl` parameter to
-`true`:
-```js
-var renderer = PIXI.autoDetectRenderer(width, height, {}, true);
-```
 You can force WebGL rendering like this:
 ```js
 renderer = new PIXI.WebGLRenderer(256, 256);
@@ -528,7 +522,8 @@ PIXI.loader
 The `loader` also lets you load JSON files, which you'll learn
 about ahead.
 
-(Note: If `Sprite.fromImage` detects that the texture you're trying to
+(Note: You learnt earlier that you can make a sprite using
+`Sprite.fromImage`. If `Sprite.fromImage` detects that the texture you're trying to
 load isn't already in Pixi's texture cache, it will helpfully try and load it
 for you automatically, without you needing to use the loader. However,
   I suggest you don't use this feature and always pre-load a texture with Pixi's loader. That's so that you
@@ -581,7 +576,7 @@ PIXI.loader
 function setup() {
 
   //Create the `cat` sprite from the texture
-  var cat = new Sprite.fromImage("images/cat.png");
+  var cat = new PIXI.Sprite.fromImage("images/cat.png");
 
   //Add the cat to the stage
   stage.addChild(cat);
@@ -637,7 +632,6 @@ using aliases for all the Pixi objects and methods.
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
     loader = PIXI.loader,
-    TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
 //Create a Pixi stage and renderer and add the 
@@ -1304,17 +1298,17 @@ Pixi gives you three alternative ways to create a sprite from texture
 atlas:
 
 -1. Using `TextureCache`:
-```
+```js
 var texture = TextureCache["frameId.png"],
     sprite = new Sprite(texture);
 ```
 -2. Using `Texture.fromFrame`:
-```
+```js
 var texture = Texture.fromFrame("frameId.png"),
     sprite = new Sprite(texture);
 ```
 -3. Using `new Sprite.fromFrame`:
-```
+```js
 var sprite = new Sprite.fromFrame("frameId.png");
 ```
 Which of these three different ways should you use? They have exactly
