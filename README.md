@@ -710,7 +710,7 @@ var base = new PIXI.BaseTexture.fromCanvas(anyCanvasElement),
 If you want to change the texture the sprite is displaying, use the
 `texture` property. Set it to any `Texture` object, like this:
 ```js
-anySprite.texture = PIXI.utils.TextureCache["anyTexture.png"]);
+anySprite.texture = PIXI.utils.TextureCache["anyTexture.png"];
 ```
 You can use this technique to interactively change the sprite’s
 appearance if something significant happens to it in the game.
@@ -867,7 +867,7 @@ method to load files. This first are what the docs call the loader's "normal syn
 .add('http://...', function () {})
 .add('http://...')
 ```
-And these are the loader's "object syntax":
+And these are examples of the loader's "object syntax":
 ```js
 .add({
   name: 'key2',
@@ -964,7 +964,7 @@ be at the very top of the stage.
 ![Cat centered on the stage - diagram](/examples/images/screenshots/04.png)
 
 Instead of setting the sprite's `x` and `y` properties independently,
-you can set them together in a single like of code, like this:
+you can set them together in a single line of code, like this:
 ```js
 sprite.position.set(x, y)
 ```
@@ -1034,8 +1034,7 @@ Rotation
 --------
 
 You can make a sprite rotate by setting its `rotation` property to a
-value in [in
-radians](http://www.mathsisfun.com/geometry/radians.html).
+value in [radians](http://www.mathsisfun.com/geometry/radians.html).
 ```js
 cat.rotation = 0.5;
 ```
@@ -1132,7 +1131,7 @@ function setup() {
 
   //Create a rectangle object that defines the position and
   //size of the sub-image you want to extract from the texture
-  var rectangle = new Rectangle(192, 128, 64, 64);
+
 
   //Tell the texture to use that rectangular section
   texture.frame = rectangle;
@@ -1317,7 +1316,7 @@ use the last one - it's less work!
 
 Here's how you could use these three different sprite creation
 techniques in the `setup` function to create and display the
-`dungeon`, `exlplorer` and `treasure` sprites.
+`dungeon`, `explorer`, and `treasure` sprites.
 ```js
 //Define any variables that might be used in more
 //than one function
