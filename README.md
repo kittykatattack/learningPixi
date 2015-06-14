@@ -1085,6 +1085,12 @@ Assuming that the sprite is 64x64 pixels, the sprite will now rotate
 around its center point. But remember: if you change a sprite's pivot
 point, you've also changed its x/y origin point. 
 
+So, what's the difference between `anchor` and `pivot`? They're very
+similar! `anchor` shifts the origin point of the sprite's image texture, using a 0 to 1 normalized value.
+`pivot` shifts the origin of the sprite's x and y point, using pixel
+values. Which should you use? It's up to you. Just play around
+with both of them and see which you prefer.
+
 <a id='tileset'></a>
 Make a sprite from a tileset sub-image
 --------------------------------------
