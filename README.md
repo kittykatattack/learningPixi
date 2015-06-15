@@ -273,7 +273,7 @@ Object { VERSION: "3.0.3" ...
 You can also install Pixi using [Node](https://nodejs.org) and [Gulp](http://gulpjs.com). If you need
 to do a custom build of Pixi to include or exclude certain features,
 this is the route you should take. [See Pixi's GitHub repository for
-details on how.](https://github.com/GoodBoyDigital/pixi.js). But, in general
+details on how](https://github.com/GoodBoyDigital/pixi.js). But, in general
 there's no need to do this.
 
 <a id='renderer'></a>
@@ -1085,7 +1085,7 @@ Assuming that the sprite is 64x64 pixels, the sprite will now rotate
 around its center point. But remember: if you change a sprite's pivot
 point, you've also changed its x/y origin point. 
 
-So, what's the difference between `anchor` and `pivot`? They're very
+So, what's the difference between `anchor` and `pivot`? They're really
 similar! `anchor` shifts the origin point of the sprite's image texture, using a 0 to 1 normalized value.
 `pivot` shifts the origin of the sprite's x and y point, using pixel
 values. Which should you use? It's up to you. Just play around
@@ -1528,10 +1528,6 @@ function randomInt(min, max) {
 `randomInt` is a great little function to keep in your back pocket for
 making games - I use it all the time.
 
-WARNING: The rest of this tutorial has not yet been updated to Pixi
-v3.0! I'm working on it, but until then much of the code ahead won't
-work as-is. Proceed with caution!
-
 <a id='movingsprites'></a>
 Moving Sprites
 --------------
@@ -1542,7 +1538,7 @@ This is called a **game loop**.
 Any code you put inside the game loop will update 60 times per
 second. Here's some code you could write to make the `cat` sprite move
 at a rate  of 1 pixel per frame.
-```
+```js
 function gameLoop() {
 
   //Loop this function at 60 frames per second
@@ -1569,31 +1565,33 @@ the sprite to animate in the opposite direction (to the left), just give it a
 negative value, like -1.
 You'll find this code in the `movingSprites.html` file - here's the
 complete code:
-```
-//Create a Pixi stage and renderer
-var stage = new PIXI.Stage(0x000000);
-var renderer = PIXI.autoDetectRenderer(
-  256, 256,
-  {antialiasing: false, transparent: false, resolution: 1}
-);
+```js
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    Sprite = PIXI.Sprite;
+
+//Create a Pixi stage and renderer 
+var stage = new Container(),
+    renderer = autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
 
-//Load an image
-var loader = new PIXI.AssetLoader(["images/cat.png"]);
-loader.onComplete = setup;
-loader.load();
+//Load an image and the run the `setup` function
+loader
+  .add("images/cat.png")
+  .load(setup);
 
 //Define any variables that are used in more than one function
 var cat;
 
 function setup() {
 
-  //Create the `cat` sprite
-  var texture = PIXI.TextureCache["images/cat.png"];
-  cat = new PIXI.Sprite(texture);
-  cat.y = 96;
+  //Create the `cat` sprite 
+  cat = new Sprite.fromImage("images/cat.png");
+  cat.y = 96; 
   stage.addChild(cat);
-
+ 
   //Start the game loop
   gameLoop();
 }
@@ -1616,6 +1614,10 @@ function gameLoop(){
 
 You can animate a sprite's scale, rotation, or size - whatever! You'll see
 many more examples of how to animate sprites ahead.
+
+**WARNING: The rest of this tutorial has not yet been updated to Pixi
+v3.0! I'm working on it, but until then much of the code ahead won't
+work as-is. Proceed with caution!**
 
 <a id='velocity'></a>
 Using velocity properties

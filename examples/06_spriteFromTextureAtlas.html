@@ -19,7 +19,7 @@ var stage = new Container(),
     renderer = autoDetectRenderer(512, 512);
 document.body.appendChild(renderer.view);
 
-//load an image and run the `setup` function when it's done
+//load a JSON file and run the `setup` function when it's done
 loader
   .add("images/treasureHunter.json")
   .load(setup);
