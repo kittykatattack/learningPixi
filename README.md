@@ -1615,10 +1615,6 @@ function gameLoop(){
 You can animate a sprite's scale, rotation, or size - whatever! You'll see
 many more examples of how to animate sprites ahead.
 
-**WARNING: The rest of this tutorial has not yet been updated to Pixi
-v3.0! I'm working on it, but until then much of the code ahead won't
-work as-is. Proceed with caution!**
-
 <a id='velocity'></a>
 Using velocity properties
 -------------------------
@@ -1634,7 +1630,7 @@ extra bit of modularity that you'll need for interactive game animation.
 
 The first step is to create `vx` and `vy` properties on your sprite,
 and give them an initial value.
-```
+```js
 cat.vx = 0;
 cat.vy = 0;
 ```
@@ -1645,18 +1641,17 @@ that you want the sprite to move at. Then assign those values to the
 sprite's `x` and `y` properties. Here's how you could use this
 technique to make the cat sprite move down and to right at one pixel each
 frame:
-```
+```js
 function setup() {
 
-  //Create the `cat` sprite
-  var texture = PIXI.TextureCache["images/cat.png"];
-  cat = new PIXI.Sprite(texture);
+  //Create the `cat` sprite 
+  cat = Sprite.fromImage("images/cat.png");
   stage.addChild(cat);
 
   //Initialize the cat's velocity variables
   cat.vx = 0;
   cat.vy = 0;
-
+ 
   //Start the game loop
   gameLoop();
 }
@@ -1670,7 +1665,7 @@ function gameLoop(){
   cat.vx = 1;
   cat.vy = 1;
 
-  //Apply the velocity values to the cat's
+  //Apply the velocity values to the cat's 
   //position to make it move
   cat.x += cat.vx;
   cat.y += cat.vy;
@@ -1679,14 +1674,16 @@ function gameLoop(){
   renderer.render(stage);
 }
 
+
 ```
 When you run this code, the cat will move down and to the right at one
 pixel per frame:
 
 ![Moving sprites](/examples/images/screenshots/16.png)
 
-To make the cat move to the right, give it a `vx` value of -1. To make
-it move up, give the cat a `vy` value of -1.
+What if you want to make the cat move in a different direction? To make the cat move to the left, give it a `vx` value of -1. To make
+it move up, give the cat a `vy` value of -1. To make the cat move
+faster, give it larger `vx` and `vy` values, like 3, 5, -2, or -4.
 
 You'll see ahead how modularizing a sprite's velocity with `vx` and
 `vy` velocity properties helps with keyboard and mouse pointer
@@ -1698,8 +1695,8 @@ Game states
 
 As a matter of style, and to help modularize your code, I
 recommend structuring your game loop like this:
-```
-//Set the game's current state to *play*:
+```js
+//Set the game's current state to `play`:
 var state = play;
 
 function gameLoop() {
@@ -1722,28 +1719,27 @@ function play() {
 ```
 You can see that the `gameLoop` is calling a function called `state` 60 times
 per second. What is the `state` function? It's been assigned to
-`play`. That means all the code in the `play` function will run at 60
+`play`. That means all the code in the `play` function will also run at 60
 times per second.
 
 Here's how the code from the previous example can be re-factored to
 this new model:
-```
+```js
 //Define any variables that are used in more than one function
 var cat, state;
 
 function setup() {
 
-  //Create the `cat` sprite
-  var texture = PIXI.TextureCache["images/cat.png"];
-  cat = new PIXI.Sprite(texture);
-  cat.y = 96;
+  //Create the `cat` sprite 
+  cat = Sprite.fromImage("images/cat.png");
+  cat.y = 96; 
   cat.vx = 0;
   cat.vy = 0;
   stage.addChild(cat);
 
   //Set the game state
   state = play;
-
+ 
   //Start the game loop
   gameLoop();
 }
@@ -1781,7 +1777,7 @@ With just a little more work you can build a simple system to control
 a sprite using the keyboard. To simplify your code, I suggest you use
 this custom function called `keyboard` that listens for and captures
 keyboard events.
-```
+```js
 function keyboard(keyCode) {
   var key = {};
   key.code = keyCode;
@@ -1820,14 +1816,16 @@ function keyboard(keyCode) {
 }
 ```
 The `keyboard` function is easy to use. Create a new keyboard object like this:
-```
+```js
 var keyObject = keyboard(asciiKeyCodeNumber);
 ```
-[Here's a list of ascii keyboard code
+It's one argument is the ASCII key code number of the keyboad key that you
+want to listen for.
+[Here's a list of ASCII keyboard code
 numbers](http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html).
 
 Then assign `press` and `release` methods to the keyboard object like this:
-```
+```js
 keyObject.press = function() {
   //key object pressed
 };
@@ -1847,12 +1845,11 @@ arrow keys to move the cat around the stage.
 ![Keyboard movement](/examples/images/screenshots/17.png)
 
 Here's the code that does all this:
-```
+```js
 function setup() {
 
   //Create the `cat` sprite
-  var texture = PIXI.TextureCache["images/cat.png"];
-  cat = new PIXI.Sprite(texture);
+  cat = Sprite.fromImage("images/cat.png");
   cat.y = 96;
   cat.vx = 0;
   cat.vy = 0;
@@ -1866,6 +1863,7 @@ function setup() {
 
   //Left arrow key `press` method
   left.press = function() {
+
     //Change the cat's velocity when the key is pressed
     cat.vx = -5;
     cat.vy = 0;
@@ -1873,6 +1871,7 @@ function setup() {
 
   //Left arrow key `release` method
   left.release = function() {
+
     //If the left arrow has been released, and the right arrow isn't down,
     //and the cat isn't moving vertically:
     //Stop the cat
@@ -1921,7 +1920,7 @@ function setup() {
   gameLoop();
 }
 
-function gameLoop(){
+function gameLoop() {
   requestAnimationFrame(gameLoop);
   state();
   renderer.render(stage);
@@ -1939,13 +1938,13 @@ Grouping Sprites
 ----------------
 
 Groups let you create game scenes, and manage similar sprites together
-as single units. Pixi has an object called a `DisplayObjectContainer`
+as single units. Pixi has an object called a `Container`
 that lets you do this. Let's find out how it works.
 
 Imagine that you want to display three sprites: a cat, hedgehog and
 tiger. Create them, and set their positions - *but don't add them to the
 stage*.
-```
+```js
 //The cat
 var cat = new PIXI.Sprite.fromFrame("cat.png");
 cat.position.set(16, 16);
@@ -1961,21 +1960,21 @@ tiger.position.set(64, 64);
 
 Next, create an `animals` container to group them all together like
 this:
-```
-var animals = new PIXI.DisplayObjectContainer();
+```js
+var animals = new Container();
 ```
 Then use `addChild` to *add the sprites to the group*.
-```
+```js
 animals.addChild(cat);
 animals.addChild(hedgehog);
 animals.addChild(tiger);
 ```
 Finally add the group to the stage.
-```
+```js
 stage.addChild(animals);
 renderer.render(stage);
 ```
-(The stage object, by the way, is also a `DisplayObjectContainer`. It’s the root container for all Pixi sprites.)
+(As you know, the `stage` object is also a `Container`. It’s the root container for all Pixi sprites.)
 
 Here's what this code produces:
 
@@ -1994,7 +1993,7 @@ If you need a list of all the child sprites that `animals` contains,
 use its `children` array to find out.
 ```
 console.log(animals.chidren}
-//Displays: [b.Sprite, b.Sprite, b.Sprite]
+//Displays: [Sprite, Sprite, Sprite]
 ```
 This tells you that `animals` has three sprites as children.
 
@@ -2016,7 +2015,7 @@ the down.
 The `animals` group also has its own dimensions, which is based on the area
 occupied by the containing sprites. You can find its `width` and
 `height` values like this:
-```
+```js
 console.log(animals.width);
 //Displays: 112
 
@@ -2027,7 +2026,7 @@ console.log(animals.height);
 ![Group width and height](/examples/images/screenshots/21.png)
 
 What happens if you change a group's width or height?
-```
+```js
 animals.width = 200;
 animals.height = 200;
 ```
@@ -2043,6 +2042,10 @@ you need to. However, a `DisplayObject` (like a `Sprite` or another
 you use `addChild` to make a sprite the child of another object, Pixi
 will automatically remove it from its current parent. That’s a useful
 bit of management that you don’t have to worry about.
+
+**WARNING: The rest of this tutorial has not yet been updated to Pixi
+v3.0! I'm working on it, but until then much of the code ahead won't
+work as-is. Proceed with caution!**
 
 <a id='localnglobal'></a>
 ###Local and global positions
@@ -2062,7 +2065,7 @@ console.log(cat.x);
 16? Yes! That's because the cat is offset by only 16 pixel's from the
 group's top left corner. 16 is the cat's local position.
 
-Sprites also have a ***global position**. The global position is the
+Sprites also have a **global position**. The global position is the
 distance from the top left corner of the stage, to the sprite's anchor
 point (usually the sprite's top left corner.) You can find a sprite's global
 position with the help of the `toGlobal` method.  Here's how:

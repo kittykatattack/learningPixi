@@ -5,18 +5,21 @@
 <script src="../pixi.js/bin/pixi.js"></script>
 <script>
 
-//Create a Pixi stage and renderer
-var stage = new PIXI.Stage(0x000000);
-var renderer = PIXI.autoDetectRenderer(
-  256, 256,
-  {antialiasing: false, transparent: false, resolution: 1}  
-);
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    Sprite = PIXI.Sprite;
+
+//Create a Pixi stage and renderer and add the 
+//renderer.view to the DOM
+var stage = new Container(),
+    renderer = autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
 
-//Load an image
-var loader = new PIXI.AssetLoader(["images/cat.png"]);
-loader.onComplete = setup;
-loader.load();
+loader
+  .add("images/cat.png")
+  .load(setup);
 
 //Define any variables that are used in more than one function
 var cat, state;
@@ -24,8 +27,7 @@ var cat, state;
 function setup() {
 
   //Create the `cat` sprite 
-  var texture = PIXI.TextureCache["images/cat.png"];
-  cat = new PIXI.Sprite(texture);
+  cat = Sprite.fromImage("images/cat.png");
   cat.y = 96; 
   cat.vx = 0;
   cat.vy = 0;
