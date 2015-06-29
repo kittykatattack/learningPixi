@@ -392,17 +392,20 @@ just tell you the area occupied by the things you put inside it - more
 on that ahead!)
 
 To change the size of the canvas, use the `renderer`’s `resize`
-method, and supply any new `width` and `height` values:
+method, and supply any new `width` and `height` values. But, to make
+sure the canvas is resized to match the resolution, set `autoResize`
+to `true`.
 ```js
+renderer.autoResize = true;
 renderer.resize(512, 512);
 ```
 If you want to make the canvas fill the entire window, you can apply this
-CSS styling:
+CSS styling and resize the renderer to the size of the browser window.
 ```
 renderer.view.style.position = "absolute"
-renderer.view.style.width = window.innerWidth + "px";
-renderer.view.style.height = window.innerHeight + "px";
 renderer.view.style.display = "block";
+renderer.autoResize = true;
+renderer.resize(window.innerWidth, window.innerHeight);
 ```
 But, if you do that, make sure you also set the default padding and
 margins to 0 on all your HTML elements with this bit of CSS code:
@@ -411,6 +414,9 @@ margins to 0 on all your HTML elements with this bit of CSS code:
 ```
 (The asterisk, *, in the code above, is the CSS "universal selector",
 which just means "all the tags".)
+
+If you want the canvas to scale proportionally to any browser window
+size, you can use [this custom scaleToWindow function.](https://github.com/kittykatattack/scaleToWindow).
 
 <a id='sprites'></a>
 Pixi sprites
