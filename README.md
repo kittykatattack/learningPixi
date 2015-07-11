@@ -1952,15 +1952,15 @@ tiger. Create them, and set their positions - *but don't add them to the
 stage*.
 ```js
 //The cat
-var cat = new PIXI.Sprite.fromFrame("cat.png");
+var cat = new Sprite.fromFrame("cat.png");
 cat.position.set(16, 16);
 
 //The hedgehog
-var hedgehog = new PIXI.Sprite.fromFrame("hedgehog.png");
+var hedgehog = new Sprite.fromFrame("hedgehog.png");
 hedgehog.position.set(32, 32);
 
 //The tiger
-var tiger = new PIXI.Sprite.fromFrame("tiger.png");
+var tiger = new Sprite.fromFrame("tiger.png");
 tiger.position.set(64, 64);
 ```
 
@@ -1980,7 +1980,8 @@ Finally add the group to the stage.
 stage.addChild(animals);
 renderer.render(stage);
 ```
-(As you know, the `stage` object is also a `Container`. It’s the root container for all Pixi sprites.)
+(As you know, the `stage` object is also a `Container`. It’s the root
+container for all Pixi sprites.)
 
 Here's what this code produces:
 
@@ -1992,14 +1993,14 @@ that's containing the sprites.
 ![Grouping sprites](/examples/images/screenshots/19.png)
 
 You can now treat the `animals` group as a single unit. You can think
-of a `DisplayObjectContainer` as a special kind of sprite that doesn’t
+of a `Container` as a special kind of sprite that doesn’t
 have a texture.
 
 If you need a list of all the child sprites that `animals` contains,
 use its `children` array to find out.
 ```
 console.log(animals.chidren}
-//Displays: [Sprite, Sprite, Sprite]
+//Displays: Array [Object, Object, Object]
 ```
 This tells you that `animals` has three sprites as children.
 
@@ -2041,22 +2042,18 @@ sprites will scale to match that change.
 
 ![Group width and height](/examples/images/screenshots/22.png)
 
-You can nest as many `DisplayObjectContainer`s inside other
-`DisplayObjectContainer`s as you like, to create deep hierarchies if
+You can nest as many `Container`s inside other
+`Container`s as you like, to create deep hierarchies if
 you need to. However, a `DisplayObject` (like a `Sprite` or another
-`DisplayObjectContainer`) can only belong to one parent at a time. If
+`Container`) can only belong to one parent at a time. If
 you use `addChild` to make a sprite the child of another object, Pixi
 will automatically remove it from its current parent. That’s a useful
 bit of management that you don’t have to worry about.
 
-**WARNING: The rest of this tutorial has not yet been updated to Pixi
-v3.0! I'm working on it, but until then much of the code ahead won't
-work as-is. Proceed with caution!**
-
 <a id='localnglobal'></a>
 ###Local and global positions
 
-When you add a sprite to a `DisplayObjectContainer`, its `x` and `y`
+When you add a sprite to a `Container`, its `x` and `y`
 position is *relative to the group’s top left corner*. That's the
 sprite's **local position** For example, what do you think the cat's
 position is in this image?
@@ -2082,16 +2079,14 @@ That means you can find the cat's global position inside the `animals`
 group like this:
 ```
 console.log(animals.toGlobal(cat.position));
-//Displays: b.Point{x: 80, y: 80...};
+//Displays: Object {x: 80, y: 80...};
 ```
 That gives you an `x` and `y` position of 80. That's exactly the cat's
-global position relative to the top left corner of the stage. (If you
-ever need to convert a global position to a local position, you can
-use the `toLocal` method - it works in the same way.)
+global position relative to the top left corner of the stage. 
 
 What if you want to find the global position of a sprite, but don't
 know what the sprite's parent container
-is? Every sprite has a property called `parent` that will what the
+is? Every sprite has a property called `parent` that will tell you what the
 sprite's parent is. If you add a sprite directly to the `stage`, then
 `stage` will be the sprite's parent. In the example above, the `cat`'s
 parent is `animals`. That means you can alternatively get the cat's global position
@@ -2102,38 +2097,107 @@ cat.parent.toGlobal(cat.position);
 And it will work even if you don't know what the cat's parent
 container currently is.
 
+There's one more way to calculate the global position! And, it's
+actually the best way, so heads up! If you want to know the distance
+from the top left corner of the canvas to the sprite, and don't know
+or care what the sprite's parent containers are, use the
+`getGlobalPosition` method. Here's how to use it to find the tiger's global position:
+```js
+tiger.getGlobalPosition().x
+tiger.getGlobalPosition().y
+```
+This will give you `x` and `y` values of 128 in the example that we've
+been using.
+The special thing about `getGlobalPosition` is that it's highly
+precise: it will give you the sprite's accurate global position as
+soon as its local position changes. I asked the Pixi development team
+to add this feature specifically for accurate collision detection for
+games.
+
+What if you want to convert a global position to a local position? you
+can use the `toLocal` method. It works in a similar way, but uses this general format:
+```js
+sprite.toLocal(sprite.position, anyOtherSprite)
+```
+Use `toLocal` to find the distance between a sprite and any other sprite. Here's how you could find out the tiger's local position, relative to the hedgehog.
+```js
+tiger.toLocal(tiger.position, hedgehog).x
+tiger.toLocal(tiger.position, hedgehog).y
+```
+This gives you an `x` value of 32 and a `y` value of 32. You can see in the example images that the tiger's top left corner is 32 pixels down and to the left of the hedgehog's top left corner.
+
 <a id='spritebatch'></a>
-###Using a SpriteBatch to group sprites
+###Using a ParticleContainer to group sprites
 
 Pixi has an alternative, high-performance way to group sprites called
-a `SpriteBatch`. Any sprites inside a `SpriteBatch` will render 2 to 5
+a `ParticleContainer` (`PIXI.ParticleContainer`). Any sprites inside a
+`ParticleContainer` will render 2 to 5
 times faster than they would if they were in a regular
-`DisplayObjectContainer`. It’s a great performance boost for games.
+`Container`. It’s a great performance boost for games.
 
-Create a `SpriteBatch` like this:
+Create a `ParticleContainer` like this:
 ```
-var superFastSprites = new PIXI.SpriteBatch();
+var superFastSprites = new ParticleContainer();
 ```
 Then use `addChild` to add sprites to it, just like you would with any
-ordinary `DisplayObjectContainer`.
+ordinary `Container`.
 
 You have to make some compromises if you decide to use a
-`SpriteBatch`. The `SpriteBatch` only has a few  basic properties:
-`x`, `y`, `width`, `height`, `scale`, `alpha`, `visible` – and that’s
+`ParticleContainer`. Sprites inside a `ParticleContainer` only have a few  basic properties:
+`x`, `y`, `width`, `height`, `scale`, `pivot`, `alpha`, `visible` – and that’s
 about it. Also, the sprites that it contains can’t have nested
-children of their own. A `SpriteBatche` also can’t use Pixi’s advanced
-visual effects like filters and blend modes (you’ll learn about those
-ahead). But for the huge performance boost that you get, those
+children of their own. A `ParticleContainer` also can’t use Pixi’s advanced
+visual effects like filters and blend modes. But for the huge performance boost that you get, those
 compromises are usually worth it. And you can use
-`DisplayObjectContainer`s and `SpriteBatch`s simultaneously in the same project, so you can fine-tune your optimization.
+`Container`s and `ParticleContainers`s simultaneously in the same project, so you can fine-tune your optimization.
 
-Why are sprites in a `SpriteBatch` so fast? Because the positions of
+Why are sprites in a `Particle Container` so fast? Because the positions of
 the sprites are being calculated directly on the GPU. The Pixi
 development team is working to offload as much sprite processing as
 possible on the GPU, so it’s likely that the latest version of Pixi
-that you’re using will have much more feature-rich `SpriteBatch` than
-what I've described here. Check the current [SpriteBatch
-documentation](http://www.goodboydigital.com/pixijs/docs/classes/SpriteBatch.html) for details.
+that you’re using will have much more feature-rich `ParticleContainer` than
+what I've described here. Check the current [`ParticleContainer`
+documentation](http://pixijs.github.io/docs/PIXI.ParticleContainer.html) for details.
+
+Where you create a `ParticleContainer`, there are two optional arguments you can provide: the maximum number of sprites the container can hold, and an options object.
+```js
+var superFastSprites = new ParticleContainer(size, options);
+```
+The default value for size is 15,000. So, if you need to contain more
+sprites, set it to a higher number. The options argument is an object
+with 5 Boolean values you can set: `scale`, `position`, `rotation`, `uvs` and
+`alpha`. The default value of `position` is `true`, but all the others
+are set to `false`. That means that if you want change the `rotation`,
+`scale`, `alpha`, or `uvs` of sprite in the `ParticleContainer`, you
+have to set those properties to `true`, like this:
+```js
+var superFastSprites = new ParticleContainer(
+  size, 
+  {
+    rotation: true,
+    alpha: true,
+    scale: true,
+    uvs: true
+  }
+);
+```
+But, if you don't think you'll need to use these properties, keep them
+set to `false` to squeeze out the maximum amount of performance.
+
+What's the `uvs` option? Only set it to `true` if you have particles
+which change their textures while they're being animated. (All the
+sprite's textures will also need to be on the same tileset image for
+this to work.) 
+
+(Note: UV mapping is a 3D graphics display term that refers to
+the `x` and `y` coordinates of the texture (the image) that is being
+mapped onto a 3D surface. `U` is the `x` axis and `V` is the `y` axis.
+WebGL already uses `x`, `y` and `z` for 3D spatial positioning, so `U`
+and `V` were chosen to represent `x` and `y` for 2D image textures.)
+
+**WARNING: The rest of this tutorial has not yet been updated to Pixi
+v3.0! I'm working on it, but until then much of the code ahead won't
+work as-is. Proceed with caution!**
 
 <a id='graphic'></a>
 Pixi's Graphic Primitives

@@ -83,6 +83,16 @@ function setup() {
   console.log(animals.toGlobal(cat.position));
   //Displays: Point{x: 80, y: 80...};
 
+  //Use `getGlobalPosition` to find the sprite's 
+  //global position
+  console.log("Tiger world x: " + tiger.getGlobalPosition().x);
+  console.log("Tiger world y: " + tiger.getGlobalPosition().y);
+
+  //Use `toLocal` to find a sprite's position relative to another sprite
+  console.log("Tiger local x: " + tiger.toLocal(tiger.position, hedgehog).x);
+  console.log("Tiger local y: " + tiger.toLocal(tiger.position, hedgehog).y);
+  
+  
   //If you don't know what group the sprite belongs to, use the
   //sprite's `parent` property.
   //console.log(cat.parent.toGlobal(cat.position));
