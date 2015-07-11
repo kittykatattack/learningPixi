@@ -5,16 +5,24 @@
 <script src="../pixi.js/bin/pixi.js"></script>
 <script>
 
-//Create a Pixi stage and renderer
-var stage = new PIXI.Stage(0x000000);
-var renderer = PIXI.autoDetectRenderer(
-  256, 256,
-  {antialiasing: false, transparent: false, resolution: 1}  
-);
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    TextureCache = PIXI.utils.TextureCache,
+    Texture = PIXI.Texture,
+    Sprite = PIXI.Sprite,
+    Graphics = PIXI.Graphics;
+
+//Create a Pixi stage and renderer and add the 
+//renderer.view to the DOM
+var stage = new Container(),
+    renderer = autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
 
+
 //Circle
-var circle = new PIXI.Graphics();
+var circle = new Graphics();
 circle.beginFill(0x9966FF);
 circle.drawCircle(0, 0, 32);
 circle.endFill();
@@ -23,7 +31,7 @@ circle.y = 130;
 stage.addChild(circle);
 
 //Rectangle
-var rectangle = new PIXI.Graphics();
+var rectangle = new Graphics();
 rectangle.lineStyle(4, 0xFF3300, 1);
 rectangle.beginFill(0x66CCFF);
 rectangle.drawRect(0, 0, 64, 64);
@@ -33,7 +41,7 @@ rectangle.y = 170;
 stage.addChild(rectangle);
 
 //Line
-var line = new PIXI.Graphics();
+var line = new Graphics();
 line.lineStyle(4, 0xFFFFFF, 1);
 line.moveTo(0, 0);
 line.lineTo(80, 50);
@@ -42,7 +50,7 @@ line.y = 32;
 stage.addChild(line);
 
 //Ellipse
-var ellipse = new PIXI.Graphics();
+var ellipse = new Graphics();
 ellipse.beginFill(0xFFFF00);
 ellipse.drawEllipse(0, 0, 50, 20);
 ellipse.endFill();
@@ -51,7 +59,7 @@ ellipse.y = 130;
 stage.addChild(ellipse);
 
 //Triangle
-var triangle = new PIXI.Graphics();
+var triangle = new Graphics();
 triangle.beginFill(0x66FF33);
 
 //Use `drawPolygon` to define the triangle as an
@@ -73,7 +81,7 @@ triangle.y = 22;
 stage.addChild(triangle);
 
 //Rounded rectangle
-var roundBox = new PIXI.Graphics();
+var roundBox = new Graphics();
 roundBox.lineStyle(4, 0x99CCFF, 1);
 roundBox.beginFill(0xFF9933);
 roundBox.drawRoundedRect(0, 0, 84, 36, 10)

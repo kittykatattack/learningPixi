@@ -34,7 +34,7 @@ the Pixi rendering engine.
 17. [Keyboard Movement](#keyboard)
 18. [Grouping Sprites](#grouping)
   1. [Local and global positions](#localnglobal)
-  2. [Using a Spritebatch to group sprites](#spritebatch)
+  2. [Using a ParticleContainer to group sprites](#spritebatch)
 19. [Pixi's Graphic Primitives](#graphic)
   1. [Rectangle](#rectangle)
   2. [Circles](#circles)
@@ -2195,10 +2195,6 @@ mapped onto a 3D surface. `U` is the `x` axis and `V` is the `y` axis.
 WebGL already uses `x`, `y` and `z` for 3D spatial positioning, so `U`
 and `V` were chosen to represent `x` and `y` for 2D image textures.)
 
-**WARNING: The rest of this tutorial has not yet been updated to Pixi
-v3.0! I'm working on it, but until then much of the code ahead won't
-work as-is. Proceed with caution!**
-
 <a id='graphic'></a>
 Pixi's Graphic Primitives
 -------------------------
@@ -2216,35 +2212,35 @@ the shapes we'll make in the code ahead.
 <a id='rectangles'></a>
 ###Rectangles
 
-All shapes are made by first creating a new instance of
-`PIXI.Graphics()`.
-```
-var rectangle = new PIXI.Graphics();
+All shapes are made by first creating a new instance of Pixi's
+`Graphics` class (`PIXI.Graphics`).
+```js
+var rectangle = new Graphics();
 ```
 Use `beginFill` with a hexadecimal color code value to set the
 rectangle’ s fill color. Here’ how to set to it to light blue.
-```
+```js
 rectangle.beginFill(0x66CCFF);
 ```
 If you want to give the shape an outline, use the `lineStyle` method. Here's
 how to give the rectangle a 4 pixel wide red outline, with an `alpha`
 value of 1.
-```
+```js
 rectangle.lineStyle(4, 0xFF3300, 1);
 ```
 Use the `drawRect` method to draw the rectangle. Its four arguments
 are `x`, `y`, `width` and `height`.
-```
+```js
 rectangle.drawRect(x, y, width, height);
 ```
 Use `endFill` when you’re done.
-```
+```js
 rectangle.endFill();
 ```
 It’s just like the Canvas Drawing API! Here’s all the code you need to
 draw a rectangle, change its position, and add it to the stage.
-```
-var rectangle = new PIXI.Graphics();
+```js
+var rectangle = new Graphics();
 rectangle.lineStyle(4, 0xFF3300, 1);
 rectangle.beginFill(0x66CCFF);
 rectangle.drawRect(0, 0, 64, 64);
@@ -2261,13 +2257,13 @@ This code makes a 64 by 64 blue rectangle with a red border at an x and y positi
 
 Make a circle with the `drawCircle` method. Its three arguments are
 `x`, `y` and `radius`
-```
+```js
 drawCircle(x, y, radius)
 ```
 Unlike rectangles and sprites, a circle’s x and y position is also its
 center point. Here’s how to make a violet colored circle with a radius of 32 pixels.
-```
-var circle = new PIXI.Graphics();
+```js
+var circle = new Graphics();
 circle.beginFill(0x9966FF);
 circle.drawCircle(0, 0, 32);
 circle.endFill();
@@ -2279,15 +2275,15 @@ stage.addChild(circle);
 ###Ellipses
 As a one-up on the Canvas Drawing API, Pixi lets you draw an ellipse
 with the `drawEllipse` method.
-```
+```js
 drawEllipse(x, y, width, height);
 ```
 The x/y position defines the ellipse’s top left corner (imagine that
 the ellipse is surrounded by an invisible rectangular bounding box -
 the top left corner of that box will represent the ellipse's x/y
 anchor position). Here’s a yellow ellipse that’s 50 pixels wide and 20 pixels high.
-```
-var ellipse = new PIXI.Graphics();
+```js
+var ellipse = new Graphics();
 ellipse.beginFill(0xFFFF00);
 ellipse.drawEllipse(0, 0, 50, 20);
 ellipse.endFill();
@@ -2301,13 +2297,13 @@ stage.addChild(ellipse);
 Pixi also lets you make rounded rectangles with the `drawRoundedRect`
 method. The last argument, `cornerRadius` is a number in pixels that
 determines by how much the corners should be rounded.
-```
+```js
 drawRoundedRect(x, y, width, height, cornerRadius)
 ```
 Here's how to make a rounded rectangle with a corner radius of 10
 pixels.
-```
-var roundBox = new PIXI.Graphics();
+```js
+var roundBox = new Graphics();
 roundBox.lineStyle(4, 0x99CCFF, 1);
 roundBox.beginFill(0xFF9933);
 roundBox.drawRoundedRect(0, 0, 84, 36, 10)
@@ -2323,8 +2319,8 @@ You've seen in the examples above that the `lineStyle` method lets you
 define a line.  You can use the `moveTo` and `lineTo` methods to draw the
 start and end points of the line, in just the same way you can with the Canvas
 Drawing API. Here’s how to draw a 4 pixel wide, white diagonal line.
-```
-var line = new PIXI.Graphics();
+```js
+var line = new Graphics();
 line.lineStyle(4, 0xFFFFFF, 1);
 line.moveTo(0, 0);
 line.lineTo(80, 50);
@@ -2343,7 +2339,7 @@ You can join lines together and fill them with colors to make complex
 shapes using the `drawPolygon` method. `drawPolygon`'s argument is an
 path array of x/y points that define the positions of each point on the
 shape.
-```
+```js
 var path = [
   point1X, point1Y,
   point2X, point2Y,
@@ -2357,8 +2353,8 @@ Here’s how to use `drawPolygon` to connect three lines together to
 make a red triangle with a blue border. The triangle is drawn at
 position 0,0 and then moved to its position on the stage using its
 `x` and `y` properties.
-```
-var triangle = new PIXI.Graphics();
+```js
+var triangle = new Graphics();
 triangle.beginFill(0x66FF33);
 
 //Use `drawPolygon` to define the triangle as
@@ -2384,12 +2380,12 @@ stage.addChild(triangle);
 Displaying text
 ---------------
 
-Use a `PIXI.Text` object to display text on the stage. The constructor
+Use a `Text` object (`PIXI.Text`) to display text on the stage. The constructor
 takes two arguments: the text you want to display and a style object
 that defines the font’s properties. Here's how to display the words
 "Hello Pixi", in white, 32 pixel high sans-serif font.
-```
-var message = new PIXI.Text(
+```js
+var message = new Text(
   "Hello Pixi!",
   {font: "32px sans-serif", fill: "white"}
 );
@@ -2404,13 +2400,13 @@ contain all the same properties like `x`, `y`, `width`, `height`,
 `alpha`, and `rotation`. Position and resize text on the stage just like you would any other sprite.
 
 If you want to change the content of a text object after you've
-created it, use the `setText` method.
+created it, use the `text` property.
+```js
+message.text = "Text changed!";
 ```
-message.setText("Text changed!");
-```
-Use `setStyle` if you want to redefine the font properties.
-```
-message.setStyle({fill: "black", font: "16px PetMe64"});
+Use the `style` property if you want to redefine the font properties.
+```js
+message.style = {fill: "black", font: "16px PetMe64"};
 ```
 Pixi makes text objects by using the Canvas Drawing API to render the text to an invisible and temporary canvas element. It then turns the canvas into a WebGL texture so that it can be mapped onto a sprite. That’s why the text’s color needs to be wrapped in a string: it’s a Canvas Drawing API color value. As with any canvas color values, you can use words for common colors like “red” or “green”, or use rgba, hsla or hex values.
 
@@ -2419,14 +2415,16 @@ outline color and `strokeThickness` for the outline thickness. Set the
 text's `dropShadow` property to `true` to make the text display a
 shadow. Use `dropShadowColor` to set the shadow's hexadecimal color
 value, use `dropShadowAngle` to set the shadow's angle in radians, and
-use `dropShadowDistance` to set the pixel height of a shadow.
+use `dropShadowDistance` to set the pixel height of a shadow. And
+there's more: [check out Pixi's Text documentation for the full
+list](http://pixijs.github.io/docs/PIXI.Text.html).
 
 Pixi can also wrap long lines of text. Set the text’s `wordWrap` style
 property to `true`, and then set `wordWrapWidth` to the maximum length
 in pixels, that the line of text should be. Use the `align` property
 to set the alignment for multi-line text.
 ```
-message.setStyle({wordWrap: true, wordWrapWidth: 100, align: center});
+message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
 ```
 (Note: `align` doesn't affect single line text.)
 
@@ -2442,9 +2440,15 @@ running.
 Add this `@font-face` rule to your HTML page's CSS style sheet.
 
 [Pixi also has support for bitmap
-fonts](http://www.goodboydigital.com/text-updates/).
+fonts](http://pixijs.github.io/docs/PIXI.extras.BitmapText.html). You
+can use Pixi's loader to load Bitmap font XML files, the same way you
+load JSON or image files.
 
+**WARNING: The rest of this tutorial has not yet been updated to Pixi
+v3.0! I'm working on it, but until then much of the code ahead won't
+work as-is. Proceed with caution!**
 <a id='collision'></a>
+
 Collision detection
 --------------------------
 

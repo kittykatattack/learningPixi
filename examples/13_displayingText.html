@@ -5,12 +5,15 @@
 <script src="../pixi.js/bin/pixi.js"></script>
 <script>
 
-//Create a Pixi stage and renderer
-var stage = new PIXI.Stage(0x000000);
-var renderer = PIXI.autoDetectRenderer(
-  256, 256,
-  {antialiasing: false, transparent: false, resolution: 1}  
-);
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    Text = PIXI.Text;
+
+//Create a Pixi stage and renderer and add the 
+//renderer.view to the DOM
+var stage = new Container(),
+    renderer = autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
 
 var message = new PIXI.Text(
