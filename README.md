@@ -2,7 +2,7 @@ Learning Pixi
 =============
 
 A step-by-step introduction to making games and interactive media with
-the Pixi rendering engine. **Completely updated for Pixi v3.0**.
+the Pixi rendering engine. **Updated for Pixi v3.0**.
 
 ### Table of contents:
 1. [Introduction](#introduction)
@@ -1563,7 +1563,9 @@ gameLoop();
 If you run this bit of code, you'll see the sprite gradually move to
 the right side of the stage.
 
-![Moving sprites](/examples/images/screenshots/15.png)
+[![Moving sprites](/examples/images/screenshots/15.png)](https://cdn.rawgit.com/kittykatattack/learningPixi/master/examples/09_movingSprites.html)
+
+(Click the image link above for an live example.)
 
 And that's really all there is to it! Just change any sprite property by small
 increments inside the loop, and they'll animate over time. If you want
@@ -1685,7 +1687,9 @@ function gameLoop(){
 When you run this code, the cat will move down and to the right at one
 pixel per frame:
 
-![Moving sprites](/examples/images/screenshots/16.png)
+[![Moving sprites](/examples/images/screenshots/16.png)](https://cdn.rawgit.com/kittykatattack/learningPixi/master/examples/10_velocityVariables.html)
+
+(Click the image link above to see the effect.)
 
 What if you want to make the cat move in a different direction? To make the cat move to the left, give it a `vx` value of -1. To make
 it move up, give the cat a `vy` value of -1. To make the cat move
@@ -1848,7 +1852,9 @@ can use this `keyboard` function to control a sprite using your
 keyboard's arrow keys. Run it and use the left, up, down, and right
 arrow keys to move the cat around the stage.
 
-![Keyboard movement](/examples/images/screenshots/17.png)
+[![Keyboard movement](/examples/images/screenshots/17.png)](https://cdn.rawgit.com/kittykatattack/learningPixi/master/examples/12_keyboardMovement.html)
+
+(Click the image link above to try it out.)
 
 Here's the code that does all this:
 ```js
@@ -2471,7 +2477,9 @@ working example of how to use `hitTestRectangle`. Use the arrow keys
 to move the cat. If the cat hits the box, the box becomes red
 and "Hit!" is displayed by the text object.
 
-![Displaying text](/examples/images/screenshots/25.png)
+[![Displaying text](/examples/images/screenshots/25.png)](https://cdn.rawgit.com/kittykatattack/learningPixi/master/examples/16_collisionDetection.html)
+
+(Click the image link above to try it out.)
 
 You've already seen all the code that creates all these elements, as
 well as the
@@ -2603,7 +2611,9 @@ close at how to make a simple object collection and enemy
 avoidance game called **Treasure Hunter**. (You'll find it the `examples`
 folder.)
 
-![Displaying text](/examples/images/screenshots/26.png)
+[![Treasure Hunter](/examples/images/screenshots/26.png)](https://cdn.rawgit.com/kittykatattack/learningPixi/master/examples/17_treasureHunter.html)
+
+(Click the image link above to play the game.)
 
 Treasure Hunter is a good example of one of simplest complete
 games you can make using the tools you've learnt so far. Use the
@@ -3164,7 +3174,8 @@ If you've found this tutorial helpful, you can help to support it in
 the following ways:
 
 1. Help support my friends in Nepal who's lives were devastated by the
-2015 earthquake. Please send a donation of any amount via [PayPal](www.paypal.com) to
+2015 earthquake. Please send a donation of any amount via
+[PayPal](http://www.paypal.com) to
 nepal2015earthquake@yahoo.com.
 
 2. Buy the book!
@@ -3172,7 +3183,7 @@ nepal2015earthquake@yahoo.com.
 Incredibly, someone actually paid me to finish writing this tutorial
 and turn it into a book! 
 
-[Learn PixiJS)(http://www.springer.com/us/book/9781484210956)
+[Learn PixiJS](http://www.springer.com/us/book/9781484210956)
 
 (And it's not just some junky "e-book", but a real, heavy, paper book, published by Springer,
 the world's largest publisher!) There's 70% more content, and it's
