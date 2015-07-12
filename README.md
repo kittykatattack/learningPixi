@@ -2136,7 +2136,7 @@ times faster than they would if they were in a regular
 `Container`. It’s a great performance boost for games.
 
 Create a `ParticleContainer` like this:
-```
+```js
 var superFastSprites = new ParticleContainer();
 ```
 Then use `addChild` to add sprites to it, just like you would with any
@@ -2625,7 +2625,7 @@ Open the `treasureHunter.html` file and you'll see that all the game
 code is in one big file. Here's a birds-eye view of how all the code is
 organized.
 
-```
+```js
 //Setup Pixi and load the texture atlas files - call the `setup`
 //function when they've loaded
 
@@ -2664,7 +2664,7 @@ loaded JSON game data.
 Here's an abridged view of the `setup` function in Treasure Hunter,
 and the tasks that it performs.
 
-```
+```js
 function setup() {
   //Create the `gameScene` group
   //Create the `door` sprite
@@ -2694,7 +2694,7 @@ specific code inside the `setup` function does.
 
 The `setup` function creates two `Container` groups called
 `gameScene` and `gameOverScene`. Each of these are added to the stage.
-```
+```js
 gameScene = new Container();
 stage.addChild(gameScene);
 
@@ -2711,7 +2711,7 @@ end of the game is added to the `gameOverScene` group.
 Although it's created in the `setup` function, the `gameOverScene`
 shouldn't be visible when the game first starts, so its `visible`
 property is initialized to `false`.
-```
+```js
 gameOverScene.visible = false;
 ```
 You'll see ahead that, when the game ends, the `gameOverScene`'s `visible`
@@ -2724,7 +2724,7 @@ end of the game.
 The player, exit door, treasure chest and the dungeon background image
 are all sprites made from texture atlas frames. Very importantly,
 they're all added as children of the `gameScene`.
-```
+```js
 //Dungeon
 dungeon = new Sprite.fromFrame("dungeon.png");
 gameScene.addChild(dungeon);
@@ -2760,7 +2760,7 @@ alternately multiplied by 1 or -1 for each blob, and that’s what
 causes each blob to move in the opposite direction to the one next to
 it. Each blob monster that's created is pushed into an array called
 `blobs`.
-```
+```js
 var numberOfBlobs = 6,
     spacing = 48,
     xOffset = 150,
@@ -2815,7 +2815,7 @@ just two overlapping rectangles at exactly the same position: a black rectangle 
 a red rectangle in front. They're grouped into a single `healthBar`
 group. The `healthBar` is then added to the `gameScene` and positioned
 on the stage.
-```
+```js
 //Create the health bar
 healthBar = new PIXI.DisplayObjectContainer();
 healthBar.position.set(stage.width - 170, 6)
@@ -2839,12 +2839,12 @@ healthBar.outer = outerBar;
 ```
 You can see that a property called `outer` has been added to the
 `healthBar`. It just references the `outerBar` (the red rectangle) so that it will be convenient to access later.
-```
+```js
 healthBar.outer = outerBar;
 ```
 You don't have to do this; but, hey why not! It means that if you want
 to control the width of the red `outerBar`, you can write some smooth code that looks like this:
-```
+```js
 healthBar.outer.width = 30;
 ```
 That's pretty neat and readable, so we'll keep it!
@@ -2859,7 +2859,7 @@ text sprite and adding it to the `gameOverScene`. Because the
 starts, you can’t see this text. Here’s the code from the `setup`
 function that creates the message text and adds it to the
 `gameOverScene`.
-```
+```js
 message = new Text(
   "The End!",
   {font: "64px Futura", fill: "white"}
@@ -2876,7 +2876,7 @@ gameOverScene.addChild(message);
 All the game logic and the code that makes the sprites move happens
 inside the `play` function, which runs in a continuous loop. Here's an
 overview of what the `play` function does
-```
+```js
 function play() {
   //Move the explorer and contain it inside the dungeon
   //Move the blob monsters
@@ -2897,7 +2897,7 @@ that is very similar to the keyboard control code you learnt earlier.
 The `keyboard` objects modify the explorer’s velocity, and that
 velocity is added to the explorer’s position inside the `play`
 function.
-```
+```js
 explorer.x += explorer.vx;
 explorer.y += explorer.vy;
 ```
@@ -2912,7 +2912,7 @@ movement.
 
 That's done with the help of a custom function called
 `contain`.
-```
+```js
 contain(explorer, {x: 28, y: 10, width: 488, height: 480});
 ```
 `contain` takes two arguments. The first is the sprite you want to keep
@@ -2929,7 +2929,7 @@ The `contain` function also returns a `collision` variable with the
 value "top", "right", "bottom" or "left", depending on which side of
 the boundary the sprite hit. (`collision` will be `undefined` if the
 sprite didn't hit any of the boundaries.)
-```
+```js
 function contain(sprite, container) {
 
   var collision = undefined;
@@ -2975,7 +2975,7 @@ player. If a blob bumps into the dungeon’s top or bottom walls, its
 direction is reversed. All this is done with the help of a `forEach` loop
 which iterates through each of `blob` sprites in the `blobs` array on
 every frame.
-```
+```js
 blobs.forEach(function(blob) {
 
   //Move the blob
@@ -3001,7 +3001,7 @@ blobs.forEach(function(blob) {
 You can see in this code above how the return value of the `contain`
 function is used to make the blobs bounce off the walls. A variable
 called `blobHitsWall` is used to capture the return value:
-```
+```js
 var blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 ```
 `blobHitsWall` will usually be `undefined`. But if the blob hits the
@@ -3009,7 +3009,7 @@ top wall, `blobHitsWall` will have the value "top". If the blob hits
 the bottom wall, `blobHitsWall` will have the value "bottom". If
 either of these cases are `true`, you can reverse the blob's direction
 by reversing its velocity. Here's the code that does this:
-```
+```js
 if (blobHitsWall === "top" || blobHitsWall === "bottom") {
   blob.vy *= -1;
 }
@@ -3022,7 +3022,7 @@ the direction of its movement.
 
 The code in the loop above uses `hitTestRectangle` to figure
 out if any of the enemies have touched the explorer.
-```
+```js
 if(hitTestRectangle(explorer, blob)) {
   explorerHit = true;
 }
@@ -3031,7 +3031,7 @@ If `hitTestRectangle` returns `true`, it means there’s been a collision
 and a variable called `explorerHit` is set to `true`. If `explorerHit`
 is `true`, the `play` function makes the explorer semi-transparent
 and reduces the width of the `health` bar by 1 pixel.
-```
+```js
 if(explorerHit) {
 
   //Make the explorer semi-transparent
@@ -3059,7 +3059,7 @@ explorer is carrying the treasure.
 
 Here's the code that does this:
 
-```
+```js
 if (hitTestRectangle(explorer, treasure)) {
   treasure.x = explorer.x + 8;
   treasure.y = explorer.y + 8;
@@ -3074,7 +3074,7 @@ treasure to the exit, or you can loose if you run out of health.
 To win the game, the treasure chest just needs to touch the exit door. If
 that happens, the game `state` is set to `end`, and the `message` text
 displays "You won".
-```
+```js
 if (hitTestRectangle(treasure, door)) {
   state = end;
   message.text = "You won!";
@@ -3082,19 +3082,19 @@ if (hitTestRectangle(treasure, door)) {
 ```
 If you run out of health, you loose the game. The game `state` is also
 set to `end` and the `message` text displays "You Lost!"
-```
+```js
 if (healthBar.outer.width < 0) {
   state = end;
   message.text = "You lost!";
 }
 ```
 But what does this mean?
-```
+```js
 state = end;
 ```
 You'll remember from earlier examples that the `gameLoop` is constantly updating a function called
 `state` at 60 times per second. Here's the `gameLoop`that does this:
-```
+```js
 function gameLoop(){
 
   //Loop this function 60 times per second
@@ -3115,7 +3115,7 @@ could have a `tileScene` state, and states for each game level, like
 `leveOne`, `levelTwo` and `levelThree`.
 
 So what is that `end` function? Here it is!
-```
+```js
 function end() {
   gameScene.visible = false;
   gameOverScene.visible = true;
