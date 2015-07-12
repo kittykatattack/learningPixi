@@ -2423,7 +2423,7 @@ Pixi can also wrap long lines of text. Set the text’s `wordWrap` style
 property to `true`, and then set `wordWrapWidth` to the maximum length
 in pixels, that the line of text should be. Use the `align` property
 to set the alignment for multi-line text.
-```
+```js
 message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
 ```
 (Note: `align` doesn't affect single line text.)
@@ -2431,7 +2431,7 @@ message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
 If you want to use a custom font file, use the CSS `@font-face` rule
 to link the font file to the HTML page where you Pixi application is
 running.
-```
+```js
 @font-face {
   font-family: “fontFamilyName";
   src: url("fonts/fontFile.ttf");
@@ -2444,6 +2444,7 @@ fonts](http://pixijs.github.io/docs/PIXI.extras.BitmapText.html). You
 can use Pixi's loader to load Bitmap font XML files, the same way you
 load JSON or image files.
 
+<a id='collision'></a>
 Collision detection
 --------------------------
 
@@ -2452,11 +2453,11 @@ can you do with them? A fun thing to do is to build a simple **collision
 detection** system. You can use a custom function called
 `hitTestRectangle` that checks whether any two rectangular Pixi sprites are
 touching.
-```
+```js
 hitTestRectangle(spriteOne, spriteTwo)
 ```
 if they overlap, `hitTestRectangle` will return `true`. You can use `hitTestRectangle` with an `if` statement to check for a collision between two sprites like this:
-```
+```js
 if (hitTestRectangle(cat, box)) {
   //There's a collision
 } else {
@@ -2477,7 +2478,7 @@ well as the
 keyboard control system that makes the cat move. The only new thing is the
 way `hitTestRectangle` is used inside the `play` function to check for a
 collision.
-```
+```js
 function play() {
 
   //use the cat's velocity to make it move
@@ -2505,17 +2506,17 @@ Because the `play` function is being called by the game loop 60 times
 per second, this `if` statement is constantly checking for a collision
 between the cat and the box. If `hitTestRectangle` is `true`, the
 text `message` object uses `setText` to display "Hit":
-```
+```js
 message.text = "hit!";
 ```
 The color of the box is then changed from green to red by setting the
 box's `tint` property to the hexadecimal red value.
-```
+```js
 box.tint = 0xff3300;
 ```
 If there's no collision, the message and box are maintained in their
 original states:
-```
+```js
 message.text = "no collision...";
 box.tint = 0xccff99;
 ```
@@ -2534,7 +2535,7 @@ The most important thing is that you know how to use it. But, just for
 your reference, and in case you're curious, here's the complete
 `hitTestRectangle` function definition. Can you figure out from the
 comments what it's doing?
-```
+```js
 function hitTestRectangle(r1, r2) {
 
   //Define the variables we'll need to calculate
@@ -2586,12 +2587,12 @@ function hitTestRectangle(r1, r2) {
   return hit;
 };
 
+```
 
 **WARNING: The rest of this tutorial has not yet been updated to Pixi
 v3.0! I'm working on it, but until then much of the code ahead won't
 work as-is. Proceed with caution!**
-<a id='collision'></a>
-```
+
 <a id='casestudy'></a>
 Case study: Treasure Hunter
 ---------------
