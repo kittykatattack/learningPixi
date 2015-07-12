@@ -2444,11 +2444,6 @@ fonts](http://pixijs.github.io/docs/PIXI.extras.BitmapText.html). You
 can use Pixi's loader to load Bitmap font XML files, the same way you
 load JSON or image files.
 
-**WARNING: The rest of this tutorial has not yet been updated to Pixi
-v3.0! I'm working on it, but until then much of the code ahead won't
-work as-is. Proceed with caution!**
-<a id='collision'></a>
-
 Collision detection
 --------------------------
 
@@ -2494,26 +2489,24 @@ function play() {
 
     //if there's a collision, change the message text
     //and tint the box red
-    message.setText("hit!");
+    message.text = "hit!";
     box.tint = 0xff3300;
 
   } else {
 
     //if there's no collision, reset the message
     //text and the box's color
-    message.setText("No collision...");
+    message.text = "No collision...";
     box.tint = 0xccff99;
-
   }
 }
 ```
-
 Because the `play` function is being called by the game loop 60 times
 per second, this `if` statement is constantly checking for a collision
 between the cat and the box. If `hitTestRectangle` is `true`, the
 text `message` object uses `setText` to display "Hit":
 ```
-message.setText("hit!");
+message.text = "hit!";
 ```
 The color of the box is then changed from green to red by setting the
 box's `tint` property to the hexadecimal red value.
@@ -2523,7 +2516,7 @@ box.tint = 0xff3300;
 If there's no collision, the message and box are maintained in their
 original states:
 ```
-message.setText("no collision...");
+message.text = "no collision...";
 box.tint = 0xccff99;
 ```
 This code is pretty simple, but suddenly you've created an interactive
@@ -2593,6 +2586,11 @@ function hitTestRectangle(r1, r2) {
   return hit;
 };
 
+
+**WARNING: The rest of this tutorial has not yet been updated to Pixi
+v3.0! I'm working on it, but until then much of the code ahead won't
+work as-is. Proceed with caution!**
+<a id='collision'></a>
 ```
 <a id='casestudy'></a>
 Case study: Treasure Hunter
