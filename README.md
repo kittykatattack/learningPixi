@@ -2588,11 +2588,6 @@ function hitTestRectangle(r1, r2) {
 };
 
 ```
-
-**WARNING: The rest of this tutorial has not yet been updated to Pixi
-v3.0! I'm working on it, but until then much of the code ahead won't
-work as-is. Proceed with caution!**
-
 <a id='casestudy'></a>
 Case study: Treasure Hunter
 ---------------
