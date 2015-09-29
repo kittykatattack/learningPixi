@@ -9,6 +9,7 @@
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Texture = PIXI.Texture,
     Sprite = PIXI.Sprite;
@@ -31,16 +32,19 @@ function setup() {
 
   //Make the three animal sprites
 
+  //Create an alias for the texture atlas frame ids
+  var id = resources["images/animals.json"].textures;
+
   //The cat
-  var cat = new Sprite.fromFrame("cat.png");
+  var cat = new Sprite(id["cat.png"]);
   cat.position.set(16, 16);
 
   //The hedgehog
-  var hedgehog = new Sprite.fromFrame("hedgehog.png");
+  var hedgehog = new Sprite(id["hedgehog.png"]);
   hedgehog.position.set(32, 32);
 
   //The tiger
-  var tiger = new Sprite.fromFrame("tiger.png");
+  var tiger = new Sprite(id["tiger.png"]);
   tiger.position.set(64, 64);
 
   //Group the animals

@@ -9,6 +9,7 @@
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
     Sprite = PIXI.Sprite;
 
 //Create a Pixi stage and renderer and add the 
@@ -27,7 +28,7 @@ var cat;
 function setup() {
 
   //Create the `cat` sprite 
-  cat = Sprite.fromImage("images/cat.png");
+  cat = new Sprite(resources["images/cat.png"].texture);
   stage.addChild(cat);
 
   //Initialize the cat's velocity variables

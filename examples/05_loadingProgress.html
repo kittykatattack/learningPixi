@@ -10,6 +10,7 @@
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
@@ -46,9 +47,9 @@ function setup() {
   console.log("setup"); 
 
   //Create the sprites
-  var cat = new Sprite.fromImage("images/cat.png"),
-      blob = new Sprite.fromImage("images/blob.png"),
-      explorer = new Sprite.fromImage("images/explorer.png");
+  var cat = new Sprite(resources["images/cat.png"].texture),
+      blob = new Sprite(resources["images/blob.png"].texture),
+      explorer = new Sprite(resources["images/explorer.png"].texture);
 
   //Add the sprites to the stage
   stage.addChild(cat);

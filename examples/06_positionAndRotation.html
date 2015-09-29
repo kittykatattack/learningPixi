@@ -10,6 +10,7 @@
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
@@ -27,7 +28,7 @@ loader
 function setup() {
 
   //Create the `cat` sprite from the texture
-  var cat = new Sprite.fromImage("images/cat.png");
+  var cat = new Sprite(resources["images/cat.png"].texture);
 
   //Position the sprite and change its width and height
   cat.x = 96;

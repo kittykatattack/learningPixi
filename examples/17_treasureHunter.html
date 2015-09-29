@@ -9,6 +9,7 @@
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Texture = PIXI.Texture,
     Sprite = PIXI.Sprite,
@@ -28,7 +29,7 @@ loader
 //Define variables that might be used in more 
 //than one function
 var state, explorer, treasure, blobs, chimes, exit, player, dungeon,
-    door, healthBar, message, gameScene, gameOverScene, enemies;
+    door, healthBar, message, gameScene, gameOverScene, enemies, id;
 
 function setup() {
 
@@ -37,18 +38,20 @@ function setup() {
   stage.addChild(gameScene);
 
   //Make the sprites and add them to the `gameScene`
+  //Create an alias for the texture atlas frame ids
+  id = resources["images/treasureHunter.json"].textures;
 
   //Dungeon
-  dungeon = new Sprite.fromFrame("dungeon.png");
+  dungeon = new Sprite(id["dungeon.png"]);
   gameScene.addChild(dungeon);
 
   //Door
-  door = new Sprite.fromFrame("door.png"); 
+  door = new Sprite(id["door.png"]); 
   door.position.set(32, 0);
   gameScene.addChild(door);
 
   //Explorer
-  explorer = new Sprite.fromFrame("explorer.png");
+  explorer = new Sprite(id["explorer.png"]);
   explorer.x = 68;
   explorer.y = gameScene.height / 2 - explorer.height / 2;
   explorer.vx = 0;
@@ -56,7 +59,7 @@ function setup() {
   gameScene.addChild(explorer);
   
   //Treasure
-  treasure = new Sprite.fromFrame("treasure.png");
+  treasure = new Sprite(id["treasure.png"]);
   treasure.x = gameScene.width - treasure.width - 48;
   treasure.y = gameScene.height / 2 - treasure.height / 2;
   gameScene.addChild(treasure);
@@ -75,7 +78,7 @@ function setup() {
   for (var i = 0; i < numberOfBlobs; i++) {
 
     //Make a blob
-    var blob = new Sprite.fromFrame("blob.png");
+    var blob = new Sprite(id["blob.png"]);
 
     //Space each blob horizontally according to the `spacing` value.
     //`xOffset` determines the point from the left of the screen

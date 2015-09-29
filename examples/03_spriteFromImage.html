@@ -5,30 +5,23 @@
 <script src="../pixi.js/bin/pixi.js"></script>
 <script>
 
-//Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
-    loader = PIXI.loader,
-    TextureCache = PIXI.utils.TextureCache,
-    Sprite = PIXI.Sprite;
-
 //Create a Pixi stage and renderer and add the 
 //renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
+var stage = new PIXI.Container(),
+    renderer = PIXI.autoDetectRenderer(256, 256);
 document.body.appendChild(renderer.view);
 
 //load an image and run the `setup` function when it's done
-loader
+PIXI.loader
   .add("images/cat.png")
   .load(setup);
 
 //This `setup` function will run when the image has loaded
 function setup() {
 
-  var cat = new Sprite.fromImage("images/cat.png");
+  var cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
   
-  //You can also creat `cat` sprite from the texture, like this:
+  //You can also create the `cat` sprite from the texture, like this:
   //var cat = new Sprite(TextureCache["images/cat.png"]);
 
   /*

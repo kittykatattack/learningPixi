@@ -9,6 +9,7 @@
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Texture = PIXI.Texture,
     Sprite = PIXI.Sprite;
@@ -26,29 +27,34 @@ loader
 
 //Define variables that might be used in more 
 //than one function
-var dungeon, explorer, treasure, door;
+var dungeon, explorer, treasure, door, id;
 
 function setup() {
 
-  //There are three ways to make sprites from textures atlas frames
+  //There are 3 ways to make sprites from textures atlas frames
 
   //1. Access the `TextureCache` directly
   var dungeonTexture = TextureCache["dungeon.png"];
   dungeon = new Sprite(dungeonTexture);
   stage.addChild(dungeon);
 
-  //2. Access the texture using `Texture.fromFrame`
-  var explorerTexture = Texture.fromFrame("explorer.png");
-  explorer = new Sprite(explorerTexture);
+  //2. Access the texture using throuhg the loader's `resources`:
+  explorer = new Sprite(
+    resources["images/treasureHunter.json"].textures["explorer.png"]
+  );
   explorer.x = 68;
 
   //Center the explorer vertically
   explorer.y = stage.height / 2 - explorer.height / 2;
   stage.addChild(explorer);
+
+  //3. Create an optional alias called `id` for all the texture atlas 
+  //frame id textures.
+  id = PIXI.loader.resources["images/treasureHunter.json"].textures; 
   
-  //3. Make the texture and sprite in 
-  //one step using `Sprite.fromFrame`
-  treasure = new Sprite.fromFrame("treasure.png");
+  //Make the treasure box using the alias
+  treasure = new Sprite(id["treasure.png"]);
+  stage.addChild(treasure);
 
   //Position the treasure next to the right edge of the canvas
   treasure.x = stage.width - treasure.width - 48;
