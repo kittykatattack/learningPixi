@@ -59,7 +59,8 @@ tutorial, [you'll love the book, which contains 80% more content!](http://www.sp
   5. [Checking for collisions](#checkingcollisions)
   6. [Reaching the exit door and ending game](#reachingexit)
 23. [More about sprites](#spriteproperties)
-24. [Supporting this project](#notdone)
+24. [Taking it further](#takingitfurther)
+25. [Supporting this project](#supportingthisproject)
 
 <a id='introduction'></a>
 Introduction
@@ -3201,17 +3202,41 @@ the `Sprite` class. That’s the class you’ll be using to make most of
 your game objects. However, later you’ll learn how to use
 `Container`s to group sprites together.
 
-<a id='notdone'></a>
+<a id='takingitfurther'></a>
+Taking it further
+-----------------
+
+Pixi can do a lot, but it can't do everything! If you want to start
+making games or complex interactive applications with Pixi, you'll need
+to use some helper libraries:
+
+- [Bump](https://github.com/kittykatattack/bump): A complete suite of 2D collision functions for games.
+- [Tink](https://github.com/kittykatattack/tink): Drag-and-drop, buttons, a universal pointer and other
+  helpful interactivity tools.
+- [Charm](https://github.com/kittykatattack/charm): Easy-to-use tweening animation effects for Pixi sprites.
+- [Dust](https://github.com/kittykatattack/dust): Particle effects for creating things like explosions, fire
+  and magic.
+- [Sprite Utilities](https://github.com/kittykatattack/spriteUtilities): Easier and more intuitive ways to
+  create and use Pixi sprites, as well adding a state machine and
+  animation player. Makes working with Pixi a lot more fun.
+- [Sound.js](github.com/kittykatattack/sound.js): A micro-library for loading, controling and generating
+  sound and music effects. Everything you need to add sound to games.
+
+You can find out how to use all these libraries with Pixi in the book 
+[Learn PixiJS](http://www.springer.com/us/book/9781484210956).
+
+<a id='supportingthisproject'></a>
 Please help to support this project!
 -------------------
 
-If you've found this tutorial helpful, you can help to support it in
+If you've found this tutorial helpful, you can help to support the
+hundreds of hours that went into researching and writing it in
 the following ways:
 
-1. Help support my friends in Nepal who's lives were devastated by the
+1. Help my friends in Nepal who's lives were devastated by the
 2015 earthquake. Please send a donation of any amount via
 [PayPal](http://www.paypal.com) to
-nepal2015earthquake@yahoo.com.
+nepal2015earthquake@yahoo.com. Any tiny amount helps!
 
 2. Buy the book!
 
@@ -3222,7 +3247,8 @@ and turn it into a book!
 
 (And it's not just some junky "e-book", but a real, heavy, paper book, published by Springer,
 the world's largest publisher! That means you can invite your friends
-over, set it on fire, and roast marshmallows!!) There's 80% more content, and it's
+over, set it on fire, and roast marshmallows!!) There's 80% more
+content than what's in this tutorial, and it's
 packed full of all the essential techniques you need to know to use
 Pixi to make all kinds of interactive applications and games.
 
@@ -3232,14 +3258,17 @@ Find out how to:
 - Create a full-featured animation state player.
 - Dynamically animate lines and shapes.
 - Use tiling sprites for infinite parallax scrolling.
-- Use blend mores, filters, tining, masks and render textures.
+- Use blend modes, filters, tinting, masks, video, and render textures.
 - Produce content for multiple resolutions.
 - Create interactive buttons.
 - Create a flexible drag and drop interface for Pixi.
 - Create particle effects.
+- Build a stable software architectural model that will scale to any size.
+- Make complete games.
 
-And, as a bonus, all the code is entirely in the latest version of
+And, as a bonus, all the code is written entirely in the latest version of
 JavaScript: ES6.
 
-If you want to support this project, please buy a copy of this book!
+If you want to support this project, please buy a copy of this book,
+and buy another copy for your mom!
 

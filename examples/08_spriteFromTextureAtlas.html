@@ -62,7 +62,7 @@ function setup() {
   stage.addChild(treasure);
 
   //Make the exit door
-  door = new Sprite.fromFrame("door.png"); 
+  door = new Sprite(id["door.png"]); 
   door.position.set(32, 0);
   stage.addChild(door);
 
@@ -75,7 +75,7 @@ function setup() {
   for (var i = 0; i < numberOfBlobs; i++) {
 
     //Make a blob
-    var blob = new Sprite.fromFrame("blob.png");
+    var blob = new Sprite(id["blob.png"]);
 
     //Space each blob horizontally according to the `spacing` value.
     //`xOffset` determines the point from the left of the screen

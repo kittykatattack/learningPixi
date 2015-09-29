@@ -9,6 +9,7 @@
 var Container = PIXI.Container,
     autoDetectRenderer = PIXI.autoDetectRenderer,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Texture = PIXI.Texture,
     Sprite = PIXI.Sprite,
@@ -39,7 +40,7 @@ function setup() {
   stage.addChild(box);
 
   //Create the `cat` sprite 
-  cat = new Sprite.fromImage("images/cat.png");
+  cat = new Sprite(resources["images/cat.png"].texture);
   cat.x = 16;
   cat.y = 96; 
   cat.vx = 0;
