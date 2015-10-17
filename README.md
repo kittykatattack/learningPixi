@@ -328,7 +328,7 @@ and resolution:
 ```js
 renderer = PIXI.autoDetectRenderer(
   256, 256,
-  {antialiasing: false, transparent: false, resolution: 1}
+  {antialias: false, transparent: false, resolution: 1}
 );
 ```
 This third argument (the options object) is optional - if you're happy with Pixi's default
@@ -341,9 +341,9 @@ for more information.)
 
 What do those options do?
 ```js
-{antialiasing: false, transparent: false, resolution: 1}
+{antialias: false, transparent: false, resolution: 1}
 ```
-`antialiasing` smoothes the edges of fonts and graphic primitives. (WebGL
+`antialias` smoothes the edges of fonts and graphic primitives. (WebGL
 anti-aliasing isn’t available on all platforms, so you’ll need to test
 this on your game’s target platform.) `transparent` makes the canvas
 background transparent. `resolution` makes it easier to work with
