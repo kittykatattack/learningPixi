@@ -2,7 +2,7 @@ Learning Pixi
 =============
 
 A step-by-step introduction to making games and interactive media with
-the Pixi rendering engine. **Updated for Pixi v3.0**. If you like this
+the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **Updated for Pixi v3.0**. If you like this
 tutorial, [you'll love the book, which contains 80% more content!](http://www.springer.com/us/book/9781484210956)
 
 ### Table of contents:
@@ -221,7 +221,7 @@ you can fix it and submit a pull request to have the bug fix added to the main r
 To clone the Pixi repository with Git,  `cd`
 into your root project directory and type:
 ```
-git clone git@github.com:GoodBoyDigital/pixi.js.git
+git clone git@github.com:pixijs/pixi.js.git
 ```
 This automatically creates
 a folder called `pixi.js` and loads the latest version of Pixi into it.
@@ -3221,6 +3221,7 @@ to use some helper libraries:
   animation player. Makes working with Pixi a lot more fun.
 - [Sound.js](https://github.com/kittykatattack/sound.js): A micro-library for loading, controling and generating
   sound and music effects. Everything you need to add sound to games.
+- [Smoothie](https://github.com/kittykatattack/smoothie): Ultra-smooth sprite animation using true delta-time interpolation. It also lets you specify the fps (frames-per-second) at which your game or application runs, and completely separates your sprite rendering loop from your application logic loop
 
 You can find out how to use all these libraries with Pixi in the book 
 [Learn PixiJS](http://www.springer.com/us/book/9781484210956).
