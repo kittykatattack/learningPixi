@@ -311,7 +311,7 @@ var stage = new PIXI.Container();
 renderer.render(stage);
 ```
 This is the most basic code you need write to get started using Pixi. 
-It produces a black 265 pixel by 256 pixel canvas element and adds it to your
+It produces a black 256 pixel by 256 pixel canvas element and adds it to your
 HTML document. Here's what this looks like in a browser when you run this code.
 
 ![Basic display](/examples/images/screenshots/01.png)
