@@ -3219,29 +3219,28 @@ to use some helper libraries:
 - [Sprite Utilities](https://github.com/kittykatattack/spriteUtilities): Easier and more intuitive ways to
   create and use Pixi sprites, as well adding a state machine and
   animation player. Makes working with Pixi a lot more fun.
-- [Sound.js](https://github.com/kittykatattack/sound.js): A micro-library for loading, controling and generating
+- [Sound.js](https://github.com/kittykatattack/sound.js): A micro-library for loading, controlling and generating
   sound and music effects. Everything you need to add sound to games.
-- [Smoothie](https://github.com/kittykatattack/smoothie): Ultra-smooth sprite animation using true delta-time interpolation. It also lets you specify the fps (frames-per-second) at which your game or application runs, and completely separates your sprite rendering loop from your application logic loop
+- [Smoothie](https://github.com/kittykatattack/smoothie): Ultra-smooth sprite animation using true delta-time interpolation. It also lets you specify the fps (frames-per-second) at which your game or application runs, and completely separates your sprite rendering loop from your application logic loop.
 
 You can find out how to use all these libraries with Pixi in the book 
 [Learn PixiJS](http://www.springer.com/us/book/9781484210956).
+
+Do you want to use all the functionality of those libraries, but don't
+want the hassle of integrating them yourself? Use **Hexi**: a complete
+development environment for building games and interactive
+applications:
+
+https://github.com/kittykatattack/hexi
+
+It bundles the best version of Pixi (the latest stable one) with all these 
+libraries, and more, for a simple and fun way to make games. 
 
 <a id='supportingthisproject'></a>
 Please help to support this project!
 -------------------
 
-If you've found this tutorial helpful, you can help to support the
-hundreds of hours that went into researching and writing it in
-the following ways:
-
-1. Help my friends in Nepal who's lives were devastated by the
-2015 earthquake. Please send a donation of any amount via
-[PayPal](http://www.paypal.com) to
-nepal2015earthquake@yahoo.com. Any tiny amount helps!
-
-2. Buy the book!
-
-Incredibly, someone actually paid me to finish writing this tutorial
+Buy the book! Incredibly, someone actually paid me to finish writing this tutorial
 and turn it into a book! 
 
 [Learn PixiJS](http://www.springer.com/us/book/9781484210956)
@@ -3268,7 +3267,7 @@ Find out how to:
 - Make complete games.
 
 And, as a bonus, all the code is written entirely in the latest version of
-JavaScript: ES6.
+JavaScript: ES6/2015.
 
 If you want to support this project, please buy a copy of this book,
 and buy another copy for your mom!
