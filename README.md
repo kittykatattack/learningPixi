@@ -59,7 +59,8 @@ tutorial, [you'll love the book, which contains 80% more content!](http://www.sp
   5. [Checking for collisions](#checkingcollisions)
   6. [Reaching the exit door and ending game](#reachingexit)
 23. [More about sprites](#spriteproperties)
-24. [Taking it further](#takingitfurther)
+24. [Taking it further](#takingitfurther)</br>
+  1.[Hexi](#hexi)</br>
 25. [Supporting this project](#supportingthisproject)
 
 <a id='introduction'></a>
@@ -3225,6 +3226,9 @@ to use some helper libraries:
 
 You can find out how to use all these libraries with Pixi in the book 
 [Learn PixiJS](http://www.springer.com/us/book/9781484210956).
+
+<a id='hexi'></a>
+###Hexi
 
 Do you want to use all the functionality of those libraries, but don't
 want the hassle of integrating them yourself? Use **Hexi**: a complete
