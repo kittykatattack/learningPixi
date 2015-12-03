@@ -60,7 +60,7 @@ tutorial, [you'll love the book, which contains 80% more content!](http://www.sp
   6. [Reaching the exit door and ending game](#reachingexit)
 23. [More about sprites](#spriteproperties)
 24. [Taking it further](#takingitfurther)</br>
-  1.[Hexi](#hexi)</br>
+  i.[Hexi](#hexi)</br>
 25. [Supporting this project](#supportingthisproject)
 
 <a id='introduction'></a>
