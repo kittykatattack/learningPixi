@@ -3238,7 +3238,10 @@ applications:
 https://github.com/kittykatattack/hexi
 
 It bundles the best version of Pixi (the latest stable one) with all these 
-libraries, and more, for a simple and fun way to make games. 
+libraries (and more!) for a simple and fun way to make games. Hexi also
+lets you access the global `PIXI` object directly, so you can write
+low-level Pixi code directly in a Hexi application, and optionally choose to use as many or
+as few of Hexi's extra conveniences as you need.
 
 <a id='supportingthisproject'></a>
 Please help to support this project!
