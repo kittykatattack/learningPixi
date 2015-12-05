@@ -405,7 +405,7 @@ renderer.resize(512, 512);
 If you want to make the canvas fill the entire window, you can apply this
 CSS styling and resize the renderer to the size of the browser window.
 ```
-renderer.view.style.position = "absolute"
+renderer.view.style.position = "absolute";
 renderer.view.style.display = "block";
 renderer.autoResize = true;
 renderer.resize(window.innerWidth, window.innerHeight);
