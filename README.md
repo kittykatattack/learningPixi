@@ -2187,7 +2187,7 @@ about it. Also, the sprites that it contains can’t have nested
 children of their own. A `ParticleContainer` also can’t use Pixi’s advanced
 visual effects like filters and blend modes. But for the huge performance boost that you get, those
 compromises are usually worth it. And you can use
-`Container`s and `ParticleContainers`s simultaneously in the same project, so you can fine-tune your optimization.
+`Container`s and `ParticleContainer`s simultaneously in the same project, so you can fine-tune your optimization.
 
 Why are sprites in a `Particle Container` so fast? Because the positions of
 the sprites are being calculated directly on the GPU. The Pixi
