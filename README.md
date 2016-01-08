@@ -2478,7 +2478,7 @@ message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
 (Note: `align` doesn't affect single line text.)
 
 If you want to use a custom font file, use the CSS `@font-face` rule
-to link the font file to the HTML page where you Pixi application is
+to link the font file to the HTML page where your Pixi application is
 running.
 ```js
 @font-face {
