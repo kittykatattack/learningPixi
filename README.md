@@ -3116,7 +3116,7 @@ if (hitTestRectangle(explorer, treasure)) {
 ###Reaching the exit door and ending the game
 
 There are two ways the game can end: You can win if you carry the
-treasure to the exit, or you can loose if you run out of health.
+treasure to the exit, or you can lose if you run out of health.
 
 To win the game, the treasure chest just needs to touch the exit door. If
 that happens, the game `state` is set to `end`, and the `message` text
