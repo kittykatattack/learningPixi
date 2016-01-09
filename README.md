@@ -3127,7 +3127,7 @@ if (hitTestRectangle(treasure, door)) {
   message.text = "You won!";
 }
 ```
-If you run out of health, you loose the game. The game `state` is also
+If you run out of health, you lose the game. The game `state` is also
 set to `end` and the `message` text displays "You Lost!"
 ```js
 if (healthBar.outer.width < 0) {
