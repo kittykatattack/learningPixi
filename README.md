@@ -2187,7 +2187,7 @@ about it. Also, the sprites that it contains can’t have nested
 children of their own. A `ParticleContainer` also can’t use Pixi’s advanced
 visual effects like filters and blend modes. But for the huge performance boost that you get, those
 compromises are usually worth it. And you can use
-`Container`s and `ParticleContainers`s simultaneously in the same project, so you can fine-tune your optimization.
+`Container`s and `ParticleContainer`s simultaneously in the same project, so you can fine-tune your optimization.
 
 Why are sprites in a `Particle Container` so fast? Because the positions of
 the sprites are being calculated directly on the GPU. The Pixi
@@ -2478,7 +2478,7 @@ message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
 (Note: `align` doesn't affect single line text.)
 
 If you want to use a custom font file, use the CSS `@font-face` rule
-to link the font file to the HTML page where you Pixi application is
+to link the font file to the HTML page where your Pixi application is
 running.
 ```js
 @font-face {
@@ -3116,7 +3116,7 @@ if (hitTestRectangle(explorer, treasure)) {
 ###Reaching the exit door and ending the game
 
 There are two ways the game can end: You can win if you carry the
-treasure to the exit, or you can loose if you run out of health.
+treasure to the exit, or you can lose if you run out of health.
 
 To win the game, the treasure chest just needs to touch the exit door. If
 that happens, the game `state` is set to `end`, and the `message` text
@@ -3127,7 +3127,7 @@ if (hitTestRectangle(treasure, door)) {
   message.text = "You won!";
 }
 ```
-If you run out of health, you loose the game. The game `state` is also
+If you run out of health, you lose the game. The game `state` is also
 set to `end` and the `message` text displays "You Lost!"
 ```js
 if (healthBar.outer.width < 0) {
