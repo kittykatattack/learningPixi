@@ -42,7 +42,7 @@ tutorial, [you'll love the book, which contains 80% more content!](http://www.sp
   4. [Rounded rectangles](#roundedrects)
   5. [Lines](#lines)
   6. [Polygons](#polygons)
-20. [Displaying text](text)
+20. [Displaying text](#text)
 21. [Collision detection](#collision)
   1. [The hitTestRectangle function](hittest)
 22. [Case study: Treasure Hunter](#casestudy)
