@@ -480,7 +480,7 @@ keep everything working fast and efficiently under the hood, Pixi uses
 a **texture cache** to store and reference all the textures your
 sprites will need. The names of the textures are strings that match
 the file locations of the images they refer to. That means if you have
-a texture that was loaded from `“images/cat.png”`, you could find it in the texture cache like this:
+a texture that was loaded from `"images/cat.png"`, you could find it in the texture cache like this:
 ```js
 PIXI.utils.TextureCache["images/cat.png"];
 ```
@@ -511,7 +511,7 @@ that if you use the loader, you should create the sprite by
 referencing the the texture in the `loader`’s `resources` object, like this:
 ```js
 var sprite = new PIXI.Sprite(
-  PIXI.loader.resources[“images/anyImage.png”].texture
+  PIXI.loader.resources["images/anyImage.png"].texture
 );
 ```
 Here’s an example of some complete code you could write to load an image, 
@@ -523,7 +523,7 @@ PIXI.loader
 
 function setup() {
   var sprite = new PIXI.Sprite(
-    PIXI.loader.resources[“images/anyImage.png”].texture
+    PIXI.loader.resources["images/anyImage.png"].texture
   );
 }
 ```
@@ -1340,7 +1340,7 @@ var id = PIXI.loader.resources["images/treasureHunter.json"].textures;
 ```
 Then you can just create each new sprite like this:
 ```js
-let sprite = new Sprite(id[“frameId.png”]);
+let sprite = new Sprite(id["frameId.png"]);
 ```
 Much better!
 
@@ -2482,7 +2482,7 @@ to link the font file to the HTML page where your Pixi application is
 running.
 ```js
 @font-face {
-  font-family: “fontFamilyName";
+  font-family: "fontFamilyName";
   src: url("fonts/fontFile.ttf");
 }
 ```
