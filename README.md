@@ -2,7 +2,7 @@ Learning Pixi
 =============
 
 A step-by-step introduction to making games and interactive media with
-the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **Updated for Pixi v3.0**. If you like this
+the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **Updated for Pixi v4.0**. If you like this
 tutorial, [you'll love the book, which contains 80% more content!](http://www.springer.com/us/book/9781484210956)
 
 ### Table of contents:
