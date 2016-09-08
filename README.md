@@ -335,9 +335,9 @@ renderer = PIXI.autoDetectRenderer(
 This third argument (the options object) is optional - if you're happy with Pixi's default
 settings you can leave it out, and there's usually no need to change
 them. (But, if you need to, see Pixi's documentation on the [Canvas
-Renderer](http://pixijs.github.io/docs/PIXI.CanvasRenderer.html#toc1)
+Renderer](http://pixijs.github.io/docs/PIXI.CanvasRenderer.html)
 and
-[WebGLRenderer](http://pixijs.github.io/docs/PIXI.CanvasRenderer.html)
+[WebGLRenderer](http://pixijs.github.io/docs/PIXI.WebGLRenderer.html)
 for more information.)
 
 What do those options do?
