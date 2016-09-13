@@ -454,7 +454,7 @@ with code. You can control their position, size, and a host of other
 properties that are useful for making interactive and animated graphics. Learning to make and control sprites is really the most
 important thing about learning to use Pixi. If you know how to make
 sprites and add them to the stage, you're just a small step away from
-starting to makes games.
+starting to make games.
 
 Pixi has a `Sprite` class that is a versatile way to make game
 sprites. There are three main ways to create them:
