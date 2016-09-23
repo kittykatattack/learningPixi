@@ -580,7 +580,7 @@ folder you'll find a 64 by 64 pixel PNG image of a cat.
 
 ![Basic display](/examples/images/cat.png)
 
-Here's the All the JavaScript code you to load the image, create a
+Here's all the JavaScript code you need to load the image, create a
 sprite, and display it on Pixi's stage:
 ```js
 var stage = new PIXI.Container(),
