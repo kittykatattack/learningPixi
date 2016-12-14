@@ -416,7 +416,7 @@ margins to 0 on all your HTML elements with this bit of CSS code:
 <style>* {padding: 0; margin: 0}</style>
 ```
 (The asterisk, *, in the code above, is the CSS "universal selector",
-which just means "all the tags in the the HTML document".)
+which just means "all the tags in the HTML document".)
 
 If you want the canvas to scale proportionally to any browser window
 size, you can use [this custom scaleToWindow function.](https://github.com/kittykatattack/scaleToWindow).
@@ -508,7 +508,7 @@ function setup() {
 [Pixi’s development team
 recommends](http://www.html5gamedevs.com/topic/16019-preload-all-textures/?p=90907)
 that if you use the loader, you should create the sprite by
-referencing the the texture in the `loader`’s `resources` object, like this:
+referencing the texture in the `loader`’s `resources` object, like this:
 ```js
 var sprite = new PIXI.Sprite(
   PIXI.loader.resources["images/anyImage.png"].texture
