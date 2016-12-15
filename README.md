@@ -2426,11 +2426,11 @@ Displaying text
 Use a `Text` object (`PIXI.Text`) to display text on the stage. The constructor
 takes two arguments: the text you want to display and a style object
 that defines the font’s properties. Here's how to display the words
-"Hello Pixi", in white, 32 pixel high sans-serif font.
+"Hello Pixi", in white, 32 pixel high Arial font.
 ```js
 var message = new Text(
   "Hello Pixi!",
-  {font: "32px sans-serif", fill: "white"}
+  {fontFamily: "Arial", fontSize: 32, fill: "white"}
 );
 
 message.position.set(54, 96);
