@@ -169,9 +169,9 @@ Next, you need to install Pixi. There are two ways to do it: the
 <a id='installingpixithesimpleway'></a>
 ### Installing Pixi the simple way
 
-Get the latest version of the `pixi.min.js` file and from
-[Pixi's GitHub
-Repo](https://github.com/pixijs/pixi.js/tree/master/bin).
+Get the latest version of the `pixi.min.js` file from
+[Pixi's Release
+Page](https://github.com/pixijs/pixi.js/releases).
 
 This one file is all you need to use Pixi. You can ignore all the
 other files in the repository: **you don't need them.**
