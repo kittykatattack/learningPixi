@@ -215,7 +215,7 @@ Now you can start working with Pixi!
 
 You can also use Git to install use Pixi. (What is **git**? If you don't know [you can find out
 here](https://github.com/kittykatattack/learningGit).) This has some advantages:
-you can just run `git pull origin master` from the command line to updated Pixi to
+you can just run `git pull origin master` from the command line to update Pixi to
 the latest version. And, if you think you've found a bug in Pixi, 
 you can fix it and submit a pull request to have the bug fix added to the main repository.
 
