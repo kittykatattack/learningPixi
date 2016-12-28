@@ -1332,7 +1332,7 @@ var sprite = new Sprite(
   resources["images/treasureHunter.json"].textures["frameId.png"]
 );
 ```
-3. That’s way too much to typing to have to do just to create a sprite! 
+3. That’s way too much typing to do just to create a sprite! 
 So I suggest you create an alias called `id` that points to texture’s 
 altas’s `textures` object, like this:
 ```js
