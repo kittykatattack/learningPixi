@@ -1361,7 +1361,7 @@ function setup() {
   dungeon = new Sprite(dungeonTexture);
   stage.addChild(dungeon);
 
-  //2. Access the texture using throuhg the loader's `resources`:
+  //2. Access the texture using the loader's `resources`:
   explorer = new Sprite(
     resources["images/treasureHunter.json"].textures["explorer.png"]
   );
