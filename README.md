@@ -2032,7 +2032,7 @@ have a texture.
 If you need a list of all the child sprites that `animals` contains,
 use its `children` array to find out.
 ```
-console.log(animals.chidren}
+console.log(animals.children)
 //Displays: Array [Object, Object, Object]
 ```
 This tells you that `animals` has three sprites as children.
