@@ -1531,7 +1531,7 @@ var x = spacing * i + xOffset;
 blob.x = x;
 ```
 `spacing` has a value 48, and `xOffset` has a value of 150. What this
-means is that the first `blob` will have an `x` position of 150.
+means is the first `blob` will have an `x` position of 150.
 This offsets it from the left side of the stage by 150 pixel. Each
 subsequent `blob` will have an `x` value that's 48 pixels greater than
 the `blob` created in the previous iteration of the loop. This creates
