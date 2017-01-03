@@ -1656,7 +1656,7 @@ many more examples of how to animate sprites ahead.
 Using velocity properties
 -------------------------
 
-To give you more flexibility, its a good idea control a sprite's
+To give you more flexibility, its a good idea to control a sprite's
 movement speed using two **velocity properties**: `vx` and `vy`. `vx`
 is used to set the sprite's speed and direction on the x axis
 (horizontally). `vy` is
