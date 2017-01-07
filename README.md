@@ -335,9 +335,9 @@ renderer = PIXI.autoDetectRenderer(
 This third argument (the options object) is optional - if you're happy with Pixi's default
 settings you can leave it out, and there's usually no need to change
 them. (But, if you need to, see Pixi's documentation on the [Canvas
-Renderer](http://pixijs.github.io/docs/PIXI.CanvasRenderer.html)
+Renderer](http://pixijs.download/release/docs/PIXI.CanvasRenderer.html)
 and
-[WebGLRenderer](http://pixijs.github.io/docs/PIXI.WebGLRenderer.html)
+[WebGLRenderer](http://pixijs.download/release/docs/PIXI.WebGLRenderer.html)
 for more information.)
 
 What do those options do?
@@ -2195,7 +2195,7 @@ development team is working to offload as much sprite processing as
 possible on the GPU, so it’s likely that the latest version of Pixi
 that you’re using will have much more feature-rich `ParticleContainer` than
 what I've described here. Check the current [`ParticleContainer`
-documentation](http://pixijs.github.io/docs/PIXI.ParticleContainer.html) for details.
+documentation](http://pixijs.download/release/docs/PIXI.particles.ParticleContainer.html) for details.
 
 Where you create a `ParticleContainer`, there are two optional
 arguments you can provide: the maximum number of sprites the container
@@ -2466,7 +2466,7 @@ shadow. Use `dropShadowColor` to set the shadow's hexadecimal color
 value, use `dropShadowAngle` to set the shadow's angle in radians, and
 use `dropShadowDistance` to set the pixel height of a shadow. And
 there's more: [check out Pixi's Text documentation for the full
-list](http://pixijs.github.io/docs/PIXI.Text.html).
+list](http://pixijs.download/release/docs/PIXI.Text.html).
 
 Pixi can also wrap long lines of text. Set the text’s `wordWrap` style
 property to `true`, and then set `wordWrapWidth` to the maximum length
@@ -2489,7 +2489,7 @@ running.
 Add this `@font-face` rule to your HTML page's CSS style sheet.
 
 [Pixi also has support for bitmap
-fonts](http://pixijs.github.io/docs/PIXI.extras.BitmapText.html). You
+fonts](http://pixijs.download/release/docs/PIXI.extras.BitmapText.html). You
 can use Pixi's loader to load Bitmap font XML files, the same way you
 load JSON or image files.
 
