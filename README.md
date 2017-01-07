@@ -3185,7 +3185,7 @@ More about sprites
 You've learnt how to use quite a few useful sprite properties so far, like `x`, `y`,
 `visible`, and `rotation` that give you a lot of control over a
 sprite's position and appearance. But Pixi Sprites also have many more
-useful properties that are fun to play with. [Here's the full list.](http://pixijs.github.io/docs/PIXI.Sprite.html)
+useful properties that are fun to play with. [Here's the full list.](http://pixijs.download/release/docs/PIXI.Sprite.html)
 
 How does Pixi’s class inheritance system work? ([What is a **class**
 and what is **inheritence**? Click this link to find out.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)) Pixi’s sprites are
