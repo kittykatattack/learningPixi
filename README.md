@@ -2,7 +2,7 @@ Learning Pixi
 =============
 
 A step-by-step introduction to making games and interactive media with
-the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **Updated for Pixi v4.0**. If you like this
+the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **[Updated for Pixi v4.0.0](https://github.com/pixijs/pixi.js/releases/tag/v4.0.0)**. If you like this
 tutorial, [you'll love the book, which contains 80% more content!](http://www.springer.com/us/book/9781484210956)
 
 ### Table of contents:
@@ -169,9 +169,9 @@ Next, you need to install Pixi. There are two ways to do it: the
 <a id='installingpixithesimpleway'></a>
 ### Installing Pixi the simple way
 
-Get the latest version of the `pixi.min.js` file from
-[Pixi's Release
-Page](https://github.com/pixijs/pixi.js/releases).
+The version used for this introduction is **v4.0.0**
+and you can find `pixi.min.js` file on [Pixi's release page for v4.0.0](https://github.com/pixijs/pixi.js/releases/tag/v4.0.0).
+Or you can get the latest version from [Pixi's main release page](https://github.com/pixijs/pixi.js/releases).
 
 This one file is all you need to use Pixi. You can ignore all the
 other files in the repository: **you don't need them.**
@@ -188,25 +188,22 @@ Here's a basic HTML page that you could use to link Pixi and test that
 it's working:
 ```html
 <!doctype html>
-<meta charset="utf-8">
-<title>Hello World</title>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+</head>>
 <body>
-<script src="pixi.min.js"></script>
-<script>
-
-//Test that Pixi is working
-console.log(PIXI);
-
-</script>
+  <script src="pixi.min.js"></script>
 </body>
+</html>
 ```
-This is the [minimal amount of HTML](http://stackoverflow.com/questions/9797046/whats-a-valid-html5-document) you need to start creating projects
-with Pixi. If Pixi is linking correctly, `console.log(PIXI)` will
-display something like this in your web browser's JavaScript console:
-```js
-Object { VERSION: "3.0.7" ...
+
+If Pixi is linking correctly,
+something like this will be displayed in your web browser's JavaScript console by default:
 ```
-If you see that (or something similar) you know everything is working properly.
+ Pixi.js 4.0.0 - ✰ WebGL ✰      http://www.pixijs.com/    ♥♥♥ 
+```
 
 Now you can start working with Pixi!
 
@@ -224,8 +221,12 @@ into your root project directory and type:
 ```
 git clone git@github.com:pixijs/pixi.js.git
 ```
-This automatically creates
-a folder called `pixi.js` and loads the latest version of Pixi into it.
+This automatically creates a folder called `pixi.js` and loads the **latest version** of Pixi into it.
+Keep in mind that this manual is tailored around *version 4.0.0*.
+To get this version simply checkout cloned `pixi.js` repository using tag like this:
+```
+git checkout tags/v4.0.0
+```
 
 After Pixi is installed, create a basic HTML document, and use a
 `<script>` tag to include the
@@ -252,22 +253,19 @@ how the `helloWorld.html` file correctly links to Pixi and checks that it's
 working:
 ```html
 <!doctype html>
-<meta charset="utf-8">
-<title>Hello World</title>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+</head>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
-<script>
-
-//Test that Pixi is working
-console.log(PIXI);
-
-</script>
+  <script src="../pixi.js/bin/pixi.js"></script>
 </body>
+</html>
 ```
-If Pixi is linking correctly, `console.log(PIXI)` will
-display something like this in your web browser's JavaScript console:
+If Pixi is linking correctly, something like this will be displayed in your web browser's JavaScript console by default:
 ```
-Object { VERSION: "3.0.7" ...
+ Pixi.js 4.0.0 - ✰ WebGL ✰      http://www.pixijs.com/    ♥♥♥ 
 ```
 
 <a id='installingpixiwithnodeandgulp'></a>
