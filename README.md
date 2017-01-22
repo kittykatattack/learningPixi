@@ -192,9 +192,17 @@ it's working:
 <head>
   <meta charset="utf-8">
   <title>Hello World</title>
-</head>>
-<body>
+</head>
   <script src="pixi.min.js"></script>
+<body>
+  <script type="text/javascript">
+    var type = "WebGL"
+    if(!PIXI.utils.isWebGLSupported()){
+      type = "canvas"
+    }
+
+    PIXI.utils.sayHello(type)
+  </script>
 </body>
 </html>
 ```
