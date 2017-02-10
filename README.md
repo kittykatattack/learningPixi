@@ -860,13 +860,13 @@ add(name, url, optionObject, callbackFunction)
 Here's what the loader's source code documentation has to say about
 these parameters:
 
-`name` (string): The name of the resource to load. If it's not passed, the `url` is used.
-`url` (string): The url for this resource, relative to the `baseUrl` of the loader.
-`options` (object literal): The options for the load.
-`options.crossOrigin` (Boolean): Is the request cross-origin? The default is to determine automatically.
-`options.loadType`: How should the resource be loaded? The default value is `Resource.LOAD_TYPE.XHR`.
+`name` (string): The name of the resource to load. If it's not passed, the `url` is used.  
+`url` (string): The url for this resource, relative to the `baseUrl` of the loader.  
+`options` (object literal): The options for the load.  
+`options.crossOrigin` (Boolean): Is the request cross-origin? The default is to determine automatically.  
+`options.loadType`: How should the resource be loaded? The default value is `Resource.LOAD_TYPE.XHR`.  
 `options.xhrType`: How should the data being loaded be interpreted
-when using XHR? The default value is `Resource.XHR_RESPONSE_TYPE.DEFAULT`
+when using XHR? The default value is `Resource.XHR_RESPONSE_TYPE.DEFAULT`  
 `callbackFunction`: The function to call when this specific resource completes loading.
 
 The only one of these arguments that's required is the `url` (the file that you want to
