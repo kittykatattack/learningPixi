@@ -850,7 +850,7 @@ access the file's raw binary data.)
 ####More about Pixi's loader
 
 Pixi's loader is ridiculously feature-rich and configurable. Let's
-take a quick bird's-eye view of it's usage to
+take a quick bird's-eye view of its usage to
 get you started.
 
 The loader's chainable `add` method takes 4 basic arguments:
