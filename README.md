@@ -17,10 +17,10 @@ tutorial, [you'll love the book, which contains 80% more content!](http://www.sp
 6. [Displaying sprites](#displaying)
   1. [Using Aliases](#usingaliases)
   2. [A little more about loading things](#alittlemoreaboutloadingthings)
-    1.[Make a sprite from an ordinary JavaScript Image object or Canvas](#makeaspritefromanordinaryjavascriptimageobject)
-    2.[Assigning a name to a loaded file](#assigninganametoaloadingfile)
-    3.[Monitoring load progress](#monitoringloadprogress)
-    4.[More about Pixi's loader](#moreaboutpixisloader)
+    1. [Make a sprite from an ordinary JavaScript Image object or Canvas](#makeaspritefromanordinaryjavascriptimageobject)
+    2. [Assigning a name to a loaded file](#assigninganametoaloadingfile)
+    3. [Monitoring load progress](#monitoringloadprogress)
+    4. [More about Pixi's loader](#moreaboutpixisloader)
 7. [Positioning sprites](#positioning)
 8. [Size and scale](#sizenscale)
 9. [Rotation](#rotation)
@@ -850,7 +850,7 @@ access the file's raw binary data.)
 ####More about Pixi's loader
 
 Pixi's loader is ridiculously feature-rich and configurable. Let's
-take a quick bird's-eye view of it's usage to
+take a quick bird's-eye view of its usage to
 get you started.
 
 The loader's chainable `add` method takes 4 basic arguments:
@@ -860,13 +860,13 @@ add(name, url, optionObject, callbackFunction)
 Here's what the loader's source code documentation has to say about
 these parameters:
 
-`name` (string): The name of the resource to load. If it's not passed, the `url` is used.
-`url` (string): The url for this resource, relative to the `baseUrl` of the loader.
-`options` (object literal): The options for the load.
-`options.crossOrigin` (Boolean): Is the request cross-origin? The default is to determine automatically.
-`options.loadType`: How should the resource be loaded? The default value is `Resource.LOAD_TYPE.XHR`.
+`name` (string): The name of the resource to load. If it's not passed, the `url` is used.  
+`url` (string): The url for this resource, relative to the `baseUrl` of the loader.  
+`options` (object literal): The options for the load.  
+`options.crossOrigin` (Boolean): Is the request cross-origin? The default is to determine automatically.  
+`options.loadType`: How should the resource be loaded? The default value is `Resource.LOAD_TYPE.XHR`.  
 `options.xhrType`: How should the data being loaded be interpreted
-when using XHR? The default value is `Resource.XHR_RESPONSE_TYPE.DEFAULT`
+when using XHR? The default value is `Resource.XHR_RESPONSE_TYPE.DEFAULT`  
 `callbackFunction`: The function to call when this specific resource completes loading.
 
 The only one of these arguments that's required is the `url` (the file that you want to
