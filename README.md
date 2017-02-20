@@ -192,8 +192,8 @@ it's working:
 <head>
   <meta charset="utf-8">
   <title>Hello World</title>
-</head>
   <script src="pixi.min.js"></script>
+</head>  
 <body>
   <script type="text/javascript">
     var type = "WebGL"
