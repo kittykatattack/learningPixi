@@ -690,7 +690,7 @@ This is all you need to know to start loading images and creating
 sprites.
 
 <a id='alittlemoreaboutloadingthings'></a>
-###A little more about loading things
+### A little more about loading things
 
 The format I've shown you above is what I suggest you use as your
 standard template for loading images and displaying sprites. So, you
@@ -701,7 +701,7 @@ aware of, even if you don't use them on a regular basis. Let's
 look at some of the most useful.
 
 <a id='makeaspritefromanordinaryjavascriptimageobject'></a>
-####Make a sprite from an ordinary JavaScript Image object or Canvas
+#### Make a sprite from an ordinary JavaScript Image object or Canvas
 
 For optimization and efficiency it’s always best to make a sprite from
 a texture that’s been pre-loaded into Pixi’s texture cache. But if for
@@ -728,7 +728,7 @@ You can use this technique to interactively change the sprite’s
 appearance if something significant happens to it in the game.
 
 <a id='assigninganametoaloadingfile'></a>
-####Assigning a name to a loading file
+#### Assigning a name to a loading file
 
 It's possible to assign a unique name to each resource you want to
 load. Just supply the name (a string) as the first argument in the
@@ -750,7 +750,7 @@ you don't accidentally use the same name more than once. Using the file path nam
 examples is simpler and less error prone.
 
 <a id='monitoringloadprogress'></a>
-####Monitoring load progress
+#### Monitoring load progress
 
 Pixi's loader has a special `progress` event that will call a
 customizable function that will run each time a file loads. `progress` events are called by the
@@ -847,7 +847,7 @@ trying to load a file. `resource.data` lets you
 access the file's raw binary data.)
 
 <a id='moreaboutpixisloader'></a>
-####More about Pixi's loader
+#### More about Pixi's loader
 
 Pixi's loader is ridiculously feature-rich and configurable. Let's
 take a quick bird's-eye view of its usage to
@@ -2341,7 +2341,7 @@ ellipse.y = 130;
 stage.addChild(ellipse);
 ```
 <a id='roundedrect'></a>
-###Rounded rectangles
+### Rounded rectangles
 
 Pixi also lets you make rounded rectangles with the `drawRoundedRect`
 method. The last argument, `cornerRadius` is a number in pixels that
@@ -2362,7 +2362,7 @@ roundBox.y = 190;
 stage.addChild(roundBox);
 ```
 <a id='lines'></a>
-###Lines
+### Lines
 
 You've seen in the examples above that the `lineStyle` method lets you
 define a line.  You can use the `moveTo` and `lineTo` methods to draw the
@@ -2382,7 +2382,7 @@ like sprites, so you can position them anywhere on the stage after
 you've drawn them.
 
 <a id='polygons'></a>
-###Polygons
+### Polygons
 
 You can join lines together and fill them with colors to make complex
 shapes using the `drawPolygon` method. `drawPolygon`'s argument is an
@@ -2581,7 +2581,7 @@ surprisingly, you now have all the skills you need to start making
 games with Pixi!
 
 <a id='hittest'></a>
-###The hitTestRectangle function
+### The hitTestRectangle function
 
 But what about the `hitTestRectangle` function? What does it do, and
 how does it work? The details of how collision detection algorithms
@@ -2740,7 +2740,7 @@ and causes the `play` function to be called in a continuous loop. But before we 
 specific code inside the `setup` function does.
 
 <a id='gamescene'></a>
-####Creating the game scenes
+#### Creating the game scenes
 
 The `setup` function creates two `Container` groups called
 `gameScene` and `gameOverScene`. Each of these are added to the stage.
@@ -2769,7 +2769,7 @@ property will be set to `true` to display the text that appears at the
 end of the game.
 
 <a id='makingdungon'></a>
-####Making the dungeon, door, explorer and treasure
+#### Making the dungeon, door, explorer and treasure
 
 The player, exit door, treasure chest and the dungeon background image
 are all sprites made from texture atlas frames. Very importantly,
@@ -2805,7 +2805,7 @@ Keeping them together in the `gameScene` group will make it easy for
 us to hide the `gameScene` and display the `gameOverScene` when the game is finished.
 
 <a id='makingblob'></a>
-####Making the blob monsters
+#### Making the blob monsters
 
 The six blob monsters are created in a loop. Each blob is given a
 random initial position and velocity. The vertical velocity is
@@ -2859,7 +2859,7 @@ for (var i = 0; i < numberOfBlobs; i++) {
 
 ```
 <a id='healthbar'></a>
-####Making the health bar
+#### Making the health bar
 
 When you play Treasure Hunter you'll notice that when the explorer touches
 one of the enemies, the width of the health bar at the top right
@@ -2903,7 +2903,7 @@ healthBar.outer.width = 30;
 That's pretty neat and readable, so we'll keep it!
 
 <a id='message'></a>
-####Making the message text
+#### Making the message text
 
 When the game is finished, some text displays “You won!” or “You
 lost!”, depending on the outcome of the game. This is made using a
@@ -2924,7 +2924,7 @@ message.y = stage.height / 2 - 32;
 gameOverScene.addChild(message);
 ```
 <a id='playing'></a>
-###Playing the game
+### Playing the game
 
 All the game logic and the code that makes the sprites move happens
 inside the `play` function, which runs in a continuous loop. Here's an
@@ -2943,7 +2943,7 @@ function play() {
 Let's find out how all these features work.
 
 <a id='movingexplorer'></a>
-###Moving the explorer
+### Moving the explorer
 
 The explorer is controlled using the keyboard, and the code that does
 that is very similar to the keyboard control code you learnt earlier.
@@ -2955,7 +2955,7 @@ explorer.x += explorer.vx;
 explorer.y += explorer.vy;
 ```
 <a id='containingmovement'></a>
-####Containing movement
+#### Containing movement
 
 But what's new is that the explorer's movement is contained inside the walls of the
 dungeon. The green outline shows the limits of the explorer's
@@ -3020,7 +3020,7 @@ ahead to make the blob monsters bounce back and forth between the top
 and bottom dungeon walls.
 
 <a id='movingmonsters'></a>
-###Moving the monsters
+### Moving the monsters
 
 The `play` function also moves the blob monsters, keeps them contained
 inside the dungeon walls, and checks each one for a collision with the
@@ -3071,7 +3071,7 @@ Multiplying the blob's `vy` (vertical velocity) value by `-1` will flip
 the direction of its movement.
 
 <a id='checkingcollisions'></a>
-###Checking for collisions
+### Checking for collisions
 
 The code in the loop above uses `hitTestRectangle` to figure
 out if any of the enemies have touched the explorer.
@@ -3119,7 +3119,7 @@ if (hitTestRectangle(explorer, treasure)) {
 }
 ```
 <a id='reachingexit'></a>
-###Reaching the exit door and ending the game
+### Reaching the exit door and ending the game
 
 There are two ways the game can end: You can win if you carry the
 treasure to the exit, or you can lose if you run out of health.
@@ -3234,7 +3234,7 @@ You can find out how to use all these libraries with Pixi in the book
 [Learn PixiJS](http://www.springer.com/us/book/9781484210956).
 
 <a id='hexi'></a>
-###Hexi
+### Hexi
 
 Do you want to use all the functionality of those libraries, but don't
 want the hassle of integrating them yourself? Use **Hexi**: a complete
