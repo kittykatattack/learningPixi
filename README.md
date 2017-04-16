@@ -327,10 +327,10 @@ Yay, a [black square](http://rampantgames.com/blog/?p=7745)!
 
 Pixi’s `autoDetectRenderer` method figures out whether to use the
 Canvas Drawing API or WebGL to render graphics, depending on which is
-available. It's first and second arguments are the width and height of the
+available. Its first and second arguments are the width and height of the
 canvas. However, you can include an optional third argument with some
 additional values you can set. This third argument is an object
-literal, and here's how could use it set anti-aliasing, transparency
+literal, and here's how you could use it to set anti-aliasing, transparency
 and resolution:
 ```js
 renderer = PIXI.autoDetectRenderer(
@@ -536,7 +536,7 @@ function setup() {
 This is the general format we’ll be using to load images and create
 sprites in this tutorial.
 
-You can load multiple images at single time by listing them with
+You can load multiple images at the same time by listing them with
 chainable `add` methods, like this:
 ```js
 PIXI.loader
