@@ -1246,7 +1246,7 @@ It will automatically arrange the images on a single tileset image, and give the
 
 (If you're using the free version of
 Texture Packer, set **Algorithm** to `Basic`, set **Trim mode** to
-`None`, set **Size constraints** to `Any size` and slide the **PNG Opt
+`None`, set **Extrude** to `0`, set **Size constraints** to `Any size` and slide the **PNG Opt
 Level** all the way to the left to `0`. These are the basic
 settings that will allow the free version of Texture Packer to create
 your files without any warnings or errors.)
