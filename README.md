@@ -1809,7 +1809,7 @@ function play() {
 }
 ```
 Yes, I know, this is a bit of [head-swirler](http://www.amazon.com/Electric-Psychedelic-Sitar-Headswirlers-1-5/dp/B004HZ14VS)! But, don't let it scare
-and you and spend a minute or two walking through in your mind how those
+you and spend a minute or two walking through in your mind how those
 functions are connected. As you'll see ahead, structuring your game
 loop like this will make it much, much easier to do things like switching
 game scenes and levels.
