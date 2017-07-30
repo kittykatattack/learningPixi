@@ -2935,7 +2935,7 @@ function play() {
   //Move the blob monsters
   //Check for a collision between the blobs and the explorer
   //Check for a collision between the explorer and the treasure
-  //Check for a collsion between the treasure and the door
+  //Check for a collision between the treasure and the door
   //Decide whether the game has been won or lost
   //Change the game `state` to `end` when the game is finsihed
 }
