@@ -633,7 +633,7 @@ anySprite.visible = false;
 You can save yourself a little typing and make your code more readable
 by creating short-form aliases for the Pixi objects and methods that you
 use frequently. For example, is `PIXI.utils.TextureCache` too much to
-type? I think so, especially in a big project where you might use it
+type? I think so, especially in a big project where you might use
 it dozens of times. So, create a shorter alias that points to it, like
 this:
 ```js
