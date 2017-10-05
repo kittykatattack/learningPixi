@@ -65,7 +65,7 @@ tutorial, [you'll love the book, which contains 80% more content!](http://www.sp
 Introduction
 ------------
 
-Pixi’s is an extremely fast 2D sprite rendering engine. What does that
+Pixi is an extremely fast 2D sprite rendering engine. What does that
 mean? It means that it helps you to display, animate and manage
 interactive graphics so that it's easy for you to make games and
 applications using
@@ -143,7 +143,7 @@ webserver:
 
 Or, just write your all your code using the excellent [Brackets text
 editor](http://brackets.io). Brackets automatically launches a webserver
-and browser for you when you click the lightening bolt button in its
+and browser for you when you click the lightning bolt button in its
 main workspace.
 
 Now if you think you're ready, read on!
@@ -729,7 +729,7 @@ function loadProgressHandler(loader, resource) {
   //Display the file `url` currently being loaded
   console.log("loading: " + resource.url); 
 
-  //Display the precentage of files currently loaded
+  //Display the percentage of files currently loaded
   console.log("progress: " + loader.progress + "%"); 
 
   //If you gave your files names as the first argument 
