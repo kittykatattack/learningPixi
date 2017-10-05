@@ -2,16 +2,14 @@ Learning Pixi
 =============
 
 A step-by-step introduction to making games and interactive media with
-the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **[Updated for Pixi v4.0.0](https://github.com/pixijs/pixi.js/releases/tag/v4.0.0)**. If you like this
-tutorial, [you'll love the book, which contains 80% more content!](http://www.springer.com/us/book/9781484210956)
+the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **[Updated for Pixi v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5)**. If you like this
+tutorial, [you'll love the book, which contains 80% more content!](http://www.springer.com/us/book/9781484210956).
 
 ### Table of contents:
 1. [Introduction](#introduction)
 2. [Setting up](#settingup)
-  1. [Installing Pixi the simple way](#installingpixithesimpleway)
-  2. [Installing Pixi with Git](#installingpixiwithgit)
-  3. [Installing Pixi with Node and Gulp](#installingpixiwithnodeandgulp)
-3. [Creating the stage and renderer](#renderer)
+  1. [Installing Pixi](#installingpixi)
+3. [Creating the stage and renderer](#application)
 4. [Pixi sprites](#sprites)
 5. [Loading images into the texture cache](#loading)
 6. [Displaying sprites](#displaying)
@@ -163,15 +161,14 @@ Before you start writing any code, create a folder for your project, and launch 
 webserver in the project's root directory. If you aren't running a
 webserver, Pixi won't work.
 
-Next, you need to install Pixi. There are two ways to do it: the
-**simple** way, with **Git** or with **Gulp and Node**. 
+Next, you need to install Pixi. 
 
-<a id='installingpixithesimpleway'></a>
-### Installing Pixi the simple way
+<a id='installingpixi'></a>
+### Installing Pixi
 
-The version used for this introduction is **v4.0.0**
-and you can find `pixi.min.js` file on [Pixi's release page for v4.0.0](https://github.com/pixijs/pixi.js/releases/tag/v4.0.0).
-Or you can get the latest version from [Pixi's main release page](https://github.com/pixijs/pixi.js/releases).
+The version used for this introduction is **v4.5.5**
+and you can find the `pixi.min.js`  file either in this repository's `pixi` folder or on [Pixi's release page for v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5).
+Or, you can get the latest version from [Pixi's main release page](https://github.com/pixijs/pixi.js/releases).
 
 This one file is all you need to use Pixi. You can ignore all the
 other files in the repository: **you don't need them.**
@@ -185,7 +182,8 @@ running. Your `<script>` tag might look something like this:
 <script src="pixi.min.js"></script>
 ```
 Here's a basic HTML page that you could use to link Pixi and test that
-it's working:
+it's working. (This assumes that the `pixi.min.js` is in a subfolder called `pixi`):
+
 ```html
 <!doctype html>
 <html>
@@ -193,10 +191,10 @@ it's working:
   <meta charset="utf-8">
   <title>Hello World</title>
 </head>
-  <script src="pixi.min.js"></script>
+  <script src="pixi/pixi.min.js"></script>
 <body>
   <script type="text/javascript">
-    var type = "WebGL"
+    let type = "WebGL"
     if(!PIXI.utils.isWebGLSupported()){
       type = "canvas"
     }
@@ -210,83 +208,13 @@ it's working:
 If Pixi is linking correctly,
 something like this will be displayed in your web browser's JavaScript console by default:
 ```
- Pixi.js 4.0.0 - ✰ WebGL ✰      http://www.pixijs.com/    ♥♥♥ 
+      PixiJS 4.4.5 - * canvas * http://www.pixijs.com/  ♥♥♥ 
 ```
 
 Now you can start working with Pixi!
 
-<a id='installingpixiwithgit'></a>
-### Installing Pixi with Git
-
-You can also use Git to install use Pixi. (What is **git**? If you don't know [you can find out
-here](https://github.com/kittykatattack/learningGit).) This has some advantages:
-you can just run `git pull origin master` from the command line to update Pixi to
-the latest version. And, if you think you've found a bug in Pixi, 
-you can fix it and submit a pull request to have the bug fix added to the main repository.
-
-To clone the Pixi repository with Git,  `cd`
-into your root project directory and type:
-```
-git clone git@github.com:pixijs/pixi.js.git
-```
-This automatically creates a folder called `pixi.js` and loads the **latest version** of Pixi into it.
-Keep in mind that this manual is tailored around *version 4.0.0*.
-To get this version simply checkout cloned `pixi.js` repository using tag like this:
-```
-git checkout tags/v4.0.0
-```
-
-After Pixi is installed, create a basic HTML document, and use a
-`<script>` tag to include the
-`pixi.js` file from Pixi's `bin` folder. The `<script>` tag's `src`
-should be relative to your root directory where your webserver is
-running. Your `<script>` tag might look something like this:
-```html
-<script src="pixi.js/bin/pixi.js"></script>
-```
-(If you prefer, you could link to the `pixi.min.js` file instead as I
-suggested in the previous section. The
-minified file might actually run slightly faster, and it will
-certainly load faster. The advantage to using the
-un-minified plain JS file is that if the compiler thinks there's a bug in Pixi's
-source code, it will give you an error message that displays the questionable code
-in a readable format. This is useful while you're working on a
-project, because even if the bug isn't in Pixi, the error might give
-you a hint as to what's wrong with your own code.)
-
-In this **Learning Pixi** repository (what you're reading now!) you'll find a folder called
-`examples`. Open it and you'll find a file called `helloWorld.html`.
-Assuming that the webserver is running in this repository's root directory, this is
-how the `helloWorld.html` file correctly links to Pixi and checks that it's
-working:
-```html
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Hello World</title>
-</head>
-<body>
-  <script src="../pixi.js/bin/pixi.js"></script>
-</body>
-</html>
-```
-If Pixi is linking correctly, something like this will be displayed in your web browser's JavaScript console by default:
-```
- Pixi.js 4.0.0 - ✰ WebGL ✰      http://www.pixijs.com/    ♥♥♥ 
-```
-
-<a id='installingpixiwithnodeandgulp'></a>
-### Installing Pixi with Node and Gulp
-
-You can also install Pixi using [Node](https://nodejs.org) and [Gulp](http://gulpjs.com). If you need
-to do a custom build of Pixi to include or exclude certain features,
-this is the route you should take. [See Pixi's GitHub repository for
-details on how](https://github.com/GoodBoyDigital/pixi.js). But, in general
-there's no need to do this.
-
-<a id='renderer'></a>
-Creating the renderer and stage
+<a id='application'></a>
+Creating the Pixi Application and `stage`
 -------------------------------
 
 Now you can start using Pixi!
@@ -295,27 +223,21 @@ But how?
 
 The first step is to create a rectangular
 display area that you can start displaying images on. Pixi has a
-`renderer` object that creates this for you. It
+`Application` object that creates this for you. It
 automatically generates an HTML `<canvas>` element and figures out how
 to display your images on the canvas. You then need to create a
 special Pixi `Container` object called the `stage`. As you'll see
 ahead, this stage object is going to be used as the root container
 that holds all the things you want Pixi to display. 
 
-Here’s the code you need to write to create a `renderer`
+Here’s the code you need to write to create a `pixiApp` Pixi Application
 and `stage`. Add this code to your HTML document between the `<script>` tags:
 ```js
-//Create the renderer
-var renderer = PIXI.autoDetectRenderer(256, 256);
+//Create a Pixi Application
+let app = new PIXI.Application({width: 256, height: 256});
 
-//Add the canvas to the HTML document
-document.body.appendChild(renderer.view);
-
-//Create a container object called the `stage`
-var stage = new PIXI.Container();
-
-//Tell the `renderer` to `render` the `stage`
-renderer.render(stage);
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 ```
 This is the most basic code you need write to get started using Pixi. 
 It produces a black 256 pixel by 256 pixel canvas element and adds it to your
@@ -325,26 +247,23 @@ HTML document. Here's what this looks like in a browser when you run this code.
 
 Yay, a [black square](http://rampantgames.com/blog/?p=7745)!
 
-Pixi’s `autoDetectRenderer` method figures out whether to use the
+`PIXI.Application` figures out whether to use the
 Canvas Drawing API or WebGL to render graphics, depending on which is
-available. Its first and second arguments are the width and height of the
-canvas. However, you can include an optional third argument with some
-additional values you can set. This third argument is an object
-literal, and here's how you could use it to set anti-aliasing, transparency
+available in the web browswer you're using. Its argument is a single object called the `options` object. It this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object and here's how you could use it to set anti-aliasing, transparency
 and resolution:
 ```js
-renderer = PIXI.autoDetectRenderer(
-  256, 256,
-  {antialias: false, transparent: false, resolution: 1}
+let app = new PIXI.Application(
+  { 
+    width: 256, 
+    height: 256,                       
+    antialiasing: false, 
+    transparent: false, 
+    resolution: 1
+  }
 );
 ```
-This third argument (the options object) is optional - if you're happy with Pixi's default
-settings you can leave it out, and there's usually no need to change
-them. (But, if you need to, see Pixi's documentation on the [Canvas
-Renderer](http://pixijs.download/release/docs/PIXI.CanvasRenderer.html)
-and
-[WebGLRenderer](http://pixijs.download/release/docs/PIXI.WebGLRenderer.html)
-for more information.)
+If you're happy with Pixi's default
+settings, you don't need to set any of these options, except of course the `width` and `height`  (But, if you need to, see Pixi's documentation on [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html)
 
 What do those options do?
 ```js
@@ -360,11 +279,6 @@ outside the scope of this tutorial, but check out [Mat Grove's
 explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
 about how to use `resolution` for all the details. But usually, just keep `resolution`
 at 1 for most projects and you'll be fine. 
-
-(Note: The renderer has an additional, fourth, option called `preserveDrawingBuffer` that
-defaults to `false`. The only reason to it set it
-to `true` is if you ever need to call Pixi's specialized `dataToURL`
-method on a WebGL canvas context.)
 
 Pixi's renderer object will default to WebGL, which is good, because WebGL is
 incredibly fast, and lets you use some spectacular visual effects that

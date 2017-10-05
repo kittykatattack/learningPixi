@@ -5,6 +5,14 @@
   <title>Hello World</title>
 </head>
 <body>
-  <script src="../pixi.js/bin/pixi.js"></script>
+  <script src="../pixi/pixi.min.js"></script>
+  <script type="text/javascript">		
+	  let type = "WebGL"
+	  if(!PIXI.utils.isWebGLSupported()){
+	    type = "canvas"
+	  }
+
+	  PIXI.utils.sayHello(type)
+  </script>
 </body>
 </html>
