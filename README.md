@@ -1150,7 +1150,7 @@ function setup() {
 
   //Create a rectangle object that defines the position and
   //size of the sub-image you want to extract from the texture
-  var rectangle = new Rectangle(192, 128, 64, 64);
+  var rectangle = new Rectangle(96, 64, 32, 32);
 
   //Tell the texture to use that rectangular section
   texture.frame = rectangle;
@@ -1187,7 +1187,7 @@ The `frame` crops the texture to the dimensions of the `Rectangle`.
 Here's how to use `frame`
 to crop the texture to the size and position of the rocket.
 ```js
-var rectangle = new Rectangle(192, 128, 64, 64);
+var rectangle = new Rectangle(96, 64, 32, 32);
 texture.frame = rectangle;
 ```
 You can then use that cropped texture to create the sprite:
