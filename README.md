@@ -90,10 +90,7 @@ engine. That’s good because it gives you total expressive freedom to make anyt
 
 In this tutorial you’re going to find out how to combine Pixi’s
 powerful image rendering features and scene graph to start making
-games. You’re also going to learn how to prepare your game graphics
-with a texture atlas, how to make particle effects using the Proton
-particle engine, and how to integrate Pixi into your own custom game
-engine. But Pixi isn't just for games - you can use these same
+games. But Pixi isn't just for games - you can use these same
 techniques to create any interactive media applications. That means
 apps for phones!
 
@@ -230,7 +227,7 @@ special Pixi `Container` object called the `stage`. As you'll see
 ahead, this `stage` object is going to be used as the root container
 that holds all the things you want Pixi to display. 
 
-Here’s the code you need to write to create a `pixiApp` Pixi Application
+Here’s the code you need to write to create an `app` Pixi Application
 and `stage`. Add this code to your HTML document between the `<script>` tags:
 ```js
 //Create a Pixi Application
@@ -249,7 +246,7 @@ Yay, a [black square](http://rampantgames.com/blog/?p=7745)!
 
 `PIXI.Application` figures out whether to use the
 Canvas Drawing API or WebGL to render graphics, depending on which is
-available in the web browswer you're using. Its argument is a single object called the `options` object. It this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object and here's how you could use it to set anti-aliasing, transparency
+available in the web browswer you're using. Its argument is a single object called the `options` object. In this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object; here's how you could use it to set anti-aliasing, transparency
 and resolution:
 ```js
 let app = new PIXI.Application({ 
@@ -279,7 +276,7 @@ at 1 for most projects and you'll be fine.
 Pixi's `renderer` object will default to WebGL, which is good, because WebGL is
 incredibly fast, and lets you use some spectacular visual effects that
 you’ll learn all about ahead. But if you need to force the Canvas Drawing
-API rendering over WebGL, you set the `forceCanvas` option to `true`, like this:
+API rendering over WebGL, you can set the `forceCanvas` option to `true`, like this:
 ```js
 forceCanvas: true,
 ```
@@ -520,7 +517,7 @@ Then, use that alias in place of the original, like this:
 let texture = TextureCache["images/cat.png"];
 ```
 In addition to letting you write more slightly succinct code, using aliases has
-an extra benefit: it helps to buffer yo from Pixi's frequently
+an extra benefit: it helps to buffer you from Pixi's frequently
 changing API. If Pixi's API changes in future
 versions - which it will! - you just need to update these aliases to
 Pixi objects and methods in one place, at the beginning of
@@ -808,7 +805,7 @@ Positioning sprites
 Now that you know how to create and display sprites, let's find out
 how to position and resize them.
 
-In the earlier example the cat sprite was added to stage at
+In the earlier example the cat sprite was added to the stage at
 the top left corner. The cat has an `x` position of
 0 and a `y` position of 0. You can change the position of the cat by
 changing the values of its `x` and `y` properties. Here's how you can center the cat in the stage by
@@ -837,7 +834,7 @@ function setup() {
 `Sprite` is an alias for `PIXI.Sprite`, `TextureCache` is an
 alias for `PIXI.TextureCache`, and `resources` is an alias for
 `PIXI.loader.resources` as described earlier. I'll be
-using alias that follow this same format for all Pixi objects and
+using aliases that follow this same format for all Pixi objects and
 methods in the example code from now on.)
 
 These two new lines of code will move the cat 96 pixels to the right,
@@ -1495,7 +1492,7 @@ Whether or not you choose to add this `delta` value is largely an aestheic choic
 
 You don't have to use Pixi's ticker to create a game loop. If you prefer, just use `requestAnimationFrame`, like this:
 
-```
+```js
 function gameLoop() {
 
   //Call this `gameLoop` function on the next screen refresh
@@ -1728,7 +1725,7 @@ this custom function called `keyboard` that listens for and captures
 keyboard events.
 ```js
 function keyboard(keyCode) {
-  var key = {};
+  let key = {};
   key.code = keyCode;
   key.isDown = false;
   key.isUp = true;
@@ -1768,7 +1765,7 @@ The `keyboard` function is easy to use. Create a new keyboard object like this:
 ```js
 let keyObject = keyboard(asciiKeyCodeNumber);
 ```
-It's one argument is the ASCII key code number of the keyboard key that you
+Its one argument is the ASCII key code number of the keyboard key that you
 want to listen for.
 [Here's a list of ASCII keyboard code
 numbers](http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html).
@@ -1796,7 +1793,7 @@ arrow keys to move the cat around the stage.
 Here's the code that does all this:
 ```js
 //Define any variables that are used in more than one function
-var cat, state;
+let cat, state;
 
 function setup() {
 
@@ -2153,7 +2150,7 @@ Using image textures is one of the most useful ways of making sprites,
 but Pixi also has its own low-level drawing tools. You can use them to
 make rectangles, shapes, lines, complex polygons and text. And,
 fortunately, it uses almost the same API as the [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas) so,
-if you're already familiar with canvas, here’s nothing really new to
+if you're already familiar with canvas, there’s nothing really new to
   learn. But the big advantage is that, unlike the Canvas Drawing API,
   the shapes you draw with Pixi are rendered by WebGL on the GPU. Pixi
   lets you access all that untapped performance power.
@@ -2289,7 +2286,7 @@ you've drawn them.
 ### Polygons
 
 You can join lines together and fill them with colors to make complex
-shapes using the `drawPolygon` method. `drawPolygon`'s argument is an
+shapes using the `drawPolygon` method. `drawPolygon`'s argument is a
 path array of x/y points that define the positions of each point on the
 shape.
 ```js
@@ -2342,7 +2339,7 @@ app.stage.addChild(message);
 
 This will display the words, "Hello, Pixi" on the canvas. Pixi’s Text objects inherit from the `Sprite` class, so they
 contain all the same properties like `x`, `y`, `width`, `height`,
-`alpha`, and `rotation`. Position and resize text on the stage just like you would any other sprite. For example, you could use `set.position` to set the `message`'s `x` and `y` position like this:
+`alpha`, and `rotation`. Position and resize text on the stage just like you would any other sprite. For example, you could use `position.set` to set the `message`'s `x` and `y` position like this:
 ```js
 message.position.set(54, 96);
 ```
@@ -2479,7 +2476,7 @@ per second, this `if` statement is constantly checking for a collision
 between the cat and the box. If `hitTestRectangle` is `true`, the
 text `message` object uses `text` to display "Hit":
 ```js
-message.text = "hit!";
+message.text = "Hit!";
 ```
 The color of the box is then changed from green to red by setting the
 box's `tint` property to the hexadecimal red value.
@@ -2489,7 +2486,7 @@ box.tint = 0xff3300;
 If there's no collision, the message and box are maintained in their
 original states:
 ```js
-message.text = "no collision...";
+message.text = "No collision...";
 box.tint = 0xccff99;
 ```
 This code is pretty simple, but suddenly you've created an interactive
@@ -2502,7 +2499,7 @@ games with Pixi!
 
 But what about the `hitTestRectangle` function? What does it do, and
 how does it work? The details of how collision detection algorithms
-like this work is a little bit outside the scope of this tutorial. (If you really want to know, your can find out how it works in [this book](https://www.apress.com/us/book/9781430258001).)
+like this work is a little bit outside the scope of this tutorial. (If you really want to know, you can find out how [this book](https://www.apress.com/us/book/9781430258001).)
 The most important thing is that you know how to use it. But, just for
 your reference, and in case you're curious, here's the complete
 `hitTestRectangle` function definition. Can you figure out from the
@@ -2564,10 +2561,10 @@ function hitTestRectangle(r1, r2) {
 Case study: Treasure Hunter
 ---------------
 
-So I told you that you now have all the skills you need to start
+I've told you that you now have all the skills you need to start
 making games. What? You don't believe me? Let me prove it to you! Let’s take a
 close at how to make a simple object collection and enemy
-avoidance game called **Treasure Hunter**. (You'll find it the `examples`
+avoidance game called **Treasure Hunter**. (You'll find it in the `examples`
 folder.)
 
 ![Treasure Hunter](/examples/images/screenshots/26.png)
