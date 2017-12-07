@@ -2,23 +2,29 @@
 <meta charset="utf-8">
 <title>Grouping sprites</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
+    Container = PIXI.Container,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
-    Texture = PIXI.Texture,
     Sprite = PIXI.Sprite;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 //load a JSON file and run the `setup` function when it's done
 loader
@@ -33,28 +39,28 @@ function setup() {
   //Make the three animal sprites
 
   //Create an alias for the texture atlas frame ids
-  var id = resources["images/animals.json"].textures;
+  let id = resources["images/animals.json"].textures;
 
   //The cat
-  var cat = new Sprite(id["cat.png"]);
+  let cat = new Sprite(id["cat.png"]);
   cat.position.set(16, 16);
 
   //The hedgehog
-  var hedgehog = new Sprite(id["hedgehog.png"]);
+  let hedgehog = new Sprite(id["hedgehog.png"]);
   hedgehog.position.set(32, 32);
 
   //The tiger
-  var tiger = new Sprite(id["tiger.png"]);
+  let tiger = new Sprite(id["tiger.png"]);
   tiger.position.set(64, 64);
 
   //Group the animals
-  var animals = new Container();
+  let animals = new Container();
   animals.addChild(cat);
   animals.addChild(hedgehog);
   animals.addChild(tiger);
 
   //Add the `animals` group to the stage
-  stage.addChild(animals);
+  app.stage.addChild(animals);
 
   //Change the position of the group
   animals.position.set(64, 64);
@@ -100,9 +106,6 @@ function setup() {
   //If you don't know what group the sprite belongs to, use the
   //sprite's `parent` property.
   //console.log(cat.parent.toGlobal(cat.position));
-
-  //Render the stage   
-  renderer.render(stage);
 }
 
 </script>

@@ -2,64 +2,70 @@
 <meta charset="utf-8">
 <title>Graphic primitives</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
+    Container = PIXI.Container,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
+    Graphics = PIXI.Graphics,
     TextureCache = PIXI.utils.TextureCache,
-    Texture = PIXI.Texture,
-    Sprite = PIXI.Sprite,
-    Graphics = PIXI.Graphics;
+    Sprite = PIXI.Sprite;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
 
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 //Circle
-var circle = new Graphics();
+let circle = new Graphics();
 circle.beginFill(0x9966FF);
 circle.drawCircle(0, 0, 32);
 circle.endFill();
 circle.x = 64;
 circle.y = 130;
-stage.addChild(circle);
+app.stage.addChild(circle);
 
 //Rectangle
-var rectangle = new Graphics();
+let rectangle = new Graphics();
 rectangle.lineStyle(4, 0xFF3300, 1);
 rectangle.beginFill(0x66CCFF);
 rectangle.drawRect(0, 0, 64, 64);
 rectangle.endFill();
 rectangle.x = 170;
 rectangle.y = 170;
-stage.addChild(rectangle);
+app.stage.addChild(rectangle);
 
 //Line
-var line = new Graphics();
+let line = new Graphics();
 line.lineStyle(4, 0xFFFFFF, 1);
 line.moveTo(0, 0);
 line.lineTo(80, 50);
 line.x = 32;
 line.y = 32;
-stage.addChild(line);
+app.stage.addChild(line);
 
 //Ellipse
-var ellipse = new Graphics();
+let ellipse = new Graphics();
 ellipse.beginFill(0xFFFF00);
 ellipse.drawEllipse(0, 0, 50, 20);
 ellipse.endFill();
 ellipse.x = 180;
 ellipse.y = 130;
-stage.addChild(ellipse);
+app.stage.addChild(ellipse);
 
 //Triangle
-var triangle = new Graphics();
+let triangle = new Graphics();
 triangle.beginFill(0x66FF33);
 
 //Use `drawPolygon` to define the triangle as an
@@ -78,20 +84,18 @@ triangle.endFill();
 triangle.x = 180;
 triangle.y = 22;
 
-stage.addChild(triangle);
+app.stage.addChild(triangle);
 
 //Rounded rectangle
-var roundBox = new Graphics();
+let roundBox = new Graphics();
 roundBox.lineStyle(4, 0x99CCFF, 1);
 roundBox.beginFill(0xFF9933);
 roundBox.drawRoundedRect(0, 0, 84, 36, 10)
 roundBox.endFill();
 roundBox.x = 48;
 roundBox.y = 190;
-stage.addChild(roundBox);
+app.stage.addChild(roundBox);
 
-//Render the stage
-renderer.render(stage);
 </script>
 </body>
 

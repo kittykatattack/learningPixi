@@ -2,31 +2,39 @@
 <meta charset="utf-8">
 <title>Collision detection</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
+    Container = PIXI.Container,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
+    Graphics = PIXI.Graphics,
     TextureCache = PIXI.utils.TextureCache,
-    Texture = PIXI.Texture,
     Sprite = PIXI.Sprite,
-    Graphics = PIXI.Graphics;
+    Text = PIXI.Text,
+    TextStyle = PIXI.TextStyle;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 loader
   .add("images/cat.png")
   .load(setup);
 
 //Define any variables that are used in more than one function
-var cat, box, message, state;
+let cat, box, message, state;
 
 function setup() {
 
@@ -37,7 +45,7 @@ function setup() {
   box.endFill();
   box.x = 120;
   box.y = 96;
-  stage.addChild(box);
+  app.stage.addChild(box);
 
   //Create the `cat` sprite 
   cat = new Sprite(resources["images/cat.png"].texture);
@@ -45,10 +53,10 @@ function setup() {
   cat.y = 96; 
   cat.vx = 0;
   cat.vy = 0;
-  stage.addChild(cat);
+  app.stage.addChild(cat);
 
   //Capture the keyboard arrow keys
-  var left = keyboard(37),
+  let left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
@@ -106,33 +114,30 @@ function setup() {
   };
 
   //Create the text sprite
-  message = new PIXI.Text(
-    "No collision...", 
-    {font: "18px sans-serif", fill: "white"}
-  );
+  let style = new TextStyle({
+    fontFamily: "sans-serif",
+    fontSize: 18,
+    fill: "white",
+  }); 
+  message = new Text("No collision...", style);
   message.position.set(8, 8);
-  stage.addChild(message);
+  app.stage.addChild(message);
 
   //Set the game state
   state = play;
  
-  //Start the game loop
-  gameLoop();
+  //Start the game loop 
+  app.ticker.add(delta => gameLoop(delta));
 }
 
-function gameLoop(){
 
-  //Loop this function 60 times per second
-  requestAnimationFrame(gameLoop);
+function gameLoop(delta){
 
-  //Update the current game state
-  state();
-
-  //Render the stage
-  renderer.render(stage);
+  //Update the current game state:
+  state(delta);
 }
 
-function play() {
+function play(delta) {
 
   //use the cat's velocity to make it move
   cat.x += cat.vx;
@@ -158,7 +163,7 @@ function play() {
 function hitTestRectangle(r1, r2) {
 
   //Define the variables we'll need to calculate
-  var hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
+  let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
 
   //hit will determine whether there's a collision
   hit = false;
@@ -209,12 +214,13 @@ function hitTestRectangle(r1, r2) {
 
 //The `keyboard` helper function
 function keyboard(keyCode) {
-  var key = {};
+  let key = {};
   key.code = keyCode;
   key.isDown = false;
   key.isUp = true;
   key.press = undefined;
   key.release = undefined;
+
   //The `downHandler`
   key.downHandler = function(event) {
     if (event.keyCode === key.code) {

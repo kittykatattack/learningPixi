@@ -2,25 +2,32 @@
 <meta charset="utf-8">
 <title>Treasure hunter</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
+    Container = PIXI.Container,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
+    Graphics = PIXI.Graphics,
     TextureCache = PIXI.utils.TextureCache,
-    Texture = PIXI.Texture,
     Sprite = PIXI.Sprite,
     Text = PIXI.Text,
-    Graphics = PIXI.Graphics;
+    TextStyle = PIXI.TextStyle;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(512, 512);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 512, 
+    height: 512,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 loader
   .add("images/treasureHunter.json")
@@ -28,14 +35,14 @@ loader
 
 //Define variables that might be used in more 
 //than one function
-var state, explorer, treasure, blobs, chimes, exit, player, dungeon,
+let state, explorer, treasure, blobs, chimes, exit, player, dungeon,
     door, healthBar, message, gameScene, gameOverScene, enemies, id;
 
 function setup() {
 
   //Make the game scene and add it to the stage
   gameScene = new Container();
-  stage.addChild(gameScene);
+  app.stage.addChild(gameScene);
 
   //Make the sprites and add them to the `gameScene`
   //Create an alias for the texture atlas frame ids
@@ -65,7 +72,7 @@ function setup() {
   gameScene.addChild(treasure);
 
   //Make the blobs
-  var numberOfBlobs = 6,
+  let numberOfBlobs = 6,
       spacing = 48,
       xOffset = 150,
       speed = 2,
@@ -75,18 +82,18 @@ function setup() {
   blobs = [];
 
   //Make as many blobs as there are `numberOfBlobs`
-  for (var i = 0; i < numberOfBlobs; i++) {
+  for (let i = 0; i < numberOfBlobs; i++) {
 
     //Make a blob
-    var blob = new Sprite(id["blob.png"]);
+    let blob = new Sprite(id["blob.png"]);
 
     //Space each blob horizontally according to the `spacing` value.
     //`xOffset` determines the point from the left of the screen
     //at which the first blob should be added
-    var x = spacing * i + xOffset;
+    let x = spacing * i + xOffset;
 
     //Give the blob a random y position
-    var y = randomInt(0, stage.height - blob.height);
+    let y = randomInt(0, app.stage.height - blob.height);
 
     //Set the blob's position
     blob.x = x;
@@ -110,18 +117,18 @@ function setup() {
 
   //Create the health bar
   healthBar = new Container();
-  healthBar.position.set(stage.width - 170, 6)
+  healthBar.position.set(app.stage.width - 170, 4)
   gameScene.addChild(healthBar);
 
   //Create the black background rectangle
-  var innerBar = new Graphics();
+  let innerBar = new Graphics();
   innerBar.beginFill(0x000000);
   innerBar.drawRect(0, 0, 128, 8);
   innerBar.endFill();
   healthBar.addChild(innerBar);
 
   //Create the front red rectangle
-  var outerBar = new Graphics();
+  let outerBar = new Graphics();
   outerBar.beginFill(0xFF3300);
   outerBar.drawRect(0, 0, 128, 8);
   outerBar.endFill();
@@ -131,22 +138,24 @@ function setup() {
 
   //Create the `gameOver` scene
   gameOverScene = new Container();
-  stage.addChild(gameOverScene);
+  app.stage.addChild(gameOverScene);
 
   //Make the `gameOver` scene invisible when the game first starts
   gameOverScene.visible = false;
 
   //Create the text sprite and add it to the `gameOver` scene
-  message = new Text(
-    "The End!", 
-    {font: "64px Futura", fill: "white"}
-  );
+  let style = new TextStyle({
+    fontFamily: "Futura",
+    fontSize: 64,
+    fill: "white"
+  });
+  message = new Text("The End!", style);
   message.x = 120;
-  message.y = stage.height / 2 - 32;
+  message.y = app.stage.height / 2 - 32;
   gameOverScene.addChild(message);
 
   //Capture the keyboard arrow keys
-  var left = keyboard(37),
+  let left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
@@ -206,23 +215,19 @@ function setup() {
   //Set the game state
   state = play;
  
-  //Start the game loop
-  gameLoop();
+  //Start the game loop 
+  app.ticker.add(delta => gameLoop(delta));
 }
 
-function gameLoop(){
 
-  //Loop this function 60 times per second
-  requestAnimationFrame(gameLoop);
+function gameLoop(delta){
 
-  //Update the current game state
-  state();
-
-  //Render the stage
-  renderer.render(stage);
+  //Update the current game state:
+  state(delta);
 }
 
-function play() {
+function play(delta) {
+
 
   //use the explorer's velocity to make it move
   explorer.x += explorer.vx;
@@ -233,7 +238,7 @@ function play() {
   //contain(explorer, stage);
 
   //Set `explorerHit` to `false` before checking for a collision
-  var explorerHit = false;
+  let explorerHit = false;
 
   //Loop through all the sprites in the `enemies` array
   blobs.forEach(function(blob) {
@@ -242,7 +247,7 @@ function play() {
     blob.y += blob.vy;
 
     //Check the blob's screen boundaries
-    var blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
+    let blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 
     //If the blob hits the top or bottom of the stage, reverse
     //its direction
@@ -304,7 +309,7 @@ function end() {
 
 function contain(sprite, container) {
 
-  var collision = undefined;
+  let collision = undefined;
 
   //Left
   if (sprite.x < container.x) {
@@ -338,7 +343,7 @@ function contain(sprite, container) {
 function hitTestRectangle(r1, r2) {
 
   //Define the variables we'll need to calculate
-  var hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
+  let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
 
   //hit will determine whether there's a collision
   hit = false;

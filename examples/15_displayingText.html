@@ -2,30 +2,56 @@
 <meta charset="utf-8">
 <title>Displaying text</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
-    Text = PIXI.Text;
+let Application = PIXI.Application,
+    Text = PIXI.Text,
+    TextStyle = PIXI.TextStyle;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
-
-var message = new PIXI.Text(
-  "Hello Pixi!", 
-  {font: "32px sans-serif", fill: "white"}
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1,
+    backgroundColor: 0x6699ff
+  }
 );
 
-message.position.set(54, 96);
-stage.addChild(message);
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
-//Render the stage
-renderer.render(stage);
+
+//1. Simple text
+let message = new Text("Hello Pixi!");
+
+//Position it and add it to the stage
+message.position.set(54, 96);
+app.stage.addChild(message);
+
+//2. Styled text
+let style = new TextStyle({
+  fontFamily: "Arial",
+  fontSize: 36,
+  fill: "white",
+  stroke: '#ff3300',
+  strokeThickness: 4,
+  dropShadow: true,
+  dropShadowColor: "#000000",
+  dropShadowBlur: 4,
+  dropShadowAngle: Math.PI / 6,
+  dropShadowDistance: 6,
+});
+
+let styledMessage = new Text("Styled Text", style);
+
+//Position it and add it to the stage
+styledMessage.position.set(54, 128);
+app.stage.addChild(styledMessage);
+
 </script>
 </body>
 

@@ -2,24 +2,29 @@
 <meta charset="utf-8">
 <title>Using aliases</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
-    TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
 
-//Use Pixi's built-in `loader` module to load an image
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
+
+//load an image and run the `setup` function when it's done
 loader
   .add("images/cat.png")
   .load(setup);
@@ -27,14 +32,19 @@ loader
 //This `setup` function will run when the image has loaded
 function setup() {
 
-  //Create the `cat` sprite from the texture
-  var cat = new Sprite(resources["images/cat.png"].texture);
-
-  //Add the cat to the stage
-  stage.addChild(cat);
+  //Create the cat sprite
+  let cat = new Sprite(resources["images/cat.png"].texture);
   
-  //Render the stage   
-  renderer.render(stage);
+  //Add the cat to the stage
+  app.stage.addChild(cat);
+
+  //If you ever need to, here's how you can clean out WebGL's GPU
+  //memory manually
+  /*
+  Object.keys(TextureCache).forEach(function(texture) {
+    TextureCache[texture].destroy(true);
+  });
+  */
 }
 </script>
 </body>
