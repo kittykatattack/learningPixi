@@ -1461,7 +1461,7 @@ to the right at a rate of 1 pixel per frame.
 
 function setup() {
 
-  //Start the game loop buy adding the `gameLoop` function to
+  //Start the game loop by adding the `gameLoop` function to
   //Pixi's `ticker` and providing it with a `delta` argument.
   app.ticker.add(delta => gameLoop(delta));
 }
