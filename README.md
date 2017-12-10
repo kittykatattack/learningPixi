@@ -252,7 +252,7 @@ and resolution:
 let app = new PIXI.Application({ 
     width: 256, 
     height: 256,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
@@ -465,7 +465,7 @@ sprite, and display it on Pixi's stage:
 let app = new PIXI.Application({ 
     width: 256, 
     height: 256,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
@@ -538,7 +538,7 @@ let Application = PIXI.Application,
 let app = new Application({ 
     width: 256, 
     height: 256,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
@@ -1315,7 +1315,7 @@ let Application = PIXI.Application,
 let app = new Application({ 
     width: 512, 
     height: 512,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
@@ -1531,7 +1531,7 @@ let Application = PIXI.Application,
 let app = new Application({ 
     width: 256, 
     height: 256,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
