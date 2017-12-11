@@ -304,7 +304,7 @@ CSS styling and resize the renderer to the size of the browser window.
 app.renderer.view.style.position = "absolute";
 app.renderer.view.style.display = "block";
 app.renderer.autoResize = true;
-app.enderer.resize(window.innerWidth, window.innerHeight);
+app.renderer.resize(window.innerWidth, window.innerHeight);
 ```
 But, if you do that, make sure you also set the default padding and
 margins to 0 on all your HTML elements with this bit of CSS code:
