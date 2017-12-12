@@ -1463,10 +1463,10 @@ function setup() {
 
   //Start the game loop by adding the `gameLoop` function to
   //Pixi's `ticker` and providing it with a `delta` argument.
-  app.ticker.add(delta => gameLoop(delta));
+  app.ticker.add(delta => gameLoop(cat, delta));
 }
 
-function gameLoop(delta){
+function gameLoop(cat, delta){
 
   //Move the cat 1 pixel 
   cat.x += 1;
