@@ -315,7 +315,7 @@ margins to 0 on all your HTML elements with this bit of CSS code:
 which just means "all the tags in the HTML document".)
 
 If you want the canvas to scale proportionally to any browser window
-size, you can use [this custom scaleToWindow function.](https://github.com/kittykatattack/scaleToWindow).
+size, you can use [this custom scaleToWindow function](https://github.com/kittykatattack/scaleToWindow).
 
 <a id='sprites'></a>
 Pixi sprites
