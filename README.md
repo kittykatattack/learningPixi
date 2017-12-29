@@ -250,16 +250,16 @@ available in the web browswer you're using. Its argument is a single object call
 and resolution:
 ```js
 let app = new PIXI.Application({ 
-    width: 256, 
-    height: 256,                       
-    antialias: true, 
-    transparent: false, 
-    resolution: 1
+    width: 256,         // default: 800
+    height: 256,        // default: 600
+    antialias: true,    // default: false
+    transparent: false, // default: false
+    resolution: 1       // default: 1
   }
 );
 ```
-If you're happy with Pixi's default
-settings, you don't need to set any of these options, except of course the `width` and `height`  (But, if you need to, see Pixi's documentation on [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html)
+If you're happy with Pixi's default settings, you don't need to set any of these options.
+But, if you need to, see Pixi's documentation on [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html).
 
 What do those options do?
 `antialias` smoothes the edges of fonts and graphic primitives. (WebGL
