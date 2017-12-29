@@ -370,12 +370,12 @@ sprites will need. The names of the textures are strings that match
 the file locations of the images they refer to. That means if you have
 a texture that was loaded from `"images/cat.png"`, you could find it in the texture cache like this:
 ```js
-PIXI.TextureCache["images/cat.png"];
+PIXI.utils.TextureCache["images/cat.png"];
 ```
 The textures are stored in a WebGL compatible format that’s efficient
 for Pixi’s renderer to work with. You can then use Pixi’s `Sprite` class to make a new sprite using the texture.
 ```js
-let texture = PIXI.TextureCache["images/anySpriteImage.png"];
+let texture = PIXI.utils.TextureCache["images/anySpriteImage.png"];
 let sprite = new PIXI.Sprite(texture);
 ```
 But how do you load the image file and convert it into a texture? Use
@@ -832,7 +832,7 @@ function setup() {
 ```
 (Note: In this example,
 `Sprite` is an alias for `PIXI.Sprite`, `TextureCache` is an
-alias for `PIXI.TextureCache`, and `resources` is an alias for
+alias for `PIXI.utils.TextureCache`, and `resources` is an alias for
 `PIXI.loader.resources` as described earlier. I'll be
 using aliases that follow this same format for all Pixi objects and
 methods in the example code from now on.)
