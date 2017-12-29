@@ -330,7 +330,7 @@ as a kind of empty box that will group together and store whatever you
 put inside it. The `stage` object is the root container for all the visible
 things in your scene. Whatever you put inside the `stage` will be
 rendered on the canvas. Right now the `stage` is empty, but soon we're going to
-start putting things inside it. (You can read more about Pixi's `Container` obejcts [here](http://pixijs.download/release/docs/PIXI.Container.html)).
+start putting things inside it. (You can read more about Pixi's `Container` objects [here](http://pixijs.download/release/docs/PIXI.Container.html)).
 
 (Important: because the `stage` is a Pixi `Container` it has the same properties and methods as any other `Container` object. But,  although the `stage` has `width` and `height` properties, *they don't refer to
 the size of the rendering window*. The stage's `width` and `height`
