@@ -1775,7 +1775,7 @@ Then assign `press` and `release` methods to the keyboard object like this:
 keyObject.press = () => {
   //key object pressed
 };
-keyObject.release = () =>) {
+keyObject.release = () => {
   //key object released
 };
 ```
