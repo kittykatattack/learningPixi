@@ -63,7 +63,7 @@ Pixi教程
 25. [支持这个工程](#supportingthisproject)
 
 <a id='introduction'></a>
-Introduction
+介绍
 ------------
 Pixi是一个超快的2D渲染引擎。这意味着什么呢？这意味着它会帮助你用JavaScript
 或者其他HTML5技术来显示，创建动画或管理交互式图像，从而制作一个游戏或应用。
@@ -129,35 +129,30 @@ JavaScript](http://www.codecademy.com/tracks/javascript)
 都可以创建一个GitHub工程 **issue** ，我会对这个文档更新更多信息。）
 
 <a id='settingup'></a>
-Setting up
+安装
 ----------
+在你开始写任何代码之前，给你的工程创建一个目录，并且在根目录下运行一个web服务器。如果你不
+这么做，Pixi不会工作的。
 
-Before you start writing any code, create a folder for your project, and launch a
-webserver in the project's root directory. If you aren't running a
-webserver, Pixi won't work.
-
-Next, you need to install Pixi.
+现在，你需要去安装Pixi。
 
 <a id='installingpixi'></a>
-### Installing Pixi
+### 安装 Pixi
 
-The version used for this introduction is **v4.5.5**
-and you can find the `pixi.min.js`  file either in this repository's `pixi` folder or on [Pixi's release page for v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5).
-Or, you can get the latest version from [Pixi's main release page](https://github.com/pixijs/pixi.js/releases).
+这个教程使用的版本是 **v4.5.5**
+你可以选择使用 [Pixi v4.5.5的发布页面](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5)`pixi`文件夹下的`pixi.min.js`文件，或者从[Pixi的主要发布页面](https://github.com/pixijs/pixi.js/releases)中获取最新版本。
 
-This one file is all you need to use Pixi. You can ignore all the
-other files in the repository: **you don't need them.**
+这个文件就是你使用Pixi唯一需要的文件，你可以忽视所有这个工程的其他文件，**你不需要他们**。
 
-Next, create a basic HTML page, and use a
-`<script>` tag to link the
-`pixi.min.js` file that you've just downloaded. The `<script>` tag's `src`
-should be relative to your root directory where your webserver is
-running. Your `<script>` tag might look something like this:
+现在，创建一个基础的HTML页面，用一个`<script>`标签去加载你刚刚下载的`pixi.min.js`文件。
+`<script>`标签的`src`属性应该是你根目录文件的相对路径————当然请确保你的web服务器在运行。
+你的`<script>`标签应该看起来像是这样：
+
 ```html
 <script src="pixi.min.js"></script>
 ```
-Here's a basic HTML page that you could use to link Pixi and test that
-it's working. (This assumes that the `pixi.min.js` is in a subfolder called `pixi`):
+这是你用来链接Pixi和测试它是否工作的基础页面。（这里假设 `pixi.min.js`在一个叫做`pixi`
+的子文件夹中）：
 
 ```html
 <!doctype html>
@@ -180,32 +175,28 @@ it's working. (This assumes that the `pixi.min.js` is in a subfolder called `pix
 </html>
 ```
 
-If Pixi is linking correctly,
-something like this will be displayed in your web browser's JavaScript console by default:
+如果Pixi连接成功，一些这样的东西会在你的浏览器控制台里显示：
 ```
       PixiJS 4.4.5 - * canvas * http://www.pixijs.com/  ♥♥♥
 ```
 
 
 <a id='application'></a>
-Creating the Pixi Application and `stage`
+创建Pixi应用和 `舞台`
 -------------------------------
 
-Now you can start using Pixi!
+现在你可以开始使用Pixi！
 
-But how?
+但是怎么用？
 
-The first step is to create a rectangular
-display area that you can start displaying images on. Pixi has a
-`Application` object that creates this for you. It
-automatically generates an HTML `<canvas>` element and figures out how
-to display your images on the canvas. You then need to create a
-special Pixi `Container` object called the `stage`. As you'll see
-ahead, this `stage` object is going to be used as the root container
-that holds all the things you want Pixi to display.
+第一步就是去创建一个可以显示图片的矩形显示区。Pixi拥有一个`Application`对象来帮助你
+创建它。它会自动创建一个`<canvas>`HTML标签并且计算出怎么去让你的图片在这个标签中显示。
+你现在需要创建一个特殊的Pixi`Container`对象，他被称作`舞台`。正如你所见，这个`舞台`对
+象将会被当作根容器而使用，它将包裹所有你想用Pixi显示的东西。
 
-Here’s the code you need to write to create an `app` Pixi Application
-and `stage`. Add this code to your HTML document between the `<script>` tags:
+这里是你需要创建一个名叫`app`的Pixi应用和`舞台`的必要的代码。这些代码需要在你的HTML文档
+中以`<script>`标签包裹。
+
 ```js
 //Create a Pixi Application
 let app = new PIXI.Application({width: 256, height: 256});
@@ -213,18 +204,17 @@ let app = new PIXI.Application({width: 256, height: 256});
 //Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view);
 ```
-This is the most basic code you need write to get started using Pixi.
-It produces a black 256 pixel by 256 pixel canvas element and adds it to your
-HTML document. Here's what this looks like in a browser when you run this code.
+这是你想要开始使用Pixi的最基本的代码。它在你的文档中创建了一个256像素宽高的黑色canvas标签。
+当你运行这个代码的时候浏览器应该显示成这样：
 
 ![Basic display](/examples/images/screenshots/01.png)
 
-Yay, a [black square](http://rampantgames.com/blog/?p=7745)!
+啊哈, 一个 [black square](http://rampantgames.com/blog/?p=7745)!
 
-`PIXI.Application` figures out whether to use the
-Canvas Drawing API or WebGL to render graphics, depending on which is
-available in the web browswer you're using. Its argument is a single object called the `options` object. In this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object; here's how you could use it to set anti-aliasing, transparency
-and resolution:
+`PIXI.Application`算出了应该使用Canvas还是WebGL去渲染图象，它取决于你正在使用的浏览器
+支持哪一个。它的参数是一个被称作`options`的对象。在这儿例子中，它的`width` 和 `height`
+属性已经被设置了，它们决定了canvas的宽和高（单位是像素）。你能够在`options`对象中使用更
+多的属性设置，这里展示了你如何使用它来圆滑边界，设置透明度和分辨率：
 ```js
 let app = new PIXI.Application({
     width: 256,         // default: 800
@@ -235,64 +225,56 @@ let app = new PIXI.Application({
   }
 );
 ```
-If you're happy with Pixi's default settings, you don't need to set any of these options.
-But, if you need to, see Pixi's documentation on [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html).
+如果你觉得Pixi的默认设置也不错，你就不需要作任何的设置，但是如果你需要，就在这里看一下Pixi
+的文档吧：
+ [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html).
 
-What do those options do?
-`antialias` smoothes the edges of fonts and graphic primitives. (WebGL
-anti-aliasing isn’t available on all platforms, so you’ll need to test
-this on your game’s target platform.) `transparent` makes the canvas
-background transparent. `resolution` makes it easier to work with
-displays of varying resolutions and pixel densities. Setting
-the resolutions is a little
-outside the scope of this tutorial, but check out [Mat Grove's
+这些设置做了些什么呢？
+`antialias`使得字体的边界和几何图形更加圆滑（WebGL的anti-aliasing在所有平台都不可用，
+所以你需要在你的游戏的标签平台上测试他们）。`transparent`将整个Canvs标签的透明度进行了
+设置。`resolution`让Pixi在不同的分辨率和像素密度的平台上运行变得简单。设置分辨率对于这
+个教程而言有些超纲了，到那时你可以看[Mat Grove's
 explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
-about how to use `resolution` for all the details. But usually, just keep `resolution`
-at 1 for most projects and you'll be fine.
+之中是如何使用`resolution`的所有细节的。但是平常，只要保持`resolution`是1，就可以应付
+大多数工程了。
 
-Pixi's `renderer` object will default to WebGL, which is good, because WebGL is
-incredibly fast, and lets you use some spectacular visual effects that
-you’ll learn all about ahead. But if you need to force the Canvas Drawing
-API rendering over WebGL, you can set the `forceCanvas` option to `true`, like this:
+Pixi的`renderer`对象将会默认选择WebGL引擎渲染模式，它更快并且可以让你使用一些壮观的视觉
+特效————如果你把他们都学了。但是如果你需要强制使用Canvas引擎绘制而抛弃WebGL，你可以设置
+`forceCanvas`选项为`true`，像这样：
 ```js
 forceCanvas: true,
 ```
 
-If you need to change the background color of the canvas after you’ve
-created it, set the `app.renderer` object’s `backgroundColor` property to
-any hexadecimal color value:
+如果你需要在你创建canvs标签之后改变它的背景色，设置 `app.renderer`对象的`backgroundColor`
+属性为一个任何的十六进制颜色：
+
 ```js
 app.renderer.backgroundColor = 0x061639;
 ```
-If you want to find the width or the height of the `renderer`, use
-`app.renderer.view.width` and `app.renderer.view.height`.
+如果你想要去找到`renderer`的宽高，使用`app.renderer.view.width` 和
+`app.renderer.view.height`。
 
-To change the size of the canvas, use the `renderer`’s `resize`
-method, and supply any new `width` and `height` values. But, to make
-sure the canvas is resized to match the resolution, set `autoResize`
-to `true`.
+使用`renderer`的`resize`方法可以改变canvas的大小，提供任何新的`width` 和 `height`
+变量给他都行。但是为了确认宽高的格式正确，将`autoResize`设置为`true`。
 ```js
 app.renderer.autoResize = true;
 app.renderer.resize(512, 512);
 ```
-If you want to make the canvas fill the entire window, you can apply this
-CSS styling and resize the renderer to the size of the browser window.
+如果你想让canvas占据整个窗口，你可以将这些CSS代码放在文档中，并且刷新你浏览器窗口的大小。
 ```
 app.renderer.view.style.position = "absolute";
 app.renderer.view.style.display = "block";
 app.renderer.autoResize = true;
 app.renderer.resize(window.innerWidth, window.innerHeight);
 ```
-But, if you do that, make sure you also set the default padding and
-margins to 0 on all your HTML elements with this bit of CSS code:
+但是，如果你这么做了，要记得把padding和margin都设置成0：
 ```html
 <style>* {padding: 0; margin: 0}</style>
 ```
-(The asterisk, *, in the code above, is the CSS "universal selector",
-which just means "all the tags in the HTML document".)
+(\*这个通配符, 是CSS选择所有HTML元素的意思。)
 
-If you want the canvas to scale proportionally to any browser window
-size, you can use [this custom `scaleToWindow` function](https://github.com/kittykatattack/scaleToWindow).
+如果你想要canvs在任何浏览器中统一尺寸，你可以使用
+[`scaleToWindow` 成员函数](https://github.com/kittykatattack/scaleToWindow).
 
 <a id='sprites'></a>
 Pixi sprites
