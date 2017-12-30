@@ -65,47 +65,35 @@ Pixi教程
 <a id='introduction'></a>
 Introduction
 ------------
+Pixi是一个超快的2D渲染引擎。这意味着什么呢？这意味着它会帮助你用JavaScript
+或者其他HTML5技术来显示，创建动画或管理交互式图像，从而制作一个游戏或应用。
+它拥有语义化的，简洁的API接口并且加入了一些非常有用的特征。就像支持纹理贴图集
+和为精灵（交互式图像）提供了一个简单的动画系统。它也提供了一个完备的场景图，你可以
+在精灵里面创建精灵，当然也可以让精灵响应你的鼠标或触摸事件。最重要的的是，Pixi
+没有妨碍你的编程方式，你可以自己选择使用多少它的功能，遵循你自己的编码风格，或与
+其他有用的框架无缝集成。
 
-Pixi is an extremely fast 2D sprite rendering engine. What does that
-mean? It means that it helps you to display, animate and manage
-interactive graphics so that it's easy for you to make games and
-applications using
-JavaScript and other HTML5 technologies. It has a sensible,
-uncluttered API and includes many useful features, like supporting
-texture atlases and providing a streamlined system for animating
-sprites (interactive images). It also gives you a complete scene graph so that you can
-create hierarchies of nested sprites (sprites inside sprites), as well
-as letting you attach mouse and touch events directly to sprites. And,
-most
-importantly, Pixi gets out of your way so that you can use as much or
-as little of it as you want to, adapt it to your personal coding
-style, and integrate it seamlessly with other useful frameworks.
+Pixi的API事实上比起久经沙场又老旧的Macromedia/Adobe Flash API要精致。如果你
+是一个Flash开发者，将会对这样的API感觉更好。其他的类似渲染框架（类似CreateJS,
+Starling, Sparrow 和 Apple’s SpriteKit.）也在使用类似的API。Pixi API的优势
+在于它是通用的：它不是一个游戏引擎。这是一个优势，因为它给了你所有的自由去做任
+何你想做的事，甚至用它可以写成你自己的游戏引擎。（译者：作者这点说的很对，译者有
+一个朋友就使用它制作自己的Galgame引擎AVG.js）。
 
-Pixi’s API is actually a refinement of a well-worn and battle-tested
-API pioneered by Macromedia/Adobe Flash. Old-skool Flash developers
-will feel right at home. Other current sprite rendering frameworks use
-a similar API: CreateJS, Starling, Sparrow and Apple’s SpriteKit. The
-strength of Pixi’s API is that it’s general-purpose: it’s not a game
-engine. That’s good because it gives you total expressive freedom to make anything you like, and wrap your own custom game engine around it.
+在这个教程里，你将会明白怎样用Pixi的强大的图片渲染能力和场景图技术来和做一个游戏联
+系起来。但是Pixi不仅仅能做游戏 —— 你能用这个技术去创建任何交互式媒体应用。这甚至意味着
+手机应用。
 
-In this tutorial you’re going to find out how to combine Pixi’s
-powerful image rendering features and scene graph to start making
-games. But Pixi isn't just for games - you can use these same
-techniques to create any interactive media applications. That means
-apps for phones!
+你在开始这个教程之前需要知道什么呢？
 
-What do you need to know before you get started with this tutorial?
-
-You should have a reasonable understanding of HTML and
-JavaScript. You don't have to be an expert, just an ambitious beginner
-with an eagerness to learn. If you don't know HTML and JavaScript, the
-best place to start learning it is this book:
+你需要一个对于HTML和JavaScript大致的了解。你没必要成为这方面的专家才能开始，及时一个
+野心勃勃的初学者也可以开始学习。这本书就是一个学习的好地方：
 
 [Foundation Game Design with HTML5 and JavaScript](http://www.apress.com/9781430247166)
 
-I know for a fact that it's the best book, because I wrote it!
+我知道这本书是最好的，因为这本书是我写的！
 
-There are also some good internet resources to help get you started:
+这里有一些好的代码来帮助你开始：
 
 [Khan Academy: Computer
 Programming](http://www.khanacademy.org/computing/cs)
@@ -113,43 +101,32 @@ Programming](http://www.khanacademy.org/computing/cs)
 [Code Academy:
 JavaScript](http://www.codecademy.com/tracks/javascript)
 
-Choose whichever best suits your learning style.
+选择一个属于你的最好的学习方式吧！
 
-Ok, got it?
-Do you know what JavaScript variables, functions, arrays and objects are and how to
-use them? Do you know what [JSON data
-files](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/)
-are? Have you used the [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)?
+所以，明白了么？
 
-To use Pixi, you'll also need to run a webserver in your root project
-directory. Do you know what a webserver is and
-how to launch one in your project folder? The best way is to use
-[node.js](http://nodejs.org) and then to install the extremely easy to use
-[http-server](https://github.com/nodeapps/http-server). However, you need to be comfortable working with the Unix
-command line if you want to do that. You can learn how to use
-Unix [in this
-video](https://www.youtube.com/watch?feature=player_embedded&v=cX9ASUE3YAQ)
-and, when you're finished, follow it with [this
-video](https://www.youtube.com/watch?v=INk0ATBbclc). You should learn
-how to use Unix - it only takes a couple of hours to learn and is a
-really fun and easy way to interact with your computer.
+你知道JavaScript的变量，函数，数组和对象怎么使用么？你知道
+[JSON 数据文件](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/)
+是什么么? 你用过 [Canvas 绘图 API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)么?
 
-But if you don't want to mess around with the command line just yet, try the Mongoose
-webserver:
+为了使用Pixi，你也需要在你项目的根目录运行一个web服务器，你知道什么是web服务器，怎么在你的项目文件夹里面
+运行它么？最好的方式是使用[node.js](http://nodejs.org) 并且去用命令行安装
+[http-server](https://github.com/nodeapps/http-server). 无论如何，你需要习惯和Unix命令行一起工作。
+你可以[在这个视频中](https://www.youtube.com/watch?feature=player_embedded&v=cX9ASUE3YAQ)去学习怎样使用 Unix
+当你完成时，继续去学习 [这个视频](https://www.youtube.com/watch?v=INk0ATBbclc).
+你应该学会怎样用Unix，这是一个很有趣和简单的和电脑交互的方式，并且仅仅需要两个小时。
+
+如果你真的不想用命令行的方式，就尝试下 Mongoose webserver:
 
 [Mongoose](http://cesanta.com/mongoose.shtml)
 
-Or, just write your all your code using the excellent [Brackets text
-editor](http://brackets.io). Brackets automatically launches a webserver
-and browser for you when you click the lightning bolt button in its
-main workspace.
+或者来使用[Brackets text editor](http://brackets.io)这个令人惊艳的代码编辑器。
+他会在你点击那个“闪电按钮”的时候自动启动web服务器和浏览器。
 
-Now if you think you're ready, read on!
+现在，如果你觉得你准备好了了，开始吧！
 
-(Request to readers: this is a *living document*. If you have any
-questions about specific details or need any of the content clarified, please
-create an **issue** in this GitHub repository and I'll update the text
-with more information.)
+（给读者的小提示：这是一个 *交互式的文档*.如果你有关于特殊细节的任何问题或需要任何澄清
+都可以创建一个GitHub工程 **issue** ，我会对这个文档更新更多信息。）
 
 <a id='settingup'></a>
 Setting up
