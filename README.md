@@ -65,29 +65,15 @@ Pixi教程
 <a id='introduction'></a>
 介绍
 ------------
-Pixi是一个超快的2D渲染引擎。这意味着什么呢？这意味着它会帮助你用JavaScript
-或者其他HTML5技术来显示，创建动画或管理交互式图像，从而制作一个游戏或应用。
-它拥有语义化的，简洁的API接口并且加入了一些非常有用的特征。就像支持纹理贴图集
-和为精灵（交互式图像）提供了一个简单的动画系统。它也提供了一个完备的场景图，你可以
-在精灵里面创建精灵，当然也可以让精灵响应你的鼠标或触摸事件。最重要的的是，Pixi
-没有妨碍你的编程方式，你可以自己选择使用多少它的功能，遵循你自己的编码风格，或与
-其他有用的框架无缝集成。
+Pixi是一个超快的2D渲染引擎。这意味着什么呢？这意味着它会帮助你用JavaScript或者其他HTML5技术来显示，创建动画或管理交互式图像，从而制作一个游戏或应用。它拥有语义化的，简洁的API接口并且加入了一些非常有用的特征。就像支持纹理贴图集和为精灵（交互式图像）提供了一个简单的动画系统。它也提供了一个完备的场景图，你可以在精灵里面创建精灵，当然也可以让精灵响应你的鼠标或触摸事件。最重要的的是，Pixi没有妨碍你的编程方式，你可以自己选择使用多少它的功能，遵循你自己的编码风格，或与其他有用的框架无缝集成。
 
-Pixi的API事实上比起久经沙场又老旧的Macromedia/Adobe Flash API要精致。如果你
-是一个Flash开发者，将会对这样的API感觉更好。其他的类似渲染框架（类似CreateJS,
-Starling, Sparrow 和 Apple’s SpriteKit.）也在使用类似的API。Pixi API的优势
-在于它是通用的：它不是一个游戏引擎。这是一个优势，因为它给了你所有的自由去做任
-何你想做的事，甚至用它可以写成你自己的游戏引擎。（译者：作者这点说的很对，译者有
-一个朋友就使用它制作自己的Galgame引擎AVG.js）。
+Pixi的API事实上比起久经沙场又老旧的Macromedia/Adobe Flash API要精致。如果你是一个Flash开发者，将会对这样的API感觉更好。其他的类似渲染框架（类似CreateJS,Starling, Sparrow 和 Apple’s SpriteKit.）也在使用类似的API。Pixi API的优势在于它是通用的：它不是一个游戏引擎。这是一个优势，因为它给了你所有的自由去做任何你想做的事，甚至用它可以写成你自己的游戏引擎。（译者：作者这点说的很对，译者有一个朋友就使用它制作自己的Galgame引擎AVG.js）。
 
-在这个教程里，你将会明白怎样用Pixi的强大的图片渲染能力和场景图技术来和做一个游戏联
-系起来。但是Pixi不仅仅能做游戏 —— 你能用这个技术去创建任何交互式媒体应用。这甚至意味着
-手机应用。
+在这个教程里，你将会明白怎样用Pixi的强大的图片渲染能力和场景图技术来和做一个游戏联系起来。但是Pixi不仅仅能做游戏 —— 你能用这个技术去创建任何交互式媒体应用。这甚至意味着手机应用。
 
 你在开始这个教程之前需要知道什么呢？
 
-你需要一个对于HTML和JavaScript大致的了解。你没必要成为这方面的专家才能开始，及时一个
-野心勃勃的初学者也可以开始学习。这本书就是一个学习的好地方：
+你需要一个对于HTML和JavaScript大致的了解。你没必要成为这方面的专家才能开始，及时一个野心勃勃的初学者也可以开始学习。这本书就是一个学习的好地方：
 
 [Foundation Game Design with HTML5 and JavaScript](http://www.apress.com/9781430247166)
 
@@ -105,34 +91,24 @@ JavaScript](http://www.codecademy.com/tracks/javascript)
 
 所以，明白了么？
 
-你知道JavaScript的变量，函数，数组和对象怎么使用么？你知道
-[JSON 数据文件](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/)
-是什么么? 你用过 [Canvas 绘图 API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)么?
+你知道JavaScript的变量，函数，数组和对象怎么使用么？你知道[JSON 数据文件](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/)是什么么? 你用过 [Canvas 绘图 API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)么?
 
-为了使用Pixi，你也需要在你项目的根目录运行一个web服务器，你知道什么是web服务器，怎么在你的项目文件夹里面
-运行它么？最好的方式是使用[node.js](http://nodejs.org) 并且去用命令行安装
-[http-server](https://github.com/nodeapps/http-server). 无论如何，你需要习惯和Unix命令行一起工作。
-你可以[在这个视频中](https://www.youtube.com/watch?feature=player_embedded&v=cX9ASUE3YAQ)去学习怎样使用 Unix
-当你完成时，继续去学习 [这个视频](https://www.youtube.com/watch?v=INk0ATBbclc).
-你应该学会怎样用Unix，这是一个很有趣和简单的和电脑交互的方式，并且仅仅需要两个小时。
+为了使用Pixi，你也需要在你项目的根目录运行一个web服务器，你知道什么是web服务器，怎么在你的项目文件夹里面运行它么？最好的方式是使用[node.js](http://nodejs.org) 并且去用命令行安装[http-server](https://github.com/nodeapps/http-server). 无论如何，你需要习惯和Unix命令行一起工作。你可以[在这个视频中](https://www.youtube.com/watch?feature=player_embedded&v=cX9ASUE3YAQ)去学习怎样使用 Unix当你完成时，继续去学习 [这个视频](https://www.youtube.com/watch?v=INk0ATBbclc).你应该学会怎样用Unix，这是一个很有趣和简单的和电脑交互的方式，并且仅仅需要两个小时。
 
 如果你真的不想用命令行的方式，就尝试下 Mongoose webserver:
 
 [Mongoose](http://cesanta.com/mongoose.shtml)
 
-或者来使用[Brackets text editor](http://brackets.io)这个令人惊艳的代码编辑器。
-他会在你点击那个“闪电按钮”的时候自动启动web服务器和浏览器。
+或者来使用[Brackets text editor](http://brackets.io)这个令人惊艳的代码编辑器。他会在你点击那个“闪电按钮”的时候自动启动web服务器和浏览器。
 
 现在，如果你觉得你准备好了了，开始吧！
 
-（给读者的小提示：这是一个 *交互式的文档*.如果你有关于特殊细节的任何问题或需要任何澄清
-都可以创建一个GitHub工程 **issue** ，我会对这个文档更新更多信息。）
+（给读者的小提示：这是一个 *交互式的文档*.如果你有关于特殊细节的任何问题或需要任何澄清都可以创建一个GitHub工程 **issue** ，我会对这个文档更新更多信息。）
 
 <a id='settingup'></a>
 安装
 ----------
-在你开始写任何代码之前，给你的工程创建一个目录，并且在根目录下运行一个web服务器。如果你不
-这么做，Pixi不会工作的。
+在你开始写任何代码之前，给你的工程创建一个目录，并且在根目录下运行一个web服务器。如果你不这么做，Pixi不会工作的。
 
 现在，你需要去安装Pixi。
 
@@ -144,15 +120,12 @@ JavaScript](http://www.codecademy.com/tracks/javascript)
 
 这个文件就是你使用Pixi唯一需要的文件，你可以忽视所有这个工程的其他文件，**你不需要他们**。
 
-现在，创建一个基础的HTML页面，用一个`<script>`标签去加载你刚刚下载的`pixi.min.js`文件。
-`<script>`标签的`src`属性应该是你根目录文件的相对路径————当然请确保你的web服务器在运行。
-你的`<script>`标签应该看起来像是这样：
+现在，创建一个基础的HTML页面，用一个`<script>`标签去加载你刚刚下载的`pixi.min.js`文件。`<script>`标签的`src`属性应该是你根目录文件的相对路径————当然请确保你的web服务器在运行。你的`<script>`标签应该看起来像是这样：
 
 ```html
 <script src="pixi.min.js"></script>
 ```
-这是你用来链接Pixi和测试它是否工作的基础页面。（这里假设 `pixi.min.js`在一个叫做`pixi`
-的子文件夹中）：
+这是你用来链接Pixi和测试它是否工作的基础页面。（这里假设 `pixi.min.js`在一个叫做`pixi`的子文件夹中）：
 
 ```html
 <!doctype html>
@@ -189,13 +162,9 @@ JavaScript](http://www.codecademy.com/tracks/javascript)
 
 但是怎么用？
 
-第一步就是去创建一个可以显示图片的矩形显示区。Pixi拥有一个`Application`对象来帮助你
-创建它。它会自动创建一个`<canvas>`HTML标签并且计算出怎么去让你的图片在这个标签中显示。
-你现在需要创建一个特殊的Pixi`Container`对象，他被称作`舞台`。正如你所见，这个`舞台`对
-象将会被当作根容器而使用，它将包裹所有你想用Pixi显示的东西。
+第一步就是去创建一个可以显示图片的矩形显示区。Pixi拥有一个`Application`对象来帮助你创建它。它会自动创建一个`<canvas>`HTML标签并且计算出怎么去让你的图片在这个标签中显示。你现在需要创建一个特殊的Pixi`Container`对象，他被称作`舞台`。正如你所见，这个`舞台`对象将会被当作根容器而使用，它将包裹所有你想用Pixi显示的东西。
 
-这里是你需要创建一个名叫`app`的Pixi应用和`舞台`的必要的代码。这些代码需要在你的HTML文档
-中以`<script>`标签包裹。
+这里是你需要创建一个名叫`app`的Pixi应用和`舞台`的必要的代码。这些代码需要在你的HTML文档中以`<script>`标签包裹。
 
 ```js
 //Create a Pixi Application
@@ -204,17 +173,13 @@ let app = new PIXI.Application({width: 256, height: 256});
 //Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view);
 ```
-这是你想要开始使用Pixi的最基本的代码。它在你的文档中创建了一个256像素宽高的黑色canvas标签。
-当你运行这个代码的时候浏览器应该显示成这样：
+这是你想要开始使用Pixi的最基本的代码。它在你的文档中创建了一个256像素宽高的黑色canvas标签。当你运行这个代码的时候浏览器应该显示成这样：
 
 ![Basic display](/examples/images/screenshots/01.png)
 
 啊哈, 一个 [black square](http://rampantgames.com/blog/?p=7745)!
 
-`PIXI.Application`算出了应该使用Canvas还是WebGL去渲染图象，它取决于你正在使用的浏览器
-支持哪一个。它的参数是一个被称作`options`的对象。在这儿例子中，它的`width` 和 `height`
-属性已经被设置了，它们决定了canvas的宽和高（单位是像素）。你能够在`options`对象中使用更
-多的属性设置，这里展示了你如何使用它来圆滑边界，设置透明度和分辨率：
+`PIXI.Application`算出了应该使用Canvas还是WebGL去渲染图象，它取决于你正在使用的浏览器支持哪一个。它的参数是一个被称作`options`的对象。在这儿例子中，它的`width` 和 `height`属性已经被设置了，它们决定了canvas的宽和高（单位是像素）。你能够在`options`对象中使用更多的属性设置，这里展示了你如何使用它来圆滑边界，设置透明度和分辨率：
 ```js
 let app = new PIXI.Application({
     width: 256,         // default: 800
@@ -225,37 +190,25 @@ let app = new PIXI.Application({
   }
 );
 ```
-如果你觉得Pixi的默认设置也不错，你就不需要作任何的设置，但是如果你需要，就在这里看一下Pixi
-的文档吧：
+如果你觉得Pixi的默认设置也不错，你就不需要作任何的设置，但是如果你需要，就在这里看一下Pixi的文档吧：
  [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html).
 
 这些设置做了些什么呢？
-`antialias`使得字体的边界和几何图形更加圆滑（WebGL的anti-aliasing在所有平台都不可用，
-所以你需要在你的游戏的标签平台上测试他们）。`transparent`将整个Canvs标签的透明度进行了
-设置。`resolution`让Pixi在不同的分辨率和像素密度的平台上运行变得简单。设置分辨率对于这
-个教程而言有些超纲了，到那时你可以看[Mat Grove's
-explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
-之中是如何使用`resolution`的所有细节的。但是平常，只要保持`resolution`是1，就可以应付
-大多数工程了。
+`antialias`使得字体的边界和几何图形更加圆滑（WebGL的anti-aliasing在所有平台都不可用，所以你需要在你的游戏的标签平台上测试他们）。`transparent`将整个Canvs标签的透明度进行了设置。`resolution`让Pixi在不同的分辨率和像素密度的平台上运行变得简单。设置分辨率对于这个教程而言有些超纲了，到那时你可以看[Mat Grove'sexplanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)之中是如何使用`resolution`的所有细节的。但是平常，只要保持`resolution`是1，就可以应付大多数工程了。
 
-Pixi的`renderer`对象将会默认选择WebGL引擎渲染模式，它更快并且可以让你使用一些壮观的视觉
-特效————如果你把他们都学了。但是如果你需要强制使用Canvas引擎绘制而抛弃WebGL，你可以设置
-`forceCanvas`选项为`true`，像这样：
+Pixi的`renderer`对象将会默认选择WebGL引擎渲染模式，它更快并且可以让你使用一些壮观的视觉特效————如果你把他们都学了。但是如果你需要强制使用Canvas引擎绘制而抛弃WebGL，你可以设置`forceCanvas`选项为`true`，像这样：
 ```js
 forceCanvas: true,
 ```
 
-如果你需要在你创建canvs标签之后改变它的背景色，设置 `app.renderer`对象的`backgroundColor`
-属性为一个任何的十六进制颜色：
+如果你需要在你创建canvs标签之后改变它的背景色，设置 `app.renderer`对象的`backgroundColor`属性为一个任何的十六进制颜色：
 
 ```js
 app.renderer.backgroundColor = 0x061639;
 ```
-如果你想要去找到`renderer`的宽高，使用`app.renderer.view.width` 和
-`app.renderer.view.height`。
+如果你想要去找到`renderer`的宽高，使用`app.renderer.view.width` 和`app.renderer.view.height`。
 
-使用`renderer`的`resize`方法可以改变canvas的大小，提供任何新的`width` 和 `height`
-变量给他都行。但是为了确认宽高的格式正确，将`autoResize`设置为`true`。
+使用`renderer`的`resize`方法可以改变canvas的大小，提供任何新的`width` 和 `height`变量给他都行。但是为了确认宽高的格式正确，将`autoResize`设置为`true`。
 ```js
 app.renderer.autoResize = true;
 app.renderer.resize(512, 512);
@@ -273,8 +226,7 @@ app.renderer.resize(window.innerWidth, window.innerHeight);
 ```
 (\*这个通配符, 是CSS选择所有HTML元素的意思。)
 
-如果你想要canvs在任何浏览器中统一尺寸，你可以使用
-[`scaleToWindow` 成员函数](https://github.com/kittykatattack/scaleToWindow).
+如果你想要canvs在任何浏览器中统一尺寸，你可以使用[`scaleToWindow` 成员函数](https://github.com/kittykatattack/scaleToWindow).
 
 <a id='sprites'></a>
 Pixi sprites
