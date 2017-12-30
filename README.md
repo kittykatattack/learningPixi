@@ -1,66 +1,66 @@
-Learning Pixi
+Pixi教程
 =============
 
-A step-by-step introduction to making games and interactive media with
-the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **[Updated for Pixi v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5)**. If you like this
-tutorial, [you'll love the book, which contains 80% more content!](http://www.springer.com/us/book/9781484210956).
+基于官方教程翻译；水平有限，如有错误欢迎提issue，转载请注明出处。
 
-### Table of contents:
-1. [Introduction](#introduction)
-2. [Setting up](#settingup)
-  1. [Installing Pixi](#installingpixi)
-3. [Creating the stage and renderer](#application)
-4. [Pixi sprites](#sprites)
-5. [Loading images into the texture cache](#loading)
-6. [Displaying sprites](#displaying)
-  1. [Using Aliases](#usingaliases)
-  2. [A little more about loading things](#alittlemoreaboutloadingthings)
-    1. [Make a sprite from an ordinary JavaScript Image object or Canvas](#makeaspritefromanordinaryjavascriptimageobject)
-    2. [Assigning a name to a loaded file](#assigninganametoaloadingfile)
-    3. [Monitoring load progress](#monitoringloadprogress)
-    4. [More about Pixi's loader](#moreaboutpixisloader)
-7. [Positioning sprites](#positioning)
-8. [Size and scale](#sizenscale)
-9. [Rotation](#rotation)
-10. [Make a sprite from a tileset sub-image](#tileset)
-11. [Using a texture atlas](#textureatlas)
-12. [Loading the texture atlas](#loadingatlas)
-13. [Creating sprites from a loaded texture atlas](#creating-sprites-from-a-loaded-texture-atlas)
-14. [Moving Sprites](#movingsprites)
-15. [Using velocity properties](#velocity)
-16. [Game states](#gamestates)
-17. [Keyboard Movement](#keyboard)
-18. [Grouping Sprites](#grouping)
-  1. [Local and global positions](#localnglobal)
-  2. [Using a ParticleContainer to group sprites](#spritebatch)
-19. [Pixi's Graphic Primitives](#graphic)
-  1. [Rectangle](#rectangles)
-  2. [Circles](#circles)
-  3. [Ellipses](#ellipses)
-  4. [Rounded rectangles](#rounded-rectangles)
-  5. [Lines](#lines)
-  6. [Polygons](#polygons)
-20. [Displaying text](#text)
-21. [Collision detection](#collision)
-  1. [The hitTestRectangle function](#the-hittestrectangle-function)
-22. [Case study: Treasure Hunter](#casestudy)
-  1. [Initialize the game in the setup function](#initialize)
-    1. [Creating the game scenes](#gamescene)
-    2. [Making the dungeon, door, explorer and treasure](#makingdungon)
-    3. [Making the blob monsters](#makingblob)
-    4. [Making health bar](#healthbar)
-    5. [Making message text](#message)
-  2. [Playing the game](#playing)
-  3. [Moving the explorer](#movingexplorer)
-    1. [Containing movement](#containingmovement)
-  4. [Moving the monsters](#movingmonsters)
-  5. [Checking for collisions](#checkingcollisions)
-  6. [Reaching the exit door and ending game](#reachingexit)
-23. [More about sprites](#spriteproperties)
-24. [Taking it further](#takingitfurther)</br>
+这个教程将要一步步介绍怎么用[Pixi](https://github.com/pixijs/pixi.js)做游戏或者交互式媒体。这个教程已经升级到 **[Pixi v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5)**。如果你喜欢这个教程，[你一定也喜欢这本书，它包含了这个教程80%的内容](http://www.springer.com/us/book/9781484210956)。
+
+### 目录：
+1. [介绍](#introduction)
+2. [安装](#settingup)
+  1. [安装 Pixi](#installingpixi)
+3. [创建舞台和渲染器](#application)
+4. [Pixi 精灵](#sprites)
+5. [把图像加载进纹理缓存](#loading)
+6. [显示精灵](#displaying)
+  1. [使用别名](#usingaliases)
+  2. [一些关于加载的其他知识](#alittlemoreaboutloadingthings)
+    1. [使用普通的javaScript Img对象或canvas创建一个精灵](#makeaspritefromanordinaryjavascriptimageobject)
+    2. [给已经加载的文件设定一个名字](#assigninganametoaloadingfile)
+    3. [监视加载进程](#monitoringloadprogress)
+    4. [一些关于Pixi的加载器的其他知识](#moreaboutpixisloader)
+7. [定位精灵](#positioning)
+8. [大小和比例](#sizenscale)
+9. [角度](#rotation)
+10. [从精灵图（雪碧图）中获取精灵](#tileset)
+11. [使用一个纹理贴图集](#textureatlas)
+12. [加载纹理贴图集](#loadingatlas)
+13. [从一个纹理贴图集创建精灵](#creating-sprites-from-a-loaded-texture-atlas)
+14. [移动精灵](#movingsprites)
+15. [使用速度属性](#velocity)
+16. [游戏状态](#gamestates)
+17. [键盘响应](#keyboard)
+18. [将精灵分组](#grouping)
+  1. [绝对位置和相对位置](#localnglobal)
+  2. [使用 ParticleContainer 分组精灵](#spritebatch)
+19. [用 Pixi 绘制几何图形](#graphic)
+  1. [矩形](#rectangles)
+  2. [圆形](#circles)
+  3. [椭圆](#ellipses)
+  4. [圆角矩形](#rounded-rectangles)
+  5. [线](#lines)
+  6. [多边形](#polygons)
+20. [显示文本](#text)
+21. [碰撞检测](#collision)
+  1. [一个 hitTestRectangle 函数](#the-hittestrectangle-function)
+22. [实例学习: 宝物猎人](#casestudy)
+  1. [用 setup 函数初始化游戏](#initialize)
+    1. [创建游戏场景](#gamescene)
+    2. [创建地牢，门，猎人和宝箱](#makingdungon)
+    3. [创建泡泡怪(这个怪物好萌)](#makingblob)
+    4. [创建血条](#healthbar)
+    5. [创建提示文本](#message)
+  2. [开始游戏](#playing)
+  3. [移动猎人](#movingexplorer)
+    1. [限制移动范围](#containingmovement)
+  4. [移动泡泡怪们](#movingmonsters)
+  5. [碰撞检测](#checkingcollisions)
+  6. [处理到达出口和结束游戏](#reachingexit)
+23. [一些关于精灵的其他知识](#spriteproperties)
+24. [展望未来](#takingitfurther)</br>
   i.[Hexi](#hexi)</br>
   ii.[BabylonJS](#babylonjs)</br>
-25. [Supporting this project](#supportingthisproject)
+25. [支持这个工程](#supportingthisproject)
 
 <a id='introduction'></a>
 Introduction
@@ -159,7 +159,7 @@ Before you start writing any code, create a folder for your project, and launch 
 webserver in the project's root directory. If you aren't running a
 webserver, Pixi won't work.
 
-Next, you need to install Pixi. 
+Next, you need to install Pixi.
 
 <a id='installingpixi'></a>
 ### Installing Pixi
@@ -206,7 +206,7 @@ it's working. (This assumes that the `pixi.min.js` is in a subfolder called `pix
 If Pixi is linking correctly,
 something like this will be displayed in your web browser's JavaScript console by default:
 ```
-      PixiJS 4.4.5 - * canvas * http://www.pixijs.com/  ♥♥♥ 
+      PixiJS 4.4.5 - * canvas * http://www.pixijs.com/  ♥♥♥
 ```
 
 
@@ -216,7 +216,7 @@ Creating the Pixi Application and `stage`
 
 Now you can start using Pixi!
 
-But how? 
+But how?
 
 The first step is to create a rectangular
 display area that you can start displaying images on. Pixi has a
@@ -225,7 +225,7 @@ automatically generates an HTML `<canvas>` element and figures out how
 to display your images on the canvas. You then need to create a
 special Pixi `Container` object called the `stage`. As you'll see
 ahead, this `stage` object is going to be used as the root container
-that holds all the things you want Pixi to display. 
+that holds all the things you want Pixi to display.
 
 Here’s the code you need to write to create an `app` Pixi Application
 and `stage`. Add this code to your HTML document between the `<script>` tags:
@@ -236,7 +236,7 @@ let app = new PIXI.Application({width: 256, height: 256});
 //Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view);
 ```
-This is the most basic code you need write to get started using Pixi. 
+This is the most basic code you need write to get started using Pixi.
 It produces a black 256 pixel by 256 pixel canvas element and adds it to your
 HTML document. Here's what this looks like in a browser when you run this code.
 
@@ -249,7 +249,7 @@ Canvas Drawing API or WebGL to render graphics, depending on which is
 available in the web browswer you're using. Its argument is a single object called the `options` object. In this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object; here's how you could use it to set anti-aliasing, transparency
 and resolution:
 ```js
-let app = new PIXI.Application({ 
+let app = new PIXI.Application({
     width: 256,         // default: 800
     height: 256,        // default: 600
     antialias: true,    // default: false
@@ -271,7 +271,7 @@ the resolutions is a little
 outside the scope of this tutorial, but check out [Mat Grove's
 explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
 about how to use `resolution` for all the details. But usually, just keep `resolution`
-at 1 for most projects and you'll be fine. 
+at 1 for most projects and you'll be fine.
 
 Pixi's `renderer` object will default to WebGL, which is good, because WebGL is
 incredibly fast, and lets you use some spectacular visual effects that
@@ -379,9 +379,9 @@ let texture = PIXI.utils.TextureCache["images/anySpriteImage.png"];
 let sprite = new PIXI.Sprite(texture);
 ```
 But how do you load the image file and convert it into a texture? Use
-Pixi’s built-in `loader` object. 
+Pixi’s built-in `loader` object.
 
-Pixi's powerful `loader` object is all you need to load any kind of image. 
+Pixi's powerful `loader` object is all you need to load any kind of image.
 Here’s how to use it to load an image and call a function called `setup` when the image has finished loading:
 ```js
 PIXI.loader
@@ -401,7 +401,7 @@ let sprite = new PIXI.Sprite(
   PIXI.loader.resources["images/anyImage.png"].texture
 );
 ```
-Here’s an example of some complete code you could write to load an image, 
+Here’s an example of some complete code you could write to load an image,
 call the `setup` function, and create a sprite from the loaded image:
 ```js
 PIXI.loader
@@ -462,11 +462,11 @@ Here's all the JavaScript code you need to load the image, create a
 sprite, and display it on Pixi's stage:
 ```js
 //Create a Pixi Application
-let app = new PIXI.Application({ 
-    width: 256, 
+let app = new PIXI.Application({
+    width: 256,
     height: 256,                       
-    antialias: true, 
-    transparent: false, 
+    antialias: true,
+    transparent: false,
     resolution: 1
   }
 );
@@ -484,7 +484,7 @@ function setup() {
 
   //Create the cat sprite
   let cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
-  
+
   //Add the cat to the stage
   app.stage.addChild(cat);
 }
@@ -535,11 +535,11 @@ let Application = PIXI.Application,
     Sprite = PIXI.Sprite;
 
 //Create a Pixi Application
-let app = new Application({ 
-    width: 256, 
+let app = new Application({
+    width: 256,
     height: 256,                       
-    antialias: true, 
-    transparent: false, 
+    antialias: true,
+    transparent: false,
     resolution: 1
   }
 );
@@ -557,7 +557,7 @@ function setup() {
 
   //Create the cat sprite
   let cat = new Sprite(resources["images/cat.png"].texture);
-  
+
   //Add the cat to the stage
   app.stage.addChild(cat);
 }
@@ -651,7 +651,7 @@ PIXI.loader
   .load(setup);
 
 function loadProgressHandler() {
-  console.log("loading"); 
+  console.log("loading");
 }
 
 function setup() {
@@ -693,12 +693,12 @@ PIXI.loader
 function loadProgressHandler(loader, resource) {
 
   //Display the file `url` currently being loaded
-  console.log("loading: " + resource.url); 
+  console.log("loading: " + resource.url);
 
   //Display the percentage of files currently loaded
-  console.log("progress: " + loader.progress + "%"); 
+  console.log("progress: " + loader.progress + "%");
 
-  //If you gave your files names as the first argument 
+  //If you gave your files names as the first argument
   //of the `add` method, you can access them like this
   //console.log("loading: " + resource.name);
 }
@@ -718,7 +718,7 @@ progress: 100%
 All files loaded
 ```
 That's really cool, because you could use this as the basis for
-creating a loading progress bar. 
+creating a loading progress bar.
 
 (Note: There are additional properties you can access on the
 `resource` object. `resource.error` will tell you of any possible
@@ -749,7 +749,7 @@ these parameters:
 when using XHR? The default value is `Resource.XHR_RESPONSE_TYPE.DEFAULT`  
 `callbackFunction`: The function to call when this specific resource completes loading.
 
-The only one of these arguments that's required is the `url` (the file that you want to load.) 
+The only one of these arguments that's required is the `url` (the file that you want to load.)
 
 Here are some examples of some ways you could use the `add`
 method to load files. These first ones are what the docs call the loader's "normal syntax":
@@ -815,7 +815,7 @@ cat.x = 96;
 cat.y = 96;
 ```
 Add these two lines of code anywhere inside the `setup`
-function, after you've created the sprite. 
+function, after you've created the sprite.
 ```js
 function setup() {
 
@@ -971,7 +971,7 @@ cat.pivot.set(32, 32)
 ```
 Assuming that the sprite is 64x64 pixels, the sprite will now rotate
 around its center point. But remember: if you change a sprite's pivot
-point, you've also changed its x/y origin point. 
+point, you've also changed its x/y origin point.
 
 So, what's the difference between `anchor` and `pivot`? They're really
 similar! `anchor` shifts the origin point of the sprite's image texture, using a 0 to 1 normalized value.
@@ -1040,7 +1040,7 @@ function setup() {
 
   //Add the rocket to the stage
   app.stage.addChild(rocket);
-  
+
   //Render the stage   
   renderer.render(stage);
 }
@@ -1058,7 +1058,7 @@ let rectangle = new PIXI.Rectangle(x, y, width, height);
 The rectangle object is just a *data object*; it's up to you to decide how you want to use it. In
 our example we're using it to define the position and area of the
 sub-image on the tileset that we want to extract. Pixi textures have a useful
-property called `frame` that can be set to any `Rectangle` objects. 
+property called `frame` that can be set to any `Rectangle` objects.
 The `frame` crops the texture to the dimensions of the `Rectangle`.
 Here's how to use `frame`
 to crop the texture to the size and position of the rocket.
@@ -1207,18 +1207,18 @@ Pixi gives you three general ways to create a sprite from a texture atlas:
 let texture = TextureCache["frameId.png"],
     sprite = new Sprite(texture);
 ```
-2.	If you’ve used Pixi’s `loader` to load the texture atlas, use the 
+2.	If you’ve used Pixi’s `loader` to load the texture atlas, use the
 loader’s `resources`:
 ```js
 let sprite = new Sprite(
   resources["images/treasureHunter.json"].textures["frameId.png"]
 );
 ```
-3. That’s way too much typing to do just to create a sprite! 
-So I suggest you create an alias called `id` that points to texture’s 
+3. That’s way too much typing to do just to create a sprite!
+So I suggest you create an alias called `id` that points to texture’s
 altas’s `textures` object, like this:
 ```js
-let id = PIXI.loader.resources["images/treasureHunter.json"].textures; 
+let id = PIXI.loader.resources["images/treasureHunter.json"].textures;
 ```
 Then you can just create each new sprite like this:
 ```js
@@ -1231,7 +1231,7 @@ techniques in the `setup` function to create and display the
 `dungeon`, `explorer`, and `treasure` sprites.
 ```js
 
-//Define variables that might be used in more 
+//Define variables that might be used in more
 //than one function
 let dungeon, explorer, treasure, id;
 
@@ -1254,10 +1254,10 @@ function setup() {
   explorer.y = app.stage.height / 2 - explorer.height / 2;
   app.stage.addChild(explorer);
 
-  //3. Create an optional alias called `id` for all the texture atlas 
+  //3. Create an optional alias called `id` for all the texture atlas
   //frame id textures.
-  id = PIXI.loader.resources["images/treasureHunter.json"].textures; 
-  
+  id = PIXI.loader.resources["images/treasureHunter.json"].textures;
+
   //Make the treasure box using the alias
   treasure = new Sprite(id["treasure.png"]);
   app.stage.addChild(treasure);
@@ -1312,11 +1312,11 @@ let Application = PIXI.Application,
     Rectangle = PIXI.Rectangle;
 
 //Create a Pixi Application
-let app = new Application({ 
-    width: 512, 
+let app = new Application({
+    width: 512,
     height: 512,                       
-    antialias: true, 
-    transparent: false, 
+    antialias: true,
+    transparent: false,
     resolution: 1
   }
 );
@@ -1329,7 +1329,7 @@ loader
   .add("images/treasureHunter.json")
   .load(setup);
 
-//Define variables that might be used in more 
+//Define variables that might be used in more
 //than one function
 let dungeon, explorer, treasure, door, id;
 
@@ -1352,10 +1352,10 @@ function setup() {
   explorer.y = app.stage.height / 2 - explorer.height / 2;
   app.stage.addChild(explorer);
 
-  //3. Create an optional alias called `id` for all the texture atlas 
+  //3. Create an optional alias called `id` for all the texture atlas
   //frame id textures.
-  id = PIXI.loader.resources["images/treasureHunter.json"].textures; 
-  
+  id = PIXI.loader.resources["images/treasureHunter.json"].textures;
+
   //Make the treasure box using the alias
   treasure = new Sprite(id["treasure.png"]);
   app.stage.addChild(treasure);
@@ -1366,7 +1366,7 @@ function setup() {
   app.stage.addChild(treasure);
 
   //Make the exit door
-  door = new Sprite(id["door.png"]); 
+  door = new Sprite(id["door.png"]);
   door.position.set(32, 0);
   app.stage.addChild(door);
 
@@ -1452,7 +1452,7 @@ Moving Sprites
 --------------
 
 You now know how to display sprites, but how do you make them move?
-That's easy: create a looping function using Pixi's `ticker` 
+That's easy: create a looping function using Pixi's `ticker`
 This is called a **game loop**.
 Any code you put inside the game loop will update 60 times per
 second. Here's some code you could write to make the `cat` sprite move
@@ -1468,12 +1468,12 @@ function setup() {
 
 function gameLoop(delta){
 
-  //Move the cat 1 pixel 
+  //Move the cat 1 pixel
   cat.x += 1;
 }
 ```
 If you run this bit of code, you'll see the sprite gradually move to
-the right side of the stage. 
+the right side of the stage.
 
 ![Moving sprites](/examples/images/screenshots/15.png)
 
@@ -1528,11 +1528,11 @@ let Application = PIXI.Application,
     Rectangle = PIXI.Rectangle;
 
 //Create a Pixi Application
-let app = new Application({ 
-    width: 256, 
+let app = new Application({
+    width: 256,
     height: 256,                       
-    antialias: true, 
-    transparent: false, 
+    antialias: true,
+    transparent: false,
     resolution: 1
   }
 );
@@ -1549,20 +1549,20 @@ let cat;
 
 function setup() {
 
-  //Create the `cat` sprite 
+  //Create the `cat` sprite
   cat = new Sprite(resources["images/cat.png"].texture);
-  cat.y = 96; 
+  cat.y = 96;
   app.stage.addChild(cat);
- 
-  //Start the game loop 
+
+  //Start the game loop
   app.ticker.add(delta => gameLoop(delta));
 }
 
 function gameLoop(delta){
 
-  //Move the cat 1 pixel 
+  //Move the cat 1 pixel
   cat.x += 1;
-  
+
   //Optionally use the `delta` value
   //cat.x += 1 + delta;
 }
@@ -1603,13 +1603,13 @@ frame:
 ```js
 function setup() {
 
-  //Create the `cat` sprite 
+  //Create the `cat` sprite
   cat = new Sprite(resources["images/cat.png"].texture);
-  cat.y = 96; 
+  cat.y = 96;
   cat.vx = 0;
   cat.vy = 0;
   app.stage.addChild(cat);
- 
+
   //Start the game loop
   app.ticker.add(delta => gameLoop(delta));
 }
@@ -1620,7 +1620,7 @@ function gameLoop(delta){
   cat.vx = 1;
   cat.vy = 1;
 
-  //Apply the velocity values to the cat's 
+  //Apply the velocity values to the cat's
   //position to make it move
   cat.x += cat.vx;
   cat.y += cat.vy;
@@ -1652,8 +1652,8 @@ recommend structuring your game loop like this:
 ```js
 //Set the game state
 state = play;
- 
-//Start the game loop 
+
+//Start the game loop
 app.ticker.add(delta => gameLoop(delta));
 
 function gameLoop(delta){
@@ -1682,17 +1682,17 @@ let cat, state;
 
 function setup() {
 
-  //Create the `cat` sprite 
+  //Create the `cat` sprite
   cat = new Sprite(resources["images/cat.png"].texture);
-  cat.y = 96; 
+  cat.y = 96;
   cat.vx = 0;
   cat.vy = 0;
   app.stage.addChild(cat);
 
   //Set the game state
   state = play;
- 
-  //Start the game loop 
+
+  //Start the game loop
   app.ticker.add(delta => gameLoop(delta));
 }
 
@@ -1797,9 +1797,9 @@ let cat, state;
 
 function setup() {
 
-  //Create the `cat` sprite 
+  //Create the `cat` sprite
   cat = new Sprite(resources["images/cat.png"].texture);
-  cat.y = 96; 
+  cat.y = 96;
   cat.vx = 0;
   cat.vy = 0;
   app.stage.addChild(cat);
@@ -1816,7 +1816,7 @@ function setup() {
     cat.vx = -5;
     cat.vy = 0;
   };
-  
+
   //Left arrow key `release` method
   left.release = () => {
     //If the left arrow has been released, and the right arrow isn't down,
@@ -1862,8 +1862,8 @@ function setup() {
 
   //Set the game state
   state = play;
- 
-  //Start the game loop 
+
+  //Start the game loop
   app.ticker.add(delta => gameLoop(delta));
 }
 
@@ -2022,7 +2022,7 @@ console.log(animals.toGlobal(cat.position));
 //Displays: Object {x: 80, y: 80...};
 ```
 That gives you an `x` and `y` position of 80. That's exactly the cat's
-global position relative to the top left corner of the stage. 
+global position relative to the top left corner of the stage.
 
 What if you want to find the global position of a sprite, but don't
 know what the sprite's parent container
@@ -2117,7 +2117,7 @@ are set to `false`. That means that if you want change the `rotation`,
 have to set those properties to `true`, like this:
 ```js
 let superFastSprites = new ParticleContainer(
-  size, 
+  size,
   {
     rotation: true,
     alphaAndtint: true,
@@ -2132,7 +2132,7 @@ set to `false` to squeeze out the maximum amount of performance.
 What's the `uvs` property? Only set it to `true` if you have particles
 which change their textures while they're being animated. (All the
 sprite's textures will also need to be on the same tileset image for
-this to work.) 
+this to work.)
 
 (Note: **UV mapping** is a 3D graphics display term that refers to
 the `x` and `y` coordinates of the texture (the image) that is being
@@ -2361,13 +2361,13 @@ let style = new TextStyle({
   dropShadowAngle: Math.PI / 6,
   dropShadowDistance: 6,
 });
-``` 
+```
 That creates a new `style` object containg all the text styling that you'd like to use. For a complete list of all the style properties you can use, [see here](http://pixijs.download/release/docs/PIXI.TextStyle.html).
 
 To apply the style to the text, add the `style` object as the `Text` function's second argument, like this:
 ```js
 let message = new Text("Hello Pixi!", style);
-``` 
+```
 ![Displaying text](/examples/images/screenshots/24.5.png)
 
 If you want to change the content of a text object after you've
@@ -2643,7 +2643,7 @@ function setup() {
   //set the game state to `play`
   state = play;
 
-  //Start the game loop 
+  //Start the game loop
   app.ticker.add(delta => gameLoop(delta));
 }
 
@@ -3136,7 +3136,7 @@ to use some helper libraries:
   sound and music effects. Everything you need to add sound to games.
 - [Smoothie](https://github.com/kittykatattack/smoothie): Ultra-smooth sprite animation using true delta-time interpolation. It also lets you specify the fps (frames-per-second) at which your game or application runs, and completely separates your sprite rendering loop from your application logic loop.
 
-You can find out how to use all these libraries with Pixi in the book 
+You can find out how to use all these libraries with Pixi in the book
 [Learn PixiJS](http://www.springer.com/us/book/9781484210956).
 
 <a id='hexi'></a>
@@ -3149,7 +3149,7 @@ applications:
 
 https://github.com/kittykatattack/hexi
 
-It bundles the best version of Pixi (the latest **stable** one) with all these 
+It bundles the best version of Pixi (the latest **stable** one) with all these
 libraries (and more!) for a simple and fun way to make games. Hexi also
 lets you access the global `PIXI` object directly, so you can write
 low-level Pixi code directly in a Hexi application, and optionally choose to use as many or
@@ -3165,7 +3165,7 @@ Please help to support this project!
 -------------------
 
 Buy the book! Incredibly, someone actually paid me to finish writing this tutorial
-and turn it into a book! 
+and turn it into a book!
 
 [Learn PixiJS](http://www.springer.com/us/book/9781484210956)
 
@@ -3197,4 +3197,3 @@ If you want to support this project, please buy a copy of this book,
 and buy another copy for your mom!
 
 Or, make a generous donation to: http://www.msf.org
-
