@@ -229,71 +229,42 @@ app.renderer.resize(window.innerWidth, window.innerHeight);
 如果你想要canvs在任何浏览器中统一尺寸，你可以使用[`scaleToWindow` 成员函数](https://github.com/kittykatattack/scaleToWindow).
 
 <a id='sprites'></a>
-Pixi sprites
+Pixi 精灵
 ------------
-
-Now that you have a renderer, you can start adding images to it. Anything you want to be made visible in the renderer has to be added to a special Pixi object called the `stage`. You can access this special `stage` object like this:
+现在你就有了一个画布，可以开始往上面放图像了。所有你想在画布上显示的东西必须被加进一个被称作 `舞台`的Pixi对象中。你能够像这样使用舞台对象：
 ```js
 app.stage
 ```
-The `stage` is a Pixi `Container` object. You can think of a container
-as a kind of empty box that will group together and store whatever you
-put inside it. The `stage` object is the root container for all the visible
-things in your scene. Whatever you put inside the `stage` will be
-rendered on the canvas. Right now the `stage` is empty, but soon we're going to
-start putting things inside it. (You can read more about Pixi's `Container` objects [here](http://pixijs.download/release/docs/PIXI.Container.html)).
+这个`舞台`是一个Pixi `容器`对象。你能把它理解成一种将放进去的东西分组并存储的空箱子。 `舞台`对象是在你的场景中所有可见对象的根容器。所有你放进去的东西都会被渲染到canvas中。现在`舞台`是空的，但是很快我们就会放进去一点东西。 (你可以从这了解关于Pixi`容器`对象的更多信息[here](http://pixijs.download/release/docs/PIXI.Container.html)).
 
-(Important: because the `stage` is a Pixi `Container` it has the same properties and methods as any other `Container` object. But,  although the `stage` has `width` and `height` properties, *they don't refer to
-the size of the rendering window*. The stage's `width` and `height`
-properties just tell you the area occupied by the things you put inside it - more on that ahead!)
+（重要信息：因为`舞台`是一个Pixi`容器`对象，所以他有很多其他`容器`对象都有的属性和方法。但是，尽管舞台拥有`width` 和 `height`属性， *他们都不能查看画布窗口的大小* 。舞台的`width` 和 `height`属性仅仅告诉了你你放进去的东西占用的大小 - 更多的信息在前面！）
 
-So what do you put on the stage? Special image objects called
-**sprites**. Sprites are basically just images that you can control
-with code. You can control their position, size, and a host of other
-properties that are useful for making interactive and animated graphics. Learning to make and control sprites is really the most
-important thing about learning to use Pixi. If you know how to make
-sprites and add them to the stage, you're just a small step away from
-starting to make games.
+所以你可以放些什么到舞台上呢？那就是被称作 **精灵** 的特殊图像对象。精灵是你能用代码控制图像的基础。你能够控制他们的位置，大小，和许多其他有用的属性来产生交互和动画。学习怎样创建和控制精灵是学习Pixi最重要的部分。如果你知道怎么创建精灵和把他们添加进舞台，离做出一个游戏就仅仅剩下一步之遥！
 
-Pixi has a `Sprite` class that is a versatile way to make game
-sprites. There are three main ways to create them:
+Pixi拥有一个`精灵`类来创建游戏精灵。有三种主要的方法来创建它：
+- 用一个单图像文件创建。
+- 用一个 **雪碧图** 来创建。雪碧图是一个放入了你游戏所需的所有图像的大图。
+- 从一个纹理贴图集中创建。（纹理贴图集就是用JSON定义了图像大小和位置的雪碧图）
 
-- From a single image file.
-- From a sub-image on a **tileset**. A tileset is a single, big image that
-includes all the images you'll need in your game.
-- From a **texture atlas** (A JSON file that defines the size and position of an image on a tileset.)
-
-You’re going to learn all three ways, but, before you do, let’s find
-out what you need to know about images before you can display them
-with Pixi.
+你将要学习这三种方式，但是在开始之前，你得弄明白图片怎么用Pixi显示。
 
 <a id='loading'></a>
-Loading images into the texture cache
+将图片加载到纹理缓存中
 -------------------------------------
 
-Because Pixi renders the image on the GPU with WebGL, the image needs
-to be in a format that the GPU can process. A WebGL-ready image is
-called a **texture**. Before you can make a sprite display an image,
-you need to convert an ordinary image file into a WebGL texture. To
-keep everything working fast and efficiently under the hood, Pixi uses
-a **texture cache** to store and reference all the textures your
-sprites will need. The names of the textures are strings that match
-the file locations of the images they refer to. That means if you have
-a texture that was loaded from `"images/cat.png"`, you could find it in the texture cache like this:
+因为Pixi用WebGL和GPU去渲染图像，所以图像需要转化成GPU可以处理的版本。可以被GPU处理的图像被称作 **纹理** 。在你让精灵显示图片之前，需要将普通的图片转化成WebGL纹理。为了让所有工作执行的快速有效率，Pixi使用 **纹理缓存** 来存储和引用所有你的精灵需要的纹理。纹理的名称字符串就是图像的地址。这意味着如果你有从`"images/cat.png"`加载的图像，你可以在纹理缓存中这样找到他：
+
 ```js
 PIXI.utils.TextureCache["images/cat.png"];
 ```
-The textures are stored in a WebGL compatible format that’s efficient
-for Pixi’s renderer to work with. You can then use Pixi’s `Sprite` class to make a new sprite using the texture.
+纹理被以WEBGL兼容的格式存储起来，它可以使Pixi的渲染有效率的进行。你现在可以使用Pixi的`精灵`类来创建一个新的精灵，让它使用纹理。
 ```js
 let texture = PIXI.utils.TextureCache["images/anySpriteImage.png"];
 let sprite = new PIXI.Sprite(texture);
 ```
-But how do you load the image file and convert it into a texture? Use
-Pixi’s built-in `loader` object.
+但是你该怎么加载图像并将它转化成纹理？答案是用Pixi已经构建好的`loader`对象。
 
-Pixi's powerful `loader` object is all you need to load any kind of image.
-Here’s how to use it to load an image and call a function called `setup` when the image has finished loading:
+Pixi强大的`loader`对象可以加载任何你需要种类的图像资源。这里展示了怎么加载一个图像并在加载完成时用一个叫做`setup`的方法来使用它。
 ```js
 PIXI.loader
   .add("images/anyImage.png")
@@ -303,17 +274,14 @@ function setup() {
   //This code will run when the loader has finished loading the image
 }
 ```
-[Pixi’s development team
-recommends](http://www.html5gamedevs.com/topic/16019-preload-all-textures/?p=90907)
-that if you use the loader, you should create the sprite by
-referencing the texture in the `loader`’s `resources` object, like this:
+[Pixi的最佳实践](http://www.html5gamedevs.com/topic/16019-preload-all-textures/?p=90907)
+如果你使用了Loader，你就应该创建一个精灵来连接`loader`的`resources`对象，像下面这样：
 ```js
 let sprite = new PIXI.Sprite(
   PIXI.loader.resources["images/anyImage.png"].texture
 );
 ```
-Here’s an example of some complete code you could write to load an image,
-call the `setup` function, and create a sprite from the loaded image:
+这里是一个完整的加载图像的代码。调用`setup`方法，并未加载的图像创建一个精灵。
 ```js
 PIXI.loader
   .add("images/anyImage.png")
@@ -325,11 +293,9 @@ function setup() {
   );
 }
 ```
-This is the general format we’ll be using to load images and create
-sprites in this tutorial.
+这是这个教程之中用来家在图像和创建精灵的通用方法。
 
-You can load multiple images at the same time by listing them with
-chainable `add` methods, like this:
+你可以链式调用`add`方法来加载一系列图像，像下面这样：
 ```js
 PIXI.loader
   .add("images/imageOne.png")
@@ -337,8 +303,7 @@ PIXI.loader
   .add("images/imageThree.png")
   .load(setup);
 ```
-Better yet, just list all the files you want to load in
-an array inside a single `add` method, like this:
+更好的方式则是用数组给一个`add`方法传参，像这样：
 ```js
 PIXI.loader
   .add([
@@ -348,29 +313,25 @@ PIXI.loader
   ])
   .load(setup);
 ```
-The `loader` also lets you load JSON files, which you'll learn
-about ahead.
+这个`loader`也允许你使用JSON文件，关于JSON文件你应该已经在前面学过了。
 
 <a id='displaying'></a>
-Displaying sprites
+显示精灵
 ------------------
 
-After you've loaded an image, and used it to make a sprite, you need to add the sprite to Pixi's `stage` with the `stage.addChild` method, like this:
+在你加载一个图像之后，可以用它来创建一个精灵，你需要用`stage.addChild`方法把它放到Pixi的`舞台`上面去，像这样：
 ```js
 app.stage.addChild(cat);
 ```
-Remember that the `stage` is the main container that holds all of your sprites.
+记住，`舞台`是用来包裹你所有精灵的主要容器。
 
-**Important: you won't be able to see any of your sprites sprites unless you add them to the `stage`!**
+**重点：你不应该看见任何没被加入`舞台`的精灵**
 
-Before we continue, let's look at a practical example of how to use what
-you've just learnt to display a single image. In the `examples/images`
-folder you'll find a 64 by 64 pixel PNG image of a cat.
+在我们继续之前，让我们看一个怎样使用显示一个单图像的例子。在`examples/images`文件夹中，你将找到一个64*64像素大小的猫的PNG图像文件。
 
-![Basic display](/examples/images/cat.png)
+![基础显示图像文件](/examples/images/cat.png)
 
-Here's all the JavaScript code you need to load the image, create a
-sprite, and display it on Pixi's stage:
+这里是所有的显示一个图像，创建一个精灵，显示在Pixi的舞台上所需要的代码。
 ```js
 //Create a Pixi Application
 let app = new PIXI.Application({
@@ -400,44 +361,35 @@ function setup() {
   app.stage.addChild(cat);
 }
 ```
-When this code runs, here's what you'll see:
+程序跑起来，你会看到:
 
-![Cat on the stage](/examples/images/screenshots/02.png)
+![在舞台上的小猫咪](/examples/images/screenshots/02.png)
 
-Now we're getting somewhere!
 
-If you ever need to remove a sprite from the stage, use the `removeChild` method:
+现在我们已经取得了一些进展!
+
+如果你想把一个精灵从舞台上挪走，就可以使用`removeChild`方法：
 ```js
 app.stage.removeChild(anySprite)
 ```
-But usually setting a sprite’s `visible` property to `false` will be a simpler and more efficient way of making sprites disappear.
+但是通常，我们都把精灵的`visible`属性设置成`false`来让精灵简单的隐藏。
 ```js
 anySprite.visible = false;
 ```
 <a id='usingaliases'></a>
-### Using aliases
+### 使用别名
+你可以对你使用频繁的Pixi对象和方法设置一些简略的可读性更强的别名。举个例子，你想给所有的Pixi对象增加`PIXI`前缀么？如果你这样想，那就创建一个简短的别名给他吧。下面是一个给`TextureCache`对象创建别名的例子：
 
-You can save yourself a little typing and make your code more readable
-by creating short-form aliases for the Pixi objects and methods that you
-use frequently. For example, is prefixing `PIXI` to all of Pixi's objects starting to bog you down? If you think so, create a shorter alias that points to it. For example, here's how you can create an alias to the `TextureCache` object:
 ```js
 let TextureCache = PIXI.utils.TextureCache
 ```
-Then, use that alias in place of the original, like this:
+现在就可以像这样使用别名了：
 ```js
 let texture = TextureCache["images/cat.png"];
 ```
-In addition to letting you write more slightly succinct code, using aliases has
-an extra benefit: it helps to buffer you from Pixi's frequently
-changing API. If Pixi's API changes in future
-versions - which it will! - you just need to update these aliases to
-Pixi objects and methods in one place, at the beginning of
-your program, instead of every instance where they're used throughout
-your code. So when Pixi's development team decides they want to
-rearrange the furniture a bit, you'll be one step ahead of them!
+使用别名给写出简洁的代码提供了额外的好处：他帮助你缓存了Pixi的常用API。如果Pixi的API在将来的版本里改变了 - 没准他真的会变！ - 你将会需要在一个地方更新这些对象和方法，你只用在工程的开头而不是所有的实例那里！所以Pixi的开发团队想要改变它的时候，你只用一步即可完成这个操作！
 
-To see how to do this, let's re-write the code we wrote to load an image and display it,
-using aliases for all the Pixi objects and methods.
+来看看怎么将所有的Pixi对象和方法改成别名之后，来重写加载和显示图像的代码。
 ```js
 //Aliases
 let Application = PIXI.Application,
@@ -474,83 +426,58 @@ function setup() {
 }
 
 ```
-Most of the examples in this tutorial will use aliases for Pixi
-objects that follow this same model. **Unless otherwise stated, you can
-assume that all the code examples that follow use aliases like these**.
+大多数教程中的例子将会使用Pixi的别名来处理。**除非另有说明，否则你可以假定下面所有的代码都使用了这些别名。**
 
-This is all you need to know to start loading images and creating
-sprites.
+这就是你需要的所有的关于加载图像和创建精灵的知识。
 
 <a id='alittlemoreaboutloadingthings'></a>
-### A little more about loading things
+### 一些关于加载的其他知识
 
-The format I've shown you above is what I suggest you use as your
-standard template for loading images and displaying sprites. So, you
-can safely ignore the next few paragraphs and jump straight to the
-next section, "Positioning sprites." But Pixi's `loader` object is
-quite sophisticated and includes a few features that you should be
-aware of, even if you don't use them on a regular basis. Let's
-look at some of the most useful.
+我们的例子中的格式是加载图像和显示精灵的最佳实践。所以你可以安全的忽视这些章节直接看"定位精灵"。但是Pixi的加载器有一些你不常用的复杂功能。
 
 <a id='makeaspritefromanordinaryjavascriptimageobject'></a>
-#### Make a sprite from an ordinary JavaScript Image object or Canvas
+#### 使用普通的javaScript Img对象或canvas创建一个精灵
 
-For optimization and efficiency it’s always best to make a sprite from
-a texture that’s been pre-loaded into Pixi’s texture cache. But if for
-some reason you need to make a texture from a regular JavaScript
-`Image`
-object, you can do that using Pixi’s `BaseTexture` and `Texture`
-classes:
+为了优化和效率我们常常选择从预加载的纹理缓存的纹理之中创建精灵。但是如果因为某些原因你需要从JavaScript的`Image`对象之中创建，你可以使用Pixi的`BaseTexture`和`Texture`类：
 ```js
 let base = new PIXI.BaseTexture(anyImageObject),
     texture = new PIXI.Texture(base),
     sprite = new PIXI.Sprite(texture);
 ```
-You can use `BaseTexture.fromCanvas` if you want to make a texture
-from any existing canvas element:
+你可以使用`BaseTexture.fromCanvas`从任何已经存在canvas标签中创建纹理：
 ```js
 let base = new PIXI.BaseTexture.fromCanvas(anyCanvasElement),
 ```
-If you want to change the texture the sprite is displaying, use the
-`texture` property. Set it to any `Texture` object, like this:
+如果你想改变已经显示的精灵的纹理，使用`texture`属性，可以设置任何`Texture`对象，像下面这样：
 ```js
 anySprite.texture = PIXI.utils.TextureCache["anyTexture.png"];
 ```
-You can use this technique to interactively change the sprite’s
-appearance if something significant happens to it in the game.
+你可以使用这个技巧在游戏发生一些重大变化时交互式的改变精灵的纹理。
 
 <a id='assigninganametoaloadingfile'></a>
-#### Assigning a name to a loading file
+#### 给加载的文件设置别名
 
-It's possible to assign a unique name to each resource you want to
-load. Just supply the name (a string) as the first argument in the
-`add` method. For example, here's how to name an image of a cat as
-`catImage`.
+你可以给任何你加载的源文件分配一个独一无二的别名。你只需要在`add`方法中第一个参数位置传进去这个别名就行了，举例来说，下面实现了怎么给这个猫的图片重命名为`catImage`。
 ```js
 PIXI.loader
   .add("catImage", "images/cat.png")
   .load(setup);
 ```
-This creates an object called `catImage` in `loader.resources`.
-That means you can create a sprite by referencing the `catImage` object, like this:
+这种操作在`loader.resources`中创建了一个叫做`catImage`的对象。
+这意味着你可以创建一个引用了`catImage`对象的精灵，像这样：
 ```js
 let cat = new PIXI.Sprite(PIXI.loader.resources.catImage.texture);
 ```
-However, I recommend you don't use this feature! That's because you'll
-have to remember all names you gave each loaded files, as well as make sure
-you don't accidentally use the same name more than once. Using the file path name, as we've done in previous examples is simpler and less error prone.
+然而，我建议你永远别用这个操作！因为你将不得不记住你所有加载文件的别名，而且必须确信你只用了它们一次，使用路径命名，我们将将这些事情处理的更简单和更少错误。
 
 <a id='monitoringloadprogress'></a>
-#### Monitoring load progress
+#### 监视加载进程
 
-Pixi's loader has a special `progress` event that will call a
-customizable function that will run each time a file loads. `progress` events are called by the
-`loader`'s `on` method, like this:
+Pixi的加载器有一个特殊的`progress`事件，它将会调用一个可以定制的函数，这个函数将在每次文件加载时调用。`progress`事件将会被`loader`的`on`方法调用，像是这样：
 ```js
 PIXI.loader.on("progress", loadProgressHandler);
 ```
-Here's how to include the `on` method in the loading chain, and call
-a user-definable function called `loadProgressHandler` each time a file loads.
+这里展示了怎么将`on`方法注入加载链中，并且每当文件加载时调用一个用户定义的名叫`loadProgressHandler`的函数。
 ```js
 PIXI.loader
   .add([
@@ -569,28 +496,18 @@ function setup() {
   console.log("setup");
 }
 ```
-Each time one of the files loads, the progress event calls
-`loadProgressHandler` to display "loading" in the console. When all three files have loaded, the `setup`
-function will run. Here's the output of the above code in the console:
+每一个文件加载，progress事件调用`loadProgressHandler`函数在控制台输出 "loading"。当三个文件都加载完毕，`setup`方法将会运行，下面是控制台的输出：
 ```js
 loading
 loading
 loading
 setup
 ```
-That's neat, but it gets better. You can also find out exactly which file
-has loaded and what percentage of overall files are have currently
-loaded. You can do this by adding optional `loader` and
-`resource` parameters to the `loadProgressHandler`, like this:
+这就不错了，不过还能变的更好。你可以知道哪个文件被加载了以及有百分之多少的文件被加载了。你可以在`loadProgressHandler`增加`loader`参数和`resource`参数实现这个功能，像下面这样：
 ```js
 function loadProgressHandler(loader, resource) { /*...*/ }
 ```
-You can then use `resource.url` to find the file that's currently
-loaded. (Use `resource.name` if you want to find the optional name
-that you might have assigned to the file, as the first argument in the
-`add` method.) And you can use `loader.progress` to find what
-percentage of total resources have currently loaded. Here's some code
-that does just that.
+你现在可以使用 `resource.url`变量来找到现在已经被加载的文件。（如果你想找到你定义的别名，使用resource.name参数。）你可以使用`loader.progress`来找到现在有百分之多少的文件被加载了，这里有一些关于上面描述的代码：
 ```js
 PIXI.loader
   .add([
@@ -618,7 +535,7 @@ function setup() {
   console.log("All files loaded");
 }
 ```
-Here's what this code will display in the console when it runs:
+这里是程序运行后的控制台显示：
 ```js
 loading: images/one.png
 progress: 33.333333333333336%
@@ -628,48 +545,37 @@ loading: images/three.png
 progress: 100%
 All files loaded
 ```
-That's really cool, because you could use this as the basis for
-creating a loading progress bar.
-
-(Note: There are additional properties you can access on the
-`resource` object. `resource.error` will tell you of any possible
-error that happened while
-trying to load a file. `resource.data` lets you
-access the file's raw binary data.)
+这实在太酷了！因为你能用这个玩意做个进度条出来。
+（注意：还有一些额外的`resource`对象属性， `resource.error`会告诉你有哪些加载时候的错误，`resource.data`将会给你文件的原始二进制数据。）
 
 <a id='moreaboutpixisloader'></a>
-#### More about Pixi's loader
+#### 一些关于Pixi的加载器的其他知识
 
-Pixi's loader is ridiculously feature-rich and configurable. Let's
-take a quick bird's-eye view of its usage to
-get you started.
+Pixi的加载器有很多可以设置的功能，让我速览一下：
 
-The loader's chainable `add` method takes 4 basic arguments:
+`add` 方法有四个基础参数:
 ```js
 add(name, url, optionObject, callbackFunction)
 ```
-Here's what the loader's source code documentation has to say about
-these parameters:
+这里有文档里面对这些参数的描述：
 
-`name` (string): The name of the resource to load. If it's not passed, the `url`is used.  
-`url` (string): The url for this resource, relative to the `baseUrl` of the loader.  
-`options` (object literal): The options for the load.  
-`options.crossOrigin` (Boolean): Is the request cross-origin? The default is to determine automatically.  
-`options.loadType`: How should the resource be loaded? The default value is `Resource.LOAD_TYPE.XHR`.  
-`options.xhrType`: How should the data being loaded be interpreted
-when using XHR? The default value is `Resource.XHR_RESPONSE_TYPE.DEFAULT`  
-`callbackFunction`: The function to call when this specific resource completes loading.
+`name` (string): 加载源文件的别名,如果没设置，`url`就会被放在这.  
+`url` (string): 源文件的地址，是加载器 `baseUrl`的相对地址.  
+`options` (object literal): 加载设置.  
+`options.crossOrigin` (Boolean): 源文件请求跨域不？默认是自动设定的。  
+`options.loadType`: 源文件是怎么加载进来的？默认是`Resource.LOAD_TYPE.XHR`。
+`options.xhrType`: 用XHR的时候该怎么处理数据？ 默认是`Resource.XHR_RESPONSE_TYPE.DEFAULT`。  
+`callbackFunction`: 当这个特定的函数加载完，这个特定的函数将会被执行。
 
-The only one of these arguments that's required is the `url` (the file that you want to load.)
+只有`url`必填（你总得加载个文件吧。）
 
-Here are some examples of some ways you could use the `add`
-method to load files. These first ones are what the docs call the loader's "normal syntax":
+这里有点用了`add`方法加载文件的例子。第一个就是文档里所谓的“正常语法”：
 ```js
 .add('key', 'http://...', function () {})
 .add('http://...', function () {})
 .add('http://...')
 ```
-And these are examples of the loader's "object syntax":
+这些就是所谓“对象语法”啦：
 ```js
 .add({
   name: 'key2',
@@ -692,8 +598,7 @@ And these are examples of the loader's "object syntax":
   crossOrigin: true
 })
 ```
-You can also pass the `add` method an array of objects, or urls, or
-both:
+你也可以给`add`方法传一个对象的数组，或者既使用对象数组，又使用链式加载：
 ```js
 .add([
   {name: 'key4', url: 'http://...', onComplete: function () {} },
@@ -701,13 +606,9 @@ both:
   'http://...'
 ]);
 ```
-(Note: If you ever need to reset the loader to load a new batch of files, call the loader's `reset` method: `PIXI.loader.reset();`)
+（注意：如果你需要重新加载一批文件，调用加载器的`reset`方法：`PIXI.loader.reset();`）
 
-Pixi's loader has many more advanced features, including options to
-let you load and parse binary files of all types. This is not
-something you'll need to do on a day-to-day basis, and way outside the
-scope of this tutorial, so [make sure to check out the loader's GitHub repository
-for more information](https://github.com/englercj/resource-loader).
+Pixi的加载器还有许多其他的高级特性，包括可以让你加载和解析所有类型二进制文件的选项。这些并非你每天都要做的，也超出了这个教程的范围，所以[从GitHub项目中获取更多信息](https://github.com/englercj/resource-loader)吧！
 
 <a id='positioning'></a>
 Positioning sprites
