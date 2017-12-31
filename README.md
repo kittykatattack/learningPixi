@@ -2108,7 +2108,7 @@ arguments you can provide: `size`, `properties`, `batchSize` and `autoResize`.
 ```js
 let superFastSprites = new ParticleContainer(maxSize, properties, batchSize, autoResize);
 ```
-The default value for `maxSize` is 15,000. So, if you need to contain more
+The default value for `maxSize` is 1500. So, if you need to contain more
 sprites, set it to a higher number. The `properties` argument is an object
 with 5 Boolean values you can set: `scale`, `position`, `rotation`, `uvs` and
 `alphaAndTint`. The default value of `position` is `true`, but all the others
