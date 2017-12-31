@@ -9,10 +9,10 @@ Pixi教程
 1. [介绍](#introduction)
 2. [安装](#settingup)
   1. [安装 Pixi](#installingpixi)
-3. [创建舞台和渲染器](#application)
+3. [创建舞台（stage）和画布（renderer）](#application)
 4. [Pixi 精灵](#sprites)
 5. [把图像加载进纹理缓存](#loading)
-6. [显示精灵](#displaying)
+6. [显示精灵（sprite）](#displaying)
   1. [使用别名](#usingaliases)
   2. [一些关于加载的其他知识](#alittlemoreaboutloadingthings)
     1. [使用普通的javaScript Img对象或canvas创建一个精灵](#makeaspritefromanordinaryjavascriptimageobject)
@@ -65,15 +65,15 @@ Pixi教程
 <a id='introduction'></a>
 介绍
 ------------
-Pixi是一个超快的2D渲染引擎。这意味着什么呢？这意味着它会帮助你用JavaScript或者其他HTML5技术来显示，创建动画或管理交互式图像，从而制作一个游戏或应用。它拥有语义化的，简洁的API接口并且加入了一些非常有用的特征。就像支持纹理贴图集和为精灵（交互式图像）提供了一个简单的动画系统。它也提供了一个完备的场景图，你可以在精灵里面创建精灵，当然也可以让精灵响应你的鼠标或触摸事件。最重要的的是，Pixi没有妨碍你的编程方式，你可以自己选择使用多少它的功能，遵循你自己的编码风格，或与其他有用的框架无缝集成。
+Pixi是一个超快的2D渲染引擎。这意味着什么呢？这意味着它会帮助你用JavaScript或者其他HTML5技术来显示媒体，创建动画或管理交互式图像，从而制作一个游戏或应用。它拥有语义化的，简洁的API接口并且加入了一些非常有用的特性。比如支持纹理贴图集和为精灵（交互式图像）提供了一个简单的动画系统。它也提供了一个完备的场景图，你可以在精灵图层里面创建另一个精灵，当然也可以让精灵响应你的鼠标或触摸事件。最重要的的是，Pixi没有妨碍你的编程方式，你可以自己选择使用多少它的功能，你可以遵循你自己的编码风格，或让Pixi与其他有用的框架无缝集成。
 
-Pixi的API事实上比起久经沙场又老旧的Macromedia/Adobe Flash API要精致。如果你是一个Flash开发者，将会对这样的API感觉更好。其他的类似渲染框架（类似CreateJS,Starling, Sparrow 和 Apple’s SpriteKit.）也在使用类似的API。Pixi API的优势在于它是通用的：它不是一个游戏引擎。这是一个优势，因为它给了你所有的自由去做任何你想做的事，甚至用它可以写成你自己的游戏引擎。（译者：作者这点说的很对，译者有一个朋友就使用它制作自己的Galgame引擎AVG.js）。
+Pixi的API事实上比起久经沙场又老旧的Macromedia/Adobe Flash API要精致。如果你是一个Flash开发者，将会对这样的API感觉更好。其他的同类渲染框架（比如CreateJS,Starling, Sparrow 和 Apple’s SpriteKit.）也在使用类似的API。Pixi API的优势在于它是通用的：它不是一个游戏引擎。这是一个优势，因为它给了你所有的自由去做任何你想做的事，甚至用它可以写成你自己的游戏引擎。（译者：作者这点说的很对，译者有一个朋友就使用它制作自己的Galgame引擎AVG.js）。
 
 在这个教程里，你将会明白怎样用Pixi的强大的图片渲染能力和场景图技术来和做一个游戏联系起来。但是Pixi不仅仅能做游戏 —— 你能用这个技术去创建任何交互式媒体应用。这甚至意味着手机应用。
 
 你在开始这个教程之前需要知道什么呢？
 
-你需要一个对于HTML和JavaScript大致的了解。你没必要成为这方面的专家才能开始，及时一个野心勃勃的初学者也可以开始学习。这本书就是一个学习的好地方：
+你需要一个对于HTML和JavaScript大致的了解。你没必要成为这方面的专家才能开始，即使一个野心勃勃的初学者也可以开始学习。这本书就是一个学习的好地方：
 
 [Foundation Game Design with HTML5 and JavaScript](http://www.apress.com/9781430247166)
 
@@ -162,9 +162,9 @@ JavaScript](http://www.codecademy.com/tracks/javascript)
 
 但是怎么用？
 
-第一步就是去创建一个可以显示图片的矩形显示区。Pixi拥有一个`Application`对象来帮助你创建它。它会自动创建一个`<canvas>`HTML标签并且计算出怎么去让你的图片在这个标签中显示。你现在需要创建一个特殊的Pixi`Container`对象，他被称作`舞台`。正如你所见，这个`舞台`对象将会被当作根容器而使用，它将包裹所有你想用Pixi显示的东西。
+第一步就是去创建一个可以显示图片的矩形显示区。Pixi拥有一个`Pixi应用`对象来帮助你创建它。它会自动创建一个`<canvas>`HTML标签并且计算出怎么去让你的图片在这个标签中显示。你现在需要创建一个特殊的Pixi`容器`对象，他被称作`舞台`。正如你所见，这个`舞台`对象将会被当作根容器而使用，它将包裹所有你想用Pixi显示的东西。
 
-这里是你需要创建一个名叫`app`的Pixi应用和`舞台`的必要的代码。这些代码需要在你的HTML文档中以`<script>`标签包裹。
+这里是你需要创建一个名叫`app`的Pixi应用对象和一个`舞台`的必要的代码。这些代码需要在你的HTML文档中以`<script>`标签包裹。
 
 ```js
 //Create a Pixi Application
@@ -196,7 +196,7 @@ let app = new PIXI.Application({
 这些设置做了些什么呢？
 `antialias`使得字体的边界和几何图形更加圆滑（WebGL的anti-aliasing在所有平台都不可用，所以你需要在你的游戏的标签平台上测试他们）。`transparent`将整个Canvs标签的透明度进行了设置。`resolution`让Pixi在不同的分辨率和像素密度的平台上运行变得简单。设置分辨率对于这个教程而言有些超纲了，到那时你可以看[Mat Grove'sexplanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)之中是如何使用`resolution`的所有细节的。但是平常，只要保持`resolution`是1，就可以应付大多数工程了。
 
-Pixi的`renderer`对象将会默认选择WebGL引擎渲染模式，它更快并且可以让你使用一些壮观的视觉特效————如果你把他们都学了。但是如果你需要强制使用Canvas引擎绘制而抛弃WebGL，你可以设置`forceCanvas`选项为`true`，像这样：
+Pixi的`画布`对象将会默认选择WebGL引擎渲染模式，它更快并且可以让你使用一些壮观的视觉特效————如果你把他们都学了。但是如果你需要强制使用Canvas引擎绘制而抛弃WebGL，你可以设置`forceCanvas`选项为`true`，像这样：
 ```js
 forceCanvas: true,
 ```
@@ -206,9 +206,9 @@ forceCanvas: true,
 ```js
 app.renderer.backgroundColor = 0x061639;
 ```
-如果你想要去找到`renderer`的宽高，使用`app.renderer.view.width` 和`app.renderer.view.height`。
+如果你想要去找到`画布`的宽高，使用`app.renderer.view.width` 和`app.renderer.view.height`。
 
-使用`renderer`的`resize`方法可以改变canvas的大小，提供任何新的`width` 和 `height`变量给他都行。但是为了确认宽高的格式正确，将`autoResize`设置为`true`。
+使用`画布`的`resize`方法可以改变canvas的大小，提供任何新的`width` 和 `height`变量给他都行。但是为了确认宽高的格式正确，将`autoResize`设置为`true`。
 ```js
 app.renderer.autoResize = true;
 app.renderer.resize(512, 512);
