@@ -651,17 +651,15 @@ function setup() {
 sprite.position.set(x, y)
 ```
 <a id='sizenscale'></a>
-Size and scale
+大小和比例
 --------------
 
-You can change a sprite's size by setting its `width` and `height`
-properties. Here's how to give the cat a `width` of 80 pixels and a `height` of
-120 pixels.
+你能够通过精灵的`width`和`height`属性来改变它的大小。这是怎么把`width`调整成80像素，`height`调整成120像素的例子：
 ```js
 cat.width = 80;
 cat.height = 120;
 ```
-Add those two lines of code to the `setup` function, like this:
+在`setup`函数里面加上这两行代码，像这样：
 ```js
 function setup() {
 
@@ -680,98 +678,67 @@ function setup() {
   app.stage.addChild(cat);
 }
 ```
-Here's the result:
+结果看起来是这样：
 
 ![Cat's height and width changed](/examples/images/screenshots/05.png)
 
-You can see that the cat's position (its top left corner) didn't
-change, only its width and height.
+你能看见，这只猫的位置（左上角的位置）没有改变，只有宽度和高度改变了。
 
 ![Cat's height and width changed - diagram](/examples/images/screenshots/06.png)
 
-Sprites also have `scale.x` and `scale.y` properties that change the
-sprite's width and height proportionately. Here's how to set the cat's
-scale to half size:
+精灵都有`scale.x` 和 `scale.y`属性，他们可以成比例的改变精灵的宽高。这里的例子把猫的大小变成了一半：
 ```js
 cat.scale.x = 0.5;
 cat.scale.y = 0.5;
 ```
-Scale values are numbers between 0 and 1 that represent a
-percentage of the sprite's size. 1 means 100% (full size), while
-0.5 means 50% (half size). You can double the sprite's size by setting
-its scale values to 2, like this:
+Scale的值是从0到1之间的数字的时候，代表了它对于原来精灵大小的百分比。1意味着100%（原来的大小），所以0.5意味着50%（一半大小）。你可以把这个值改为2，这就意味着让精灵的大小成倍增长。像这样：
 ```js
 cat.scale.x = 2;
 cat.scale.y = 2;
 ```
-Pixi has an alternative, concise way for you set sprite's scale in one
-line of code using the `scale.set` method.
+Pixi可以用一行代码缩放你的精灵，那要用到`scale.set`方法。
 ```js
 cat.scale.set(0.5, 0.5);
 ```
-If that appeals to you, use it!
+如果你喜欢这种，就用吧！
 
 <a id='rotation'></a>
-Rotation
+旋转
 --------
-
-You can make a sprite rotate by setting its `rotation` property to a
-value in [radians](http://www.mathsisfun.com/geometry/radians.html).
+你可以通过对一个精灵的`rotation`设定一个[角度](http://www.mathsisfun.com/geometry/radians.html)来旋转它。
 ```js
 cat.rotation = 0.5;
 ```
-But around which point does that rotation happen?
-
-You've seen that a sprite's top left corner represents its `x` and `y` position. That point is
-called the **anchor point**. If you set the sprite’s `rotation`
-property to something like `0.5`, the rotation will happen *around the
-sprite’s anchor point*.
-This diagram shows what effect this will have on our cat sprite.
+但是旋转是针对于哪一个点发生的呢？
+你已经了解了，精灵的左上角代表它的位置，这个点被称之为 **锚点** 。如果你用像`0.5`这种值设定`rotation`，这个旋转将会 *围绕着锚点发生* 。下面这张图就是结果：
 
 ![Rotation around anchor point - diagram](/examples/images/screenshots/07.png)
 
-You can see that the anchor point, the cat’s left ear, is the center of the imaginary circle around which the cat is rotating.
-What if you want the sprite to rotate around its center? Change the
-sprite’s `anchor` point so that it’s centered inside the sprite, like
-this:
+你能看见锚点是猫的左边耳朵（译者:对猫来说实际上是它的右耳朵！），那里成了猫的图片的旋转中心。
+你该怎么改变锚点呢？通过改变精灵的`anchor`属性的xy值来实现。像下面这样：
 ```js
 cat.anchor.x = 0.5;
 cat.anchor.y = 0.5;
 ```
-The `anchor.x` and `anchor.y` values represent a percentage of the texture’s dimensions, from 0 to 1 (0%
-to 100%). Setting it to 0.5 centers the texture over the point. The location of the point
-itself won’t change, just the way the texture is positioned over it.
+`anchor.x`和`anchor.y`的值如果是从0到1，就会被认为是整个纹理的长度或宽度百分比。设置他们都为0.5，锚点就处在了图像中心。精灵定位的依据点不会改变，锚点的改变是另外一回事。
 
-This next diagram shows what happens to the rotated sprite if you center its anchor point.
+下面的图显示把锚点居中以后旋转的精灵。
 
 ![Rotation around centered anchor point - diagram](/examples/images/screenshots/08.png)
 
-You can see that the sprite’s texture shifts up and to the left. This
-is an important side-effect to remember!
+你可以看到精灵的纹理向左移动了，这是个必须记住的重要副作用！
 
-Just like with `position` and `scale`, you can set the anchor’s x and
-y values with one line of code like this:
+像是`position`和`scale`属性一样，你也可以在一行内像这样设置锚点的位置：
 ```js
 cat.anchor.set(x, y)
 ```
-Sprites also have a `pivot` property which works in a similar way to
-`anchor`. `pivot` sets the position
-of the sprite's x/y origin point. If you change the pivot point and
-then rotate the sprite, it will
-rotate around that origin point. For example, the following code will
-set the sprite's `pivot.x` point to 32, and its `pivot.y` point to 32
+精灵也提供和`anchor`差不多的`pivot`属性来设置精灵的原点。如果你改变了它的值之后旋转精灵，它将会围绕着你设置的原点来旋转。举个例子，下面的代码将精灵的`pivot.x`和`pivot.y`设置为了32。
 ```js
 cat.pivot.set(32, 32)
 ```
-Assuming that the sprite is 64x64 pixels, the sprite will now rotate
-around its center point. But remember: if you change a sprite's pivot
-point, you've also changed its x/y origin point.
+假设精灵图是64x64像素，它将绕着它的中心点旋转。但是记住：你如果改变了精灵的`pivot`属性，你也就改变了它的原点位置。
 
-So, what's the difference between `anchor` and `pivot`? They're really
-similar! `anchor` shifts the origin point of the sprite's image texture, using a 0 to 1 normalized value.
-`pivot` shifts the origin of the sprite's x and y point, using pixel
-values. Which should you use? It's up to you. Just play around
-with both of them and see which you prefer.
+所以`anchor` 和 `pivot`的不同之处在哪里呢？他们真的很像！`anchor`改变了精灵纹理的图像原点，用0到1的数据来填充。`pivot`则改变了精灵的原点，用像素的值来填充。你要用哪个取决于你。两个都试试就知道哪个对你而言最适合。
 
 <a id='tileset'></a>
 Make a sprite from a tileset sub-image
