@@ -1872,7 +1872,7 @@ and `V` were chosen to represent `x` and `y` for 2D image textures.)
 (I'm not sure what exactly what those last two optional arguments, `batchSize` and `autoResize`, so if anyone knows, please us know in the Issues!)
 
 <a id='graphic'></a>
-Pixi's Graphic Primitives
+用Pixi绘制几何图形
 -------------------------
 使用图片纹理是制作精灵最有效的方式之一，但是Pixi也提供了自己低级的绘画工具。你可以使用它们来创造矩形、线段、复杂的多边形以及文本。并且它使用和[Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)几乎一致的api，所以如果你熟悉canvas的话，那么几乎没有什么新东西需要学习。当然另一个巨大的优势在于，不同于Canvas的绘画api，你使用Pixi绘制的图形是通过WebGL在GPU上渲染的。Pixi能够让你获得所有未触碰到的性能。让我们简单看一下如何创造一些基本图形。下面是我们将要使用前面代码来创造的图形。
 
