@@ -937,15 +937,15 @@ let texture = TextureCache["frameId.png"],
     sprite = new Sprite(texture);
 ```
 2.	If you’ve used Pixi’s `loader` to load the texture atlas, use the
-   loader’s `resources`:
+loader’s `resources`:
 ```js
 let sprite = new Sprite(
   resources["images/treasureHunter.json"].textures["frameId.png"]
 );
 ```
 3. That’s way too much typing to do just to create a sprite!
-   So I suggest you create an alias called `id` that points to texture’s
-   altas’s `textures` object, like this:
+So I suggest you create an alias called `id` that points to texture’s
+altas’s `textures` object, like this:
 ```js
 let id = PIXI.loader.resources["images/treasureHunter.json"].textures;
 ```
