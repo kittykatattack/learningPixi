@@ -937,15 +937,15 @@ let texture = TextureCache["frameId.png"],
     sprite = new Sprite(texture);
 ```
 2.	If you’ve used Pixi’s `loader` to load the texture atlas, use the
-loader’s `resources`:
+   loader’s `resources`:
 ```js
 let sprite = new Sprite(
   resources["images/treasureHunter.json"].textures["frameId.png"]
 );
 ```
 3. That’s way too much typing to do just to create a sprite!
-So I suggest you create an alias called `id` that points to texture’s
-altas’s `textures` object, like this:
+   So I suggest you create an alias called `id` that points to texture’s
+   altas’s `textures` object, like this:
 ```js
 let id = PIXI.loader.resources["images/treasureHunter.json"].textures;
 ```
@@ -1874,50 +1874,34 @@ and `V` were chosen to represent `x` and `y` for 2D image textures.)
 <a id='graphic'></a>
 Pixi's Graphic Primitives
 -------------------------
-
-Using image textures is one of the most useful ways of making sprites,
-but Pixi also has its own low-level drawing tools. You can use them to
-make rectangles, shapes, lines, complex polygons and text. And,
-fortunately, it uses almost the same API as the [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas) so,
-if you're already familiar with canvas, there’s nothing really new to
-  learn. But the big advantage is that, unlike the Canvas Drawing API,
-  the shapes you draw with Pixi are rendered by WebGL on the GPU. Pixi
-  lets you access all that untapped performance power.
-Let’s take a quick tour of how to make some basic shapes. Here are all
-the shapes we'll make in the code ahead.
+使用图片纹理是制作精灵最有效的方式之一，但是Pixi也提供了自己低级的绘画工具。你可以使用它们来创造矩形、线段、复杂的多边形以及文本。并且它使用和[Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)几乎一致的api，所以如果你熟悉canvas的话，那么几乎没有什么新东西需要学习。当然另一个巨大的优势在于，不同于Canvas的绘画api，你使用Pixi绘制的图形是通过WebGL在GPU上渲染的。Pixi能够让你获得所有未触碰到的性能。让我们简单看一下如何创造一些基本图形。下面是我们将要使用前面代码来创造的图形。
 
 ![Graphic primitives](/examples/images/screenshots/23.png)
 
 <a id='rectangles'></a>
-### Rectangles
+### 矩形
 
-All shapes are made by first creating a new instance of Pixi's
-`Graphics` class (`PIXI.Graphics`).
+所有的形状的初始化都是先创造一个Pixi的`Graphics`的类 (`PIXI.Graphics`)的实例。
 ```js
 let rectangle = new Graphics();
 ```
-Use `beginFill` with a hexadecimal color code value to set the
-rectangle’ s fill color. Here’ how to set to it to light blue.
+调用`beginFill`和一个16进制的颜色值来设置矩形的填充颜色。下面展示如何设置颜色为淡蓝色。
 ```js
 rectangle.beginFill(0x66CCFF);
 ```
-If you want to give the shape an outline, use the `lineStyle` method. Here's
-how to give the rectangle a 4 pixel wide red outline, with an `alpha`
-value of 1.
+如果你想要给图形设置一个轮廓，使用`lineStyle`方法。下面展示如何给矩形设置一个4像素宽`alpha`值为1的红色轮廓
 ```js
 rectangle.lineStyle(4, 0xFF3300, 1);
 ```
-Use the `drawRect` method to draw the rectangle. Its four arguments
-are `x`, `y`, `width` and `height`.
+调用`drawRect`方法来画一个矩形。它的四个参数是`x`, `y`, `width` 和 `height`。
 ```js
 rectangle.drawRect(x, y, width, height);
 ```
-Use `endFill` when you’re done.
+调用`endFill`结束绘制。
 ```js
 rectangle.endFill();
 ```
-It’s just like the Canvas Drawing API! Here’s all the code you need to
-draw a rectangle, change its position, and add it to the stage.
+它看起来就像Canvas的绘画api一样！下面是绘制一个矩形涉及到的所有代码，调整它的位置并且把它添加到舞台吧。
 ```js
 let rectangle = new Graphics();
 rectangle.lineStyle(4, 0xFF3300, 1);
@@ -1929,18 +1913,15 @@ rectangle.y = 170;
 app.stage.addChild(rectangle);
 
 ```
-This code makes a 64 by 64 blue rectangle with a red border at an x and y position of 170.
-
+这些代码可以在（170，170）这个位置创造一个宽高都为64的蓝色的红框矩形。
 <a id='circles'></a>
-### Circles
+### 圆形
 
-Make a circle with the `drawCircle` method. Its three arguments are
-`x`, `y` and `radius`
+调用`drawCircle`方法来创造一个圆。它的三个参数是`x`, `y` 和 `radius`。
 ```js
 drawCircle(x, y, radius)
 ```
-Unlike rectangles and sprites, a circle’s x and y position is also its
-center point. Here’s how to make a violet colored circle with a radius of 32 pixels.
+不同于矩形和精灵，一个圆形的x和y坐标也是它自身的圆点。下面展示如何创造半径32像素的紫色圆形。
 ```js
 let circle = new Graphics();
 circle.beginFill(0x9966FF);
@@ -1951,16 +1932,12 @@ circle.y = 130;
 app.stage.addChild(circle);
 ```
 <a id='ellipses'></a>
-### Ellipses
-As a one-up on the Canvas Drawing API, Pixi lets you draw an ellipse
-with the `drawEllipse` method.
+### 椭圆
+`drawEllipse`是一个卓越的Canvas绘画api，Pixi也能够让你调用`drawEllipse`来绘制椭圆。
 ```js
 drawEllipse(x, y, width, height);
 ```
-The x/y position defines the ellipse’s top left corner (imagine that
-the ellipse is surrounded by an invisible rectangular bounding box -
-the top left corner of that box will represent the ellipse's x/y
-anchor position). Here’s a yellow ellipse that’s 50 pixels wide and 20 pixels high.
+x/y坐标位置决定了椭圆的左上角（想象椭圆被一个不可见的矩形边界盒包围着-盒的左上角代表了椭圆x/y的锚点位置）。下面是50像素宽20像素高的黄色椭圆。
 ```js
 let ellipse = new Graphics();
 ellipse.beginFill(0xFFFF00);
@@ -1971,16 +1948,13 @@ ellipse.y = 130;
 app.stage.addChild(ellipse);
 ```
 <a id='roundedrect'></a>
-### Rounded rectangles
+### 圆角矩形
 
-Pixi also lets you make rounded rectangles with the `drawRoundedRect`
-method. The last argument, `cornerRadius` is a number in pixels that
-determines by how much the corners should be rounded.
+Pixi同样允许你调用`drawRoundedRect`方法来创建圆角矩形。这个方法的最后一个参数`cornerRadius`是单位为像素的数字，它代表矩形的圆角应该有多圆。
 ```js
 drawRoundedRect(x, y, width, height, cornerRadius)
 ```
-Here's how to make a rounded rectangle with a corner radius of 10
-pixels.
+下面展示如何创建一个圆角半径为10的圆角矩形。
 ```js
 let roundBox = new Graphics();
 roundBox.lineStyle(4, 0x99CCFF, 1);
@@ -1992,12 +1966,9 @@ roundBox.y = 190;
 app.stage.addChild(roundBox);
 ```
 <a id='lines'></a>
-### Lines
+### 线段
 
-You've seen in the examples above that the `lineStyle` method lets you
-define a line.  You can use the `moveTo` and `lineTo` methods to draw the
-start and end points of the line, in just the same way you can with the Canvas
-Drawing API. Here’s how to draw a 4 pixel wide, white diagonal line.
+想必你已经看过上面定义线段的`lineStyle`方法了。你可以调用`moveTo` 和 `lineTo`方法来画线段的起点和终点，就和Canvas绘画api中的一样。下面展示如何绘制一条4像素宽的白色对角线。
 ```js
 let line = new Graphics();
 line.lineStyle(4, 0xFFFFFF, 1);
@@ -2007,17 +1978,12 @@ line.x = 32;
 line.y = 32;
 app.stage.addChild(line);
 ```
-`PIXI.Graphics` objects, like lines, have `x` and `y` values, just
-like sprites, so you can position them anywhere on the stage after
-you've drawn them.
+`PIXI.Graphics`对象，比如线段，都有`x` 和 `y`值，就像精灵一样，所以你可以在绘制完它们之后将他们定位到舞台的任意位置。
 
 <a id='polygons'></a>
-### Polygons
+### 多边形
 
-You can join lines together and fill them with colors to make complex
-shapes using the `drawPolygon` method. `drawPolygon`'s argument is a
-path array of x/y points that define the positions of each point on the
-shape.
+你可以使用`drawPolygon`方法来将线段连接起来并且填充颜色来创造复杂图形。`drawPolygon`的参数是一个路径数组，数组中的值为决定图形上每个点位置的x/y坐标。
 ```js
 let path = [
   point1X, point1Y,
@@ -2027,11 +1993,7 @@ let path = [
 
 graphicsObject.drawPolygon(path);
 ```
-`drawPolygon` will join those three points together to make the shape.
-Here’s how to use `drawPolygon` to connect three lines together to
-make a red triangle with a blue border. The triangle is drawn at
-position 0,0 and then moved to its position on the stage using its
-`x` and `y` properties.
+`drawPolygon`会将上面三个点连接起来创造图形。下面是如何使用`drawPolygon`来连接三条线从而创建一个红底蓝边的三角形。我们将三角形绘制在（0，0）的位置上，之后通过调整它的`x` 和 `y`属性来移动它在舞台上的位置。
 ```js
 let triangle = new Graphics();
 triangle.beginFill(0x66FF33);
@@ -2057,25 +2019,24 @@ app.stage.addChild(triangle);
 ```
 <a id='text'></a>
 
-Displaying text
+显示文本
 ---------------
 
-Use a `Text` object (`PIXI.Text`) to display text on the stage. In its simplest form, you can do it like this:
+使用一个 `Text` 对象 (`PIXI.Text`)在舞台上展示文本。简单来说，你可以这样使用它：
 ```js
 let message = new Text("Hello Pixi!");
 app.stage.addChild(message);
 ```
 
-This will display the words, "Hello, Pixi" on the canvas. Pixi’s Text objects inherit from the `Sprite` class, so they
-contain all the same properties like `x`, `y`, `width`, `height`,
-`alpha`, and `rotation`. Position and resize text on the stage just like you would any other sprite. For example, you could use `position.set` to set the `message`'s `x` and `y` position like this:
+这将会在画布上展示文本“Hello, Pixi”。Pixi的文本对象继承自`Sprite`类，所以它包含了所有相同的属性，像`x`, `y`, `width`, `height`,
+`alpha`, 和 `rotation`。你可以像处理其他精灵一样在舞台上定位或调整文本。例如，你可以像下面这样使用`position.set`来设置`message`的`x`和`y`位置：
 ```js
 message.position.set(54, 96);
 ```
 
 ![Displaying text](/examples/images/screenshots/24.png)
 
-That will give you basic, unstyled text. But if you want to get fancier, use Pixi's `TextStyle` function to define custom text styling. Here's how:
+这样你会得到基础的未加修饰的文本。但是如果你想要更绚丽的文字，使用Pixi的`TextStyle`函数来自定义文字效果。下面展示如何操作：
 
 ```js
 let style = new TextStyle({
@@ -2091,56 +2052,41 @@ let style = new TextStyle({
   dropShadowDistance: 6,
 });
 ```
-That creates a new `style` object containg all the text styling that you'd like to use. For a complete list of all the style properties you can use, [see here](http://pixijs.download/release/docs/PIXI.TextStyle.html).
+这将创建一个新的包含所有你想用的样式的`style`对象。所有样式属性，[see here](http://pixijs.download/release/docs/PIXI.TextStyle.html)。
 
-To apply the style to the text, add the `style` object as the `Text` function's second argument, like this:
+添加`style`对象作为`Text`函数的第二个参数来应用样式到文本上，就像这样：
 ```js
 let message = new Text("Hello Pixi!", style);
 ```
 ![Displaying text](/examples/images/screenshots/24.5.png)
 
-If you want to change the content of a text object after you've
-created it, use the `text` property.
+如果你想要在你创建文本对象之后改变它的内容，使用`text`属性。
 ```js
 message.text = "Text changed!";
 ```
-Use the `style` property if you want to redefine the style properties.
+如果你想要重新定义样式属性，使用`style`属性。
 ```js
 message.style = {fill: "black", font: "16px PetMe64"};
 ```
 
-Pixi makes text objects by using the Canvas Drawing API to
-render the text to an invisible and temporary canvas
-element. It then turns the canvas into a WebGL texture so that it
-can be mapped onto a sprite. That’s why the text’s color needs to be
-wrapped in a string: it’s a Canvas Drawing API color value. As with
-any canvas color values, you can use words for common colors like
-“red” or “green”, or use rgba, hsla or hex values.
+Pixi通过调用Canvas绘画api将文本渲染成不可见或临时的canvas元素来创建文本对象。它之后会将画布转化为WebGL纹理，所以可以被映射到精灵上。这就是为什么文本的颜色需要被包裹成字符串：那是Canvas绘画api的颜色值。与任何canvas颜色值一样，你可以使用“red”或“green”等常用颜色的单词，或使用rgba，hsla或十六进制值。
 
-Pixi can also wrap long lines of text. Set the text’s `wordWrap` style
-property to `true`, and then set `wordWrapWidth` to the maximum length
-in pixels, that the line of text should be. Use the `align` property
-to set the alignment for multi-line text.
+Pixi也能包裹文本的长段。设置文本的 `wordWrap` 样式属性到 `true`，然后设置`wordWrapWidth`到一行文字应该到的最大像素。调用`align`属性来设置多行文本的对齐方式。
 ```js
 message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
 ```
-(Note: `align` doesn't affect single line text.)
+（注意：`align` 不会影响单行文本。）
 
-If you want to use a custom font file, use the CSS `@font-face` rule
-to link the font file to the HTML page where your Pixi application is
-running.
+如果你想要使用自定义的字体文件，使用CSS的`@font-face`规则来链接字体文件到Pixi应用运行的HTML页面。
 ```js
 @font-face {
   font-family: "fontFamilyName";
   src: url("fonts/fontFile.ttf");
 }
 ```
-Add this `@font-face` rule to your HTML page's CSS style sheet.
+添加这个`@font-face`语句到你的HTML页面的CSS里面。
 
-[Pixi also has support for bitmap
-fonts](http://pixijs.download/release/docs/PIXI.extras.BitmapText.html). You
-can use Pixi's loader to load Bitmap font XML files, the same way you
-load JSON or image files.
+[Pixi也支持位图字体](http://pixijs.download/release/docs/PIXI.extras.BitmapText.html)。你可以使用Pixi的加载器来加载XML位图文件，就像你加载JSON或图片文件一样。
 
 <a id='collision'></a>
 Collision detection
