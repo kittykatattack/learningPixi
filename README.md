@@ -806,67 +806,27 @@ let rocket = new Sprite(texture);
 因为从一个雪碧图创建精灵的纹理是一个用的很频繁的操作，Pixi有一个更加合适的方式来帮助你处理这件事情。欲知后事如何，且听下回分解。
 
 <a id='textureatlas'></a>
-Using a texture atlas
+使用一个纹理贴图集
 ---------------------
 
-If you’re working on a big, complex game, you’ll want a fast and
-efficient way to create sprites from tilesets. This is where a
-**texture atlas** becomes really useful. A texture atlas is a JSON
-data file that contains the positions and sizes of sub-images on a
-matching tileset PNG image. If you use a texture atlas, all you need
-to know about the sub-image you want to display is its name. You
-can arrange your tileset images in any order and the JSON file
-will keep track of their sizes and positions for you. This is
-really convenient because it means the sizes and positions of
-tileset images aren’t hard-coded into your game program. If you
-make changes to the tileset, like adding images, resizing them,
-or removing them, just re-publish the JSON file and your game will
-use that data to display the correct images. You won’t have to
-make any changes to your game code.
+如果你正在处理一个很大的，很复杂的游戏，你想要找到一种快速有效的方式来从雪碧图创建精灵。**纹理贴图集** 就会显得很有用处，一个纹理贴图集就是一个JSON数据文件，它包含了匹配的PNG雪碧图的子图像的大小和位置。如果你使用了纹理贴图集，那么想要显示一个子图像只需要知道它的名字就行了。你可以任意的排序你的排版，JSON文件会保持他们的大小和位置不变。这非常方便，因为这意味着图片的位置和大小不必写在你的代码里。如果你想要改变纹理贴图集的排版，类似增加图片，修改图片大小和删除图片这些操作，只需要修改那个JSON数据文件就行了，你的游戏会自动给程序内的所有数据应用新的纹理贴图集。你没必要在所有用到它代码的地方修改它。
 
-Pixi is compatible with a standard JSON texture atlas format that is
-output by a popular software tool called [Texture
-Packer](https://www.codeandweb.com/texturepacker). Texture Packer’s
-“Essential” license is free. Let’s find out how to use it to make a
-texture atlas, and load the atlas into Pixi. (You don’t have to use
-Texture Packer. Similar tools, like [Shoebox](http://renderhjs.net/shoebox/) or [spritesheet.js](https://github.com/krzysztof-o/spritesheet.js/), output PNG and JSON files
-in a standard format that is compatible with Pixi.)
+Pixi兼容著名软件[Texture
+Packer](https://www.codeandweb.com/texturepacker)输出的标准纹理贴图集格式。Texture Packer的基本功能是免费的。让我们来学习怎么用它来制作一个纹理贴图集，并把它加载进Pixi吧！（你也不是非得用它，还有一些类似的工具输出的纹理贴图集Pixi也是兼容的，例如：[Shoebox](http://renderhjs.net/shoebox/)和[spritesheet.js](https://github.com/krzysztof-o/spritesheet.js/)。）
 
-First, start with a collection of individual image files that you'd
-like to use in your game.
+首先，从你要用在游戏的图片文件们开始。
 
-![Image files](/examples/images/screenshots/11.png)
+![图片文件](/examples/images/screenshots/11.png)
 
-(All the images in this section were created by Lanea Zimmerman. You
-can find more of her artwork
-[here](http://opengameart.org/users/sharm).
-Thanks, Lanea!)
+在这个章节所有的图片都是被Lanea Zimmerman创作的。你能在他的艺术工作室里面找到更多类似的东西：[这里](http://opengameart.org/users/sharm)，谢谢你，Lanea！
 
-Next, open Texture Packer and choose **JSON Hash** as the framework
-type. Drag your images into Texture Packer's workspace. (You can
-also point Texture Packer to any folder that contains your images.)
-It will automatically arrange the images on a single tileset image, and give them names that match their original image names.
+下面，打开Texture Packer，选择 **JSON Hash** 框架类型。把你的图片放进Texture Packer的工作区。（你也可以把Texture Packer放进包含你图片的文件夹里面去。）他将自动的把你的图片们生成单个图片文件，并且将他们的原始名称命名为纹理贴图集中的图片名称。
 
-![Image files](/examples/images/screenshots/12.png)
+![图片文件](/examples/images/screenshots/12.png)
 
-(If you're using the free version of
-Texture Packer, set **Algorithm** to `Basic`, set **Trim mode** to
-`None`, set **Extrude** to `0`, set **Size constraints** to `Any size` and slide the **PNG Opt
-Level** all the way to the left to `0`. These are the basic
-settings that will allow the free version of Texture Packer to create
-your files without any warnings or errors.)
+如果你正在用免费版的Texture Packer，把 **Algorithm** 选项设为`Basic`，把 **Trim mode** 选项设为`None`，把 **Extrude** 选项设为`0`，把 **Size constraints** 选项设为 `Any size` ，把 **PNG Opt Level** 中所有的东西都滑到左边的 `0`位置。这就可以使得Texture Packer正常的输出你的纹理贴图集。
 
-When you’re done, click the **Publish** button. Choose the file name and
-location, and save the published files. You’ll end up with 2 files: a
-PNG file and a JSON file. In this example my file names are
-`treasureHunter.json` and `treasureHunter.png`. To make your life easier,
-just keep both files in your project’s `images` folder. (You can think
-of the JSON file as extra metadata for the image file, so it makes
-sense to keep both files in the same folder.)
-The JSON file describes the name, size and position of each of the
-sub-images
-in the tileset. Here’s an excerpt that describes the blob monster
-sub-image.
+如果你做完了，点击 **Publish** 按钮。选择输出文件名和存储地址，把生成文件保存起来。你将会获得两个文件：一个叫做`treasureHunter.json`，另外一个就是`treasureHunter.png`。为了让目录干净些，我们把他俩都放到一个叫做`images`的文件夹里面去。（你可以认为那个json文件是图片文件的延伸，所以把他们放进一个文件夹是很有意义的。）那个JSON文件里面写清楚了每一个子图像的名字，大小和位置。下面描述了“泡泡怪”这个怪物的子图像的信息。
 ```js
 "blob.png":
 {
@@ -878,86 +838,57 @@ sub-image.
 	"pivot": {"x":0.5,"y":0.5}
 },
 ```
-The `treasureHunter.json` file also contains “dungeon.png”,
-“door.png”, "exit.png", and "explorer.png" properties each with
-similar data. Each of these sub-images are called **frames**. Having
-this data is really helpful because now you don’t need to know the
-size and position of each sub-image in the tileset. All you need to
-know is the sprite’s **frame id**. The frame id is just the name
-of the original image file, like "blob.png" or "explorer.png".
+`treasureHunter.json`里面也包含了“dungeon.png”,
+“door.png”, "exit.png", 和 "explorer.png"的数据信息，并以和上面类似的信息记录。这些子图像每一个都被叫做 **帧** ,有了这些数据你就不用去记每一个图片的大小和位置了，你唯一要做的就只是确定精灵的 **帧ID** 即可。帧ID就是那些图片的原始名称，类似"blob.png"或者 "explorer.png"这样。
 
-Among the many advantages to using a texture atlas is that you can
-easily add 2 pixels of padding around each image (Texture Packer does
-this by default.) This is important to prevent the possibility of
-**texture bleed**. Texture bleed is an effect that happens when the
-edge of an adjacent image on the tileset appears next to a sprite.
-This happens because of the way your computer's GPU (Graphics
-Processing Unit) decides how to round fractional pixels values. Should
-it round them up or down? This will be different for each GPU.
-Leaving 1 or 2 pixels spacing around images on a tilseset makes all
-images display consistently.
+使用纹理贴图集的巨大优势之一就是你可以很轻易的给每一个图像增加两个像素的内边距。Texture Packer默认这么做。这对于保护图像的 **出血**（译者：出血是排版和图片处理方面的专有名词，指在主要内容周围留空以便印刷或裁切）来说很重要。出血对于防止两个图片相邻而相互影响来说很重要。这种情况往往发生于你的GPU渲染某些图片的时候。把边上的一两个像素加上去还是不要？这对于每一个GPU来说都有不同的做法。所以对每一个图像空出一两个像素对于显示来说是最好的兼容。
 
-(Note: If you have two pixels of padding around a graphic, and you still notice a strange "off by one pixel" glitch in the
-way Pixi is displaying it, try changing the texture's scale mode
-algorithm. Here's how: `texture.baseTexture.scaleMode =
-PIXI.SCALE_MODES.NEAREST;`. These glitches can sometimes happen
-because of GPU floating point rounding errors.)
+（注意：如果你真的在每个图像的周围留了两个像素的出血，你必须时时刻刻注意Pixi显示时候“丢了一个像素”的情况。尝试着去改变纹理的规模模式来重新计算它。`texture.baseTexture.scaleMode =
+PIXI.SCALE_MODES.NEAREST;`，这往往发生于你的GPU浮点运算凑整失败的时候。）
 
-Now that you know how to create a texture atlas, let's find out how to
-load it into your game code.
+现在你明白了怎么创建一个纹理贴图集，来学习怎么把他加载进你的游戏之中吧。
 
 <a id='loadingatlas'></a>
-Loading the texture atlas
+加载纹理贴图集
 -------------------------
 
-To get the texture atlas into Pixi, load it using Pixi’s
-`loader`. If the JSON file was made with Texture Packer, the
-`loader` will interpret the data and create a texture from each
-frame on the tileset automatically.  Here’s how to use the `loader` to load the `treasureHunter.json`
-file. When it has loaded, the `setup` function will run.
+可以使用Pixi的`loader`来加载纹理贴图集。如果是用Texture Packer生成的JSON，`loader`会自动读取数据，并对每一个帧创建纹理。下面就是怎么用`loader`来加载`treasureHunter.json`。当它成功加载，`setup`方法将会执行。
 ```js
 loader
   .add("images/treasureHunter.json")
   .load(setup);
 ```
-Each image on the tileset is now an individual texture in Pixi’s
-cache. You can access each texture in the cache with the same name it
-had in Texture Packer (“blob.png”, “dungeon.png”, “explorer.png”,
-etc.).
+现在每一个图像的帧都被加载进Pixi的纹理缓存之中了。你可以使用Texture Packer中定义的他们的名字来取用每一个纹理。
 
 <a id='creatingsprites'></a>
-Creating sprites from a loaded texture atlas
+从已经加载的纹理贴图集中创建精灵
 --------------------------------------------
 
-Pixi gives you three general ways to create a sprite from a texture atlas:
+通常Pixi给你三种方式从已经加载的纹理贴图集中创建精灵：
 
-1.	Using `TextureCache`:
+1.	使用 `TextureCache`:
 ```js
 let texture = TextureCache["frameId.png"],
     sprite = new Sprite(texture);
 ```
-2.	If you’ve used Pixi’s `loader` to load the texture atlas, use the
-loader’s `resources`:
+2.	如果你是使用的 `loader`来加载纹理贴图集, 使用loader的 `resources`:
 ```js
 let sprite = new Sprite(
   resources["images/treasureHunter.json"].textures["frameId.png"]
 );
 ```
-3. That’s way too much typing to do just to create a sprite!
-So I suggest you create an alias called `id` that points to texture’s
-altas’s `textures` object, like this:
+3. 要创建一个精灵需要输入太多东西了!
+所以我建议你给纹理贴图集的`textures`对象创建一个叫做`id`的别名，象是这样：
 ```js
 let id = PIXI.loader.resources["images/treasureHunter.json"].textures;
 ```
-Then you can just create each new sprite like this:
+现在你就可以像这样实例化一个精灵了：
 ```js
 let sprite = new Sprite(id["frameId.png"]);
 ```
-Much better!
+真不错啊~！
 
-Here's how you could use these three different sprite creation
-techniques in the `setup` function to create and display the
-`dungeon`, `explorer`, and `treasure` sprites.
+这里在`setup`函数中用三种不同的创建方法创建和显示了`dungeon`, `explorer`, 和 `treasure`精灵。
 ```js
 
 //Define variables that might be used in more
@@ -997,32 +928,19 @@ function setup() {
   app.stage.addChild(treasure);
 }
 ```
-Here's what this code displays:
+这里是代码运行的结果:
 
 ![Explorer, dungeon and treasure](/examples/images/screenshots/13.png)
 
-The stage dimensions are 512 by 512 pixels, and you can see in the
-code above that the `app.stage.height` and `app.stage.width` properties are used
-to align the sprites. Here's how the `explorer`'s `y` position is
-vertically centered:
+舞台定义为512像素见方的大小，你可以看到代码中`app.stage.height`和`app.stage.width`属性使得精灵们排成了一排。下面的代码使得`explorer`的`y`属性垂直居中了。
 ```js
 explorer.y = app.stage.height / 2 - explorer.height / 2;
 ```
-Learning to create and display sprites using a texture atlas is an
-important benchmark. So before we continue, let's take a look at the
-code you
-could write to add the remaining
-sprites: the `blob`s and `exit` door, so that you can produce a scene
-that looks like this:
+学会使用纹理贴图集来创建一个精灵是一个基本的操作。所以在我们继续之前，你来试着写一些这样的精灵吧：`blob`们和`exit`的门，让他们看起来象是这样：
 
 ![All the texture atlas sprites](/examples/images/screenshots/14.png)
 
-Here's the entire code that does all this. I've also included the HTML
-code so you can see everything in its proper context.
-(You'll find this working code in the
-`examples/spriteFromTextureAtlas.html` file in this repository.)
-Notice that the `blob` sprites are created and added to the stage in a
-loop, and assigned random positions.
+下面就是所有的代码啦。我也把HTML放了进来，现在你可以看见所有的上下文。（你可以在`examples/spriteFromTextureAtlas.html`找到可以用于演示的代码。）注意，`blob`精灵是用一个循环加进舞台的，并且他有一个随机的位置。
 ```js
 <!doctype html>
 <meta charset="utf-8">
@@ -1136,45 +1054,32 @@ function randomInt(min, max) {
 </script>
 </body>
 ```
-You can see in the code above that all the blobs are created using a
-`for` loop. Each `blob` is spaced evenly along the `x` axis like this:
+你可以看见所有的泡泡怪都用一个`for`循环被创建了，每一个泡泡怪都有一个独一无二的`x`坐标，像是下面这样：
 ```js
 let x = spacing * i + xOffset;
 blob.x = x;
 ```
-`spacing` has a value 48, and `xOffset` has a value of 150. What this
-means is the first `blob` will have an `x` position of 150.
-This offsets it from the left side of the stage by 150 pixels. Each
-subsequent `blob` will have an `x` value that's 48 pixels greater than
-the `blob` created in the previous iteration of the loop. This creates
-an evenly spaced line of blob monsters, from left to right, along the dungeon floor.
-
-Each `blob` is also given a random `y` position. Here's the code that
-does this:
+`spacing`变量的值是48，`xOffset`的值是150。这意味着第一个`blob`怪的位置的`x`坐标将会是150。这个偏移使得泡泡怪离舞台左边的距离有150个像申诉。每一个泡泡怪都有个48像素的空余，也就是说每一个泡泡怪都会比在循环之中前一个创建的泡泡怪的位置的`x`坐标多出48像素以上的增量。它使得泡泡怪们相互间隔，从地牢地板的左边排向右边。
+每一个`blob`也被赋予了一个随机的`y`坐标，这里是处理这件事的代码：
 ```js
 let y = randomInt(0, stage.height - blob.height);
 blob.y = y;
 ```
-The `blob`'s `y` position could be assigned any random number between 0 and
-512, which is the value of `stage.height`. This works with the help of
-a custom function called `randomInt`. `randomInt` returns a random number
-that's within a range between any two numbers you supply.
+泡泡怪的`y`坐标将会从0到512之间随机取值，它的变量名是`stage.height`。它的值是利用`randomInt`函数来得到的。`randomInt`返回一个由你定义范围的随机数。
 ```js
 randomInt(lowestNumber, highestNumber)
 ```
-That means if you want a random number between 1 and 10, you can get
-one like this:
+这意味着如果你想要一个1到10之间的随机数，你可以这样得到它：
 ```js
 let randomNumber = randomInt(1, 10);
 ```
-Here's the `randomInt` function definition that does all this work:
+这是`randomInt`方法的定义：
 ```js
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 ```
-`randomInt` is a great little function to keep in your back pocket for
-making games - I use it all the time.
+`randomInt`是一个很好的用来做游戏的工具函数，我经常用他。
 
 <a id='movingsprites'></a>
 Moving Sprites
