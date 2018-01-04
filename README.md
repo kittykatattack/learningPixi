@@ -1,7 +1,7 @@
 Pixi教程
 =============
 
-基于官方教程翻译；水平有限，如有错误欢迎提issue，转载请注明出处。
+基于官方教程翻译；水平有限，如有错误欢迎提issue，转载请注明出处。翻译者为[htkz](https://github.com/htkz)（完成了用 Pixi 绘制几何图形 和 显示文本 章节）和[zainking](https://github.com/ZainKing)(完成了其他所有章节)
 
 这个教程将要一步步介绍怎么用[Pixi](https://github.com/pixijs/pixi.js)做游戏或者交互式媒体。这个教程已经升级到 **[Pixi v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5)**。如果你喜欢这个教程，[你一定也喜欢这本书，它比这个教程多了80%的内容](http://www.springer.com/us/book/9781484210956)。
 
@@ -31,7 +31,7 @@ Pixi教程
 16. [游戏状态](#gamestates)
 17. [键盘响应](#keyboard)
 18. [将精灵分组](#grouping)
-    1. [绝对位置和相对位置](#localnglobal)
+    1. [局部位置和全局位置](#localnglobal)
     2. [使用 ParticleContainer 分组精灵](#spritebatch)
 19. [用 Pixi 绘制几何图形](#graphic)
     1. [矩形](#rectangles)
@@ -1082,15 +1082,10 @@ function randomInt(min, max) {
 `randomInt`是一个很好的用来做游戏的工具函数，我经常用他。
 
 <a id='movingsprites'></a>
-Moving Sprites
+移动精灵
 --------------
 
-You now know how to display sprites, but how do you make them move?
-That's easy: create a looping function using Pixi's `ticker`
-This is called a **game loop**.
-Any code you put inside the game loop will update 60 times per
-second. Here's some code you could write to make the `cat` sprite move
-to the right at a rate of 1 pixel per frame.
+现在你知道了如何展示精灵，但是让它们移动呢？很简单：使用Pixi的`ticker`。这被称为 **游戏循环** 。任何在游戏循环里的代码都会1秒更新60次。你可以用下面的代码让 `cat` 精灵以每帧1像素的速率移动。
 ```js
 
 function setup() {
@@ -1106,25 +1101,25 @@ function gameLoop(delta){
   cat.x += 1;
 }
 ```
-If you run this bit of code, you'll see the sprite gradually move to
-the right side of the stage.
+如果你运行了上面的代码，你会看到精灵逐步地移动到舞台的一边。
 
 ![Moving sprites](/examples/images/screenshots/15.png)
 
-That's because each time the `gameLoop` runs, it adds 1 to the cat's x position.
+因为每当开始 `游戏循环` 的时候，都会为这只猫增加1像素的x轴位移。
 ```
 cat.x += 1;
 ```
 
-Any function you add to Pixi's `ticker` will be called 60 times per second. You can see that the function is provided a `delta` argument - what's that?
+每一个你放进Pixi的`ticker`的函数都会每秒被执行60次。你可以看见函数里面提供了一个`delta`的内容，他是什么呢？
 
-The `delta` value represents the amount of fractional lag between frames. You can optionally add it to the cat's position, to make the cat's animation independent of the frame rate. Here's how:
+
+`delta`的值代表帧的部分的延迟。你可以把它添加到cat的位置，让cat的速度和帧率无关。下面是代码:
 ```js
 cat.x += 1 + delta;
 ```
-Whether or not you choose to add this `delta` value is largely an aestheic choice. And the effect will only really be noticable if your animation is struggling to keep up with a consistent 60 frames per second display rate (which might happen, for example, if it's running on a slow device). The rest of the examples in this tutorial won't use this `delta` value, but feel free to use it in your own work if you wish.
+是否加进去这个`delta`的值其实是一种审美的选择。它往往只在你的动画没法跟上60帧的速率时候出现（比如你的游戏运行在很老旧的机器上）。教程里面不会用到`delta`变量，但是如果你想用就尽情的用吧。
 
-You don't have to use Pixi's ticker to create a game loop. If you prefer, just use `requestAnimationFrame`, like this:
+你也没必要非得用Pixi的ticker来创建游戏循环。如果你喜欢，也可以用`requestAnimationFrame`像这样创建：
 
 ```js
 function gameLoop() {
@@ -1142,15 +1137,12 @@ gameLoop();
 
 ```
 
-It entirely up to you which style you prefer.
+随你喜欢。
 
-And that's really all there is to it! Just change any sprite property by small
-increments inside the loop, and they'll animate over time. If you want
-the sprite to animate in the opposite direction (to the left), just give it a
-negative value, like `-1`.
+这就是移动的全部。只要在循环中改变精灵的一点点属性，它们就会开始相应的动画。如果你想让它往相反的方向移动，只要给它一个负值，像 -1。
 
-You'll find this code in the `movingSprites.html` file - here's the
-complete code:
+你能在 movingSprites.html 文件中找到这段代码 - 这是全部的代码：
+
 ```js
 //Aliases
 let Application = PIXI.Application,
@@ -1201,39 +1193,23 @@ function gameLoop(delta){
   //cat.x += 1 + delta;
 }
 ```
-(Notice that the `cat` variable needs to be defined outside the
-`setup` and
-`gameLoop` functions so that you can access it inside both of them.)
+（注意 `cat` 变量需要在`setup` 和 `gameLoop`函数之外定义，然后你可以在全局中任何地方都能获取到它们）
 
-You can animate a sprite's scale, rotation, or size - whatever! You'll see
-many more examples of how to animate sprites ahead.
+你可以让精灵的位置，角度或者大小动起来 - 什么都可以！你会在下面看到更多精灵动画的例子。
 
 <a id='velocity'></a>
-Using velocity properties
+使用速度属性
 -------------------------
+为了给你更多的灵活性，这里有两个 **速度属性** ：`vx`和 `vy`去控制精灵的运动速度。 `vx`被用来设置精灵在x轴（水平）的速度和方向。`vy`被用来设置精灵在y轴（垂直）的速度和方向。 他们可以直接更新速度变量并且给精灵设定这些速度值。这是一个用来让你更方便的更新交互式动画的额外的模块。
 
-To give you more flexibility, its a good idea to control a sprite's
-movement speed using two **velocity properties**: `vx` and `vy`. `vx`
-is used to set the sprite's speed and direction on the x axis
-(horizontally). `vy` is
-used to set the sprite's speed and direction on the y axis (vertically). Instead of
-changing a sprite's `x` and `y` values directly, first update the velocity
-variables, and then assign those velocity values to the sprite. This is an
-extra bit of modularity that you'll need for interactive game animation.
-
-The first step is to create `vx` and `vy` properties on your sprite,
-and give them an initial value.
+第一步是给你的精灵创建`vx`和`vy`属性，然后给他们初始值。
 ```js
 cat.vx = 0;
 cat.vy = 0;
 ```
-Setting `vx` and `vy` to 0 means that the sprite isn't moving.
+给`vx`和`vy`设置为0表示精灵静止。
 
-Next, in the game loop, update `vx` and `vy` with the velocity at which you
-want the sprite to move. Then assign those values to the
-sprite's `x` and `y` properties. Here's how you could use this
-technique to make the cat sprite move down and to right at one pixel each
-frame:
+接下来，在游戏循环中，更新`vx`和`vy`为你想让精灵移动的速度值。然后把这些值赋给精灵的`x`和`y`属性。下面的代码讲明了你如何利用该技术让cat能够每帧向右下方移动一个像素：
 ```js
 function setup() {
 
@@ -1262,27 +1238,19 @@ function gameLoop(delta){
 
 
 ```
-When you run this code, the cat will move down and to the right at one
-pixel per frame:
+当你运行这段代码，猫会每帧向右下方移动一个像素：:
 
 ![Moving sprites](/examples/images/screenshots/16.png)
 
-What if you want to make the cat move in a different direction? To
-make the cat move to the left, give it a `vx` value of `-1`. To make
-it move up, give the cat a `vy` value of `-1`. To make the cat move
-faster, give it larger `vx` and `vy` values, like `3`, `5`, `-2`, or
-`-4`.
+如果你想让猫往不同的方向移动怎么办？可以把它的 `vx` 赋值为 -1让猫向左移动。可以把它的 `vy` 赋值为 -1让猫向上移动。为了让猫移动的更快一点，把值设的更大一点，像3, 5, -2, 或者 -4。
 
-You'll see ahead how modularizing a sprite's velocity with `vx` and
-`vy` velocity properties helps with keyboard and mouse pointer
-control systems for games, as well as making it easier to implement physics.
+你会在前面看到如何通过利用`vx`和`vy`的速度值来模块化精灵的速度，它对游戏的键盘和鼠标控制系统很有帮助，而且更容易实现物理模拟。
 
 <a id='gamestates'></a>
-Game states
+游戏状态
 -----------
 
-As a matter of style, and to help modularize your code, I
-recommend structuring your game loop like this:
+作为一种代码风格，也为了帮你模块你的代码，我推荐在游戏循环里像这样组织你的代码：
 ```js
 //Set the game state
 state = play;
@@ -1303,13 +1271,9 @@ function play(delta) {
   cat.x += cat.vx;
 }
 ```
-You can see that the `gameLoop` is calling a function called `state` 60 times
-per second. What is the `state` function? It's been assigned to
-`play`. That means all the code in the `play` function will also run at 60
-times per second.
+你会看到`gameLoop`每秒60次调用了`state`函数。`state`函数是什么呢？它被赋值为 `play`。意味着`play`函数会每秒运行60次。
 
-Here's how the code from the previous example can be re-factored to
-this new model:
+下面的代码告诉你如何用这个新模式来重构上一个例子的代码：
 ```js
 //Define any variables that are used in more than one function
 let cat, state;
@@ -1343,20 +1307,13 @@ function play(delta) {
   cat.x += cat.vx;
 }
 ```
-Yes, I know, this is a bit of [head-swirler](http://www.amazon.com/Electric-Psychedelic-Sitar-Headswirlers-1-5/dp/B004HZ14VS)! But, don't let it scare
-you and spend a minute or two walking through in your mind how those
-functions are connected. As you'll see ahead, structuring your game
-loop like this will make it much, much easier to do things like switching
-game scenes and levels.
+是的，我知道这有点儿 [head-swirler](http://www.amazon.com/Electric-Psychedelic-Sitar-Headswirlers-1-5/dp/B004HZ14VS)! 但是，不要害怕，花几分钟在脑海中想一遍这些函数是如何联系在一起的。正如你将在下面看到的，结构化你的游戏循环代码，会使得切换游戏场景和关卡这种操作变得更简单。
 
 <a id='keyboard'></a>
-Keyboard Movement
+键盘移动
 -----------------
 
-With just a little more work you can build a simple system to control
-a sprite using the keyboard. To simplify your code, I suggest you use
-this custom function called `keyboard` that listens for and captures
-keyboard events.
+只需再做一点微小的工作，你就可以建立一个通过鼠标控制精灵移动的简单系统。为了简化你的代码，我建议你用一个名为`keyboard`的自定义函数来监听和捕捉键盘事件。
 ```js
 function keyboard(keyCode) {
   let key = {};
@@ -1395,16 +1352,13 @@ function keyboard(keyCode) {
   return key;
 }
 ```
-The `keyboard` function is easy to use. Create a new keyboard object like this:
+`keyboard`函数用起来很容易，可以像这样创建一个新的键盘对象：
 ```js
 let keyObject = keyboard(asciiKeyCodeNumber);
 ```
-Its one argument is the ASCII key code number of the keyboard key that you
-want to listen for.
-[Here's a list of ASCII keyboard code
-numbers](http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html).
+这个函数只接受一个参数就是键盘对应的ASCII键值数，也就是你想监听的键盘按键。 这是[键盘键ASSII值列表]((http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html)).
 
-Then assign `press` and `release` methods to the keyboard object like this:
+然后给键盘对象赋值`press`和`release`方法：
 ```js
 keyObject.press = () => {
   //key object pressed
@@ -1413,18 +1367,13 @@ keyObject.release = () => {
   //key object released
 };
 ```
-Keyboard objects also have `isDown` and `isUp` Boolean properties that
-you can use to check the state of each key.
+键盘对象也有 `isDown` 和 `isUp` 的布尔值属性，你可以用它们来检查每个按键的状态。
 
-Take a look at the
-`keyboardMovement.html` file in the `examples` folder to see how you
-can use this `keyboard` function to control a sprite using your
-keyboard's arrow keys. Run it and use the left, up, down, and right
-arrow keys to move the cat around the stage.
+在`examples`文件夹里看一下`keyboardMovement.html`文件是怎么用`keyboard`函数的，利用键盘的方向键去控制精灵图。运行它，然后用上下左右按键去让猫在舞台上移动。
 
 ![Keyboard movement](/examples/images/screenshots/17.png)
 
-Here's the code that does all this:
+这里是代码：
 ```js
 //Define any variables that are used in more than one function
 let cat, state;
@@ -1516,16 +1465,12 @@ function play(delta) {
 ```
 
 <a id='grouping'></a>
-Grouping Sprites
+给精灵分组
 ----------------
 
-Groups let you create game scenes, and manage similar sprites together
-as single units. Pixi has an object called a `Container`
-that lets you do this. Let's find out how it works.
+分组让你能够让你创建游戏场景，并且像一个单一单元那样管理相似的精灵图。Pixi有一个对象叫 `Container`，它可以帮你做这些工作。让我们弄清楚它是怎么工作的。
 
-Imagine that you want to display three sprites: a cat, hedgehog and
-tiger. Create them, and set their positions - *but don't add them to the
-stage*.
+想象一下你想展示三个精灵：一只猫，一只刺猬和一只老虎。创建它们，然后设置它们的位置 - *但是不要把它们添加到舞台上*。
 ```js
 //The cat
 let cat = new Sprite(id["cat.png"]);
@@ -1540,63 +1485,48 @@ let tiger = new Sprite(id["tiger.png"]);
 tiger.position.set(64, 64);
 ```
 
-Next, create an `animals` container to group them all together like
-this:
+让后创建一个`animals`容器像这样去把他们聚合在一起：
 ```js
 let animals = new Container();
 ```
-Then use `addChild` to *add the sprites to the group*.
+然后用 `addChild` 去把精灵图 *添加到分组中* 。
 ```js
 animals.addChild(cat);
 animals.addChild(hedgehog);
 animals.addChild(tiger);
 ```
-Finally add the group to the stage.
+最后把分组添加到舞台上。
 ```js
 app.stage.addChild(animals);
 ```
-(As you know, the `stage` object is also a `Container`. It’s the root
-container for all Pixi sprites.)
+（你知道的，`stage`对象也是一个`Container`。它是所有Pixi精灵的根容器。）
 
-Here's what this code produces:
+这就是上面代码的效果：
 
 ![Grouping sprites](/examples/images/screenshots/18.png)
 
-What you can't see in that image is the invisible `animals` group
-that's containing the sprites.
+你是看不到这个包含精灵图的`animals`分组的。它仅仅是个容器而已。
 
 ![Grouping sprites](/examples/images/screenshots/19.png)
 
-You can now treat the `animals` group as a single unit. You can think
-of a `Container` as a special kind of sprite that doesn’t
-have a texture.
+不过你现在可以像对待一个单一单元一样对待`animals`分组。你可以把`Container`当作是一个特殊类型的不包含任何纹理的精灵。
 
-If you need a list of all the child sprites that `animals` contains,
-use its `children` array to find out.
+如果你需要获取`animals`包含的所有子精灵，你可以用它的`children`数组获取。
 ```
 console.log(animals.children)
 //Displays: Array [Object, Object, Object]
 ```
-This tells you that `animals` has three sprites as children.
+这告诉你`animals`有三个子精灵。
 
-Because the `animals` group is just like any other sprite, you can
-change its `x` and `y` values, `alpha`, `scale` and
-all the other sprite properties. Any property value you change on the
-parent container will affect the child sprites in a relative way. So if you
-set the group's `x` and `y` position, all the child sprites will
-be repositioned relative to the group's top left corner. What would
-happen if you set the `animals`'s `x` and `y` position to 64?
+因为`animals`分组跟其他精灵一样，你可以改变它的`x`和`y`的值，`alpha`, `scale`和其他精灵的属性。所有你改变了的父容器的属性值，都会改变它的子精灵的相应属性。所以如果你设置分组的`x`和`y`的位置，所有的子精灵都会相对于分组的左上角重新定位。如果你设置了 `animals`的`x`和`y`的位置为64会发生什么呢？
 ```
 animals.position.set(64, 64);
 ```
-The whole group of sprites will move 64 pixels right and 64 pixels to
-the down.
+整个分组的精灵都会向右和向下移动64像素。
 
 ![Grouping sprites](/examples/images/screenshots/20.png)
 
-The `animals` group also has its own dimensions, which is based on the area
-occupied by the containing sprites. You can find its `width` and
-`height` values like this:
+`animals`分组也有它自己的尺寸，它是以包含的精灵所占的区域计算出来的。你可以像这样来获取`width`和`height`的值：
 ```js
 console.log(animals.width);
 //Displays: 112
@@ -1607,148 +1537,87 @@ console.log(animals.height);
 ```
 ![Group width and height](/examples/images/screenshots/21.png)
 
-What happens if you change a group's width or height?
+如果你改变了分组的宽和高会发生什么呢？
 ```js
 animals.width = 200;
 animals.height = 200;
 ```
-All the child sprites will scale to match that change.
+所有的孩子精灵都会缩放到刚才你设定的那个值。
 
 ![Group width and height](/examples/images/screenshots/22.png)
 
-You can nest as many `Container`s inside other
-`Container`s as you like, to create deep hierarchies if
-you need to. However, a `DisplayObject` (like a `Sprite` or another
-`Container`) can only belong to one parent at a time. If
-you use `addChild` to make a sprite the child of another object, Pixi
-will automatically remove it from its current parent. That’s a useful
-bit of management that you don’t have to worry about.
+如果你喜欢，你可以在一个 `Container` 里嵌套许多其他`Container`，如果你需要，完全可以创建一个更深的层次。然而，一个 `DisplayObject` （像 `Sprite` 或者其他 `Container`）只能一次属于一个父级。如果你用 `addChild` 让一个精灵成为其他精灵的孩子。Pixi会自动移除它当前的父级，这是一个不用你操心的有用的管理方式。
 
 <a id='localnglobal'></a>
-### Local and global positions
+### 局部位置和全局位置
 
-When you add a sprite to a `Container`, its `x` and `y`
-position is *relative to the group’s top left corner*. That's the
-sprite's **local position** For example, what do you think the cat's
-position is in this image?
+当你往一个`Container`添加一个精灵时，它的`x`和`y`的位置是 *相对于分组的左上角* 的。这是精灵的局部位置，举个例子，你认为这个猫在这张图的哪个位置？
 
 ![Grouping sprites](/examples/images/screenshots/20.png)
 
-Let's find out:
+让我们看看：
 ```
 console.log(cat.x);
 //Displays: 16
 ```
-16? Yes! That's because the cat is offset by only 16 pixel's from the
-group's top left corner. 16 is the cat's local position.
+16？是的！这因为猫的只往分组的左上角偏移了16个像素。16是猫的局部位置。
 
-Sprites also have a **global position**. The global position is the
-distance from the top left corner of the stage, to the sprite's anchor
-point (usually the sprite's top left corner.) You can find a sprite's global
-position with the help of the `toGlobal` method.  Here's how:
+精灵图还有 *全局位置* 。全局位置是舞台左上角到精灵锚点（通常是精灵的左上角）的距离。你可以通过`toGlobal`方法的帮助找到精灵图的全局位置：
 ```
 parentSprite.toGlobal(childSprite.position)
 ```
-That means you can find the cat's global position inside the `animals`
-group like this:
+这意味着你能在`animals`分组里找到猫的全局位置：
 ```
 console.log(animals.toGlobal(cat.position));
 //Displays: Object {x: 80, y: 80...};
 ```
-That gives you an `x` and `y` position of 80. That's exactly the cat's
-global position relative to the top left corner of the stage.
+上面给你返回了`x`和`y`的值为80。这正是猫相对于舞台左上角的相对位置，也就是全局位置。
 
-What if you want to find the global position of a sprite, but don't
-know what the sprite's parent container
-is? Every sprite has a property called `parent` that will tell you what the
-sprite's parent is. If you add a sprite directly to the `stage`, then
-`stage` will be the sprite's parent. In the example above, the `cat`'s
-parent is `animals`. That means you can alternatively get the cat's global position
-by writing code like this:
+如果你想知道一个精灵的全局位置，但是不知道精灵的父容器怎么办？每个精灵图有一个属性叫`parent` 能告诉你精灵的父级是什么。在上面的例子中，猫的父级是 `animals`。这意味着你可以像如下代码一样得到猫的全局位置：
 ```
 cat.parent.toGlobal(cat.position);
 ```
-And it will work even if you don't know what the cat's parent
-container currently is.
+即使你不知道猫的当前父级是谁，上面的代码依然能够正确工作。
 
-There's one more way to calculate the global position! And, it's
-actually the best way, so listen up! If you want to know the distance
-from the top left corner of the canvas to the sprite, and don't know
-or care what the sprite's parent containers are, use the
-`getGlobalPosition` method. Here's how to use it to find the tiger's global position:
+这还有一种方式能够计算出全局位置！而且，它实际上最好的方式，所以听好啦！如果你想知道精灵到canvas左上角的距离，但是不知道或者不关心精灵的父亲是谁，用`getGlobalPosition`方法。这里展示如何用它来找到老虎的全局位置：
 ```js
 tiger.getGlobalPosition().x
 tiger.getGlobalPosition().y
 ```
-This will give you `x` and `y` values of 128 in the example that we've
-been using.
-The special thing about `getGlobalPosition` is that it's highly
-precise: it will give you the sprite's accurate global position as
-soon as its local position changes. I asked the Pixi development team
-to add this feature specifically for accurate collision detection for
-games. (Thanks, Matt and the rest of the team for adding it!)
+它会给你返回`x`和`y`的值为128。 特别的是，`getGlobalPosition`是高精度的：当精灵的局部位置改变的同时，它会返回给你精确的全局位置。我曾要求Pixi开发团队添加这个特殊的特性，以便于开发精确的碰撞检测游戏。（谢谢Matt和团队真的把他加上去了！）
 
-What if you want to convert a global position to a local position? you
-can use the `toLocal` method. It works in a similar way, but uses this
-general format:
+如果你想转换全局位置为局部位置怎么办？你可以用`toLocal`方法。它的工作方式类似，但是通常是这种通用的格式：
 ```js
 sprite.toLocal(sprite.position, anyOtherSprite)
 ```
-Use `toLocal` to find the distance between a sprite and any other
-sprite. Here's how you could find out the tiger's local
-position, relative to the hedgehog.
+用 `toLocal` 找到一个精灵和其他任何一个精灵之间的距离。这段代码告诉你如何获取老虎的相对于猫头鹰的局部位置。
 ```js
 tiger.toLocal(tiger.position, hedgehog).x
 tiger.toLocal(tiger.position, hedgehog).y
 ```
-This gives you an `x` value of 32 and a `y` value of 32. You can see
-in the example images that the tiger's top left corner is 32 pixels
-down and to the left of the hedgehog's top left corner.
+上面的代码会返回给你一个32的`x`值和一个32的`y`值。你可以在例子中看到老虎的左上角和猫头鹰的左上角距离32像素。
 
 <a id='spritebatch'></a>
-### Using a ParticleContainer to group sprites
+### 使用 ParticleContainer 分组精灵
 
-Pixi has an alternative, high-performance way to group sprites called
-a `ParticleContainer` (`PIXI.particles.ParticleContainer`). Any sprites inside a `ParticleContainer` will render 2 to 5
-times faster than they would if they were in a regular
-`Container`. It’s a great performance boost for games.
+Pixi有一个额外的，高性能的方式去分组精灵的方法称作：`ParticleContainer`（`PIXI.ParticleContainer`）。任何在`ParticleContainer` 里的精灵都会比在一个普通的`Container`的渲染速度快2到5倍。这是用于提升游戏性能的一个很棒的方法。
 
-Create a `ParticleContainer` like this:
+可以像这样创建 ParticleContainer ：
 ```js
 let superFastSprites = new PIXI.particles.ParticleContainer();
 ```
-Then use `addChild` to add sprites to it, just like you would with any
-ordinary `Container`.
+然后用 `addChild` 去往里添加精灵，就像往普通的 `Container`添加一样。
 
-You have to make some compromises if you decide to use a
-`ParticleContainer`. Sprites inside a `ParticleContainer` only have a few  basic properties:
-`x`, `y`, `width`, `height`, `scale`, `pivot`, `alpha`, `visible` – and that’s
-about it. Also, the sprites that it contains can’t have nested
-children of their own. A `ParticleContainer` also can’t use Pixi’s advanced
-visual effects like filters and blend modes. Each `ParticleContainer` can use only one texture (so you'll have to use a spritesheet if you want Sprites with different appearances). But for the huge performance boost that you get, those
-compromises are usually worth it. And you can use
-`Container`s and `ParticleContainer`s simultaneously in the same project, so you can fine-tune your optimization.
+如果你决定用`ParticleContainer`你必须做出一些妥协。在 `ParticleContainer` 里的精灵图只有一小部分基本属性：`x`, `y`, `width`, `height`, `scale`, `pivot`, `alpha`, `visible` - 就这么多。而且，它包含的精灵不能再继续嵌套自己的孩子精灵。 `ParticleContainer` 也不能用Pixi的先进的视觉效果像过滤器和混合模式。每个` ParticleContainer` 只能用一个纹理（所以如果你想让精灵有不同的表现方式你将不得不更换雪碧图）。但是为了得到巨大的性能提升，这些妥协通常是值得的。你可以在同一个项目中同时用 `Container` 和 `ParticleContainer`，然后微调一下你自己的优化。
 
-Why are sprites in a `Particle Container` so fast? Because the positions of
-the sprites are being calculated directly on the GPU. The Pixi
-development team is working to offload as much sprite processing as
-possible on the GPU, so it’s likely that the latest version of Pixi
-that you’re using will have much more feature-rich `ParticleContainer` than
-what I've described here. Check the current [`ParticleContainer`
-documentation](http://pixijs.download/release/docs/PIXI.particles.ParticleContainer.html) for details.
+为什么在 `Particle Container` 的精灵图这么快呢？因为精灵的位置是直接在GPU上计算的。Pixi开发团队正在努力让尽可能多的雪碧图在GPU上处理，所以很有可能你用的最新版的Pixi的 `ParticleContainer` 的特性一定比我现在在这儿描述的特性多得多。查看[当前 `ParticleContainer` 文档](http://pixijs.download/release/docs/PIXI.particles.ParticleContainer.html)以获取更多信息。
 
-Where you create a `ParticleContainer`, there are four optional
-arguments you can provide: `size`, `properties`, `batchSize` and `autoResize`.
+当你创建一个 `ParticleContainer`，有四个参数可以传递， `size`, `properties`, `batchSize` 和 `autoResize`。
+
 ```js
 let superFastSprites = new ParticleContainer(maxSize, properties, batchSize, autoResize);
 ```
-The default value for `maxSize` is 15,000. So, if you need to contain more
-sprites, set it to a higher number. The `properties` argument is an object
-with 5 Boolean values you can set: `scale`, `position`, `rotation`, `uvs` and
-`alphaAndTint`. The default value of `position` is `true`, but all the others
-are set to `false`. That means that if you want change the `rotation`,
-`scale`, `tine`, or `uvs` of sprite in the `ParticleContainer`, you
-have to set those properties to `true`, like this:
+默认的`maxSize`是 15,000。所以，如果你需要包裹更多的精灵，把它设置为更高的数字。配置参数是一个拥有五个布尔值的对象：`scale`, `position`, `rotation`, `uvs` 和 `alpha`。默认的值是 `position` 为 `true`，其他都为 `false`。这意味着如果你想在 `ParticleContainer `改变精灵的`rotation`, `scale`, `alpha`, 或者 `uvs`，你得先把这些属性设置为 `true`，像这样：
 ```js
 let superFastSprites = new ParticleContainer(
   size,
@@ -1760,21 +1629,13 @@ let superFastSprites = new ParticleContainer(
   }
 );
 ```
-But, if you don't think you'll need to use these properties, keep them
-set to `false` to squeeze out the maximum amount of performance.
+但是，如果你感觉你不需要用这些属性，就保持它们为 `false` 以实现出更好的性能。
 
-What's the `uvs` property? Only set it to `true` if you have particles
-which change their textures while they're being animated. (All the
-sprite's textures will also need to be on the same tileset image for
-this to work.)
+`uvs` 是什么呢？只有当它们在动画时需要改变它们纹理子图像的时候你需要设置它为 `true` 。（想让它工作，所有的精灵纹理需要在同一张雪碧图上。）
 
-(Note: **UV mapping** is a 3D graphics display term that refers to
-the `x` and `y` coordinates of the texture (the image) that is being
-mapped onto a 3D surface. `U` is the `x` axis and `V` is the `y` axis.
-WebGL already uses `x`, `y` and `z` for 3D spatial positioning, so `U`
-and `V` were chosen to represent `x` and `y` for 2D image textures.)
+（注意：**UV mapping** 是一个3D图表展示术语，它指纹理（图片）准备映射到三维表面的`x`和`y`的坐标。`U` 是 `x` 轴， `V` 是 `y` 轴。WebGL用 `x`, `y` 和 `z` 来进行三维空间定位，所以 `U` 和 `V` 被选为表示2D图片纹理的 `x` 和 `y` 。）
 
-(I'm not sure what exactly what those last two optional arguments, `batchSize` and `autoResize`, so if anyone knows, please us know in the Issues!)
+(我真不知道最后两个参数干什么用的，就是`batchSize` 和 `autoResize`，如果你知道，就赶紧提个Issue吧！)
 
 <a id='graphic'></a>
 用Pixi绘制几何图形
@@ -1994,18 +1855,14 @@ message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
 [Pixi也支持位图字体](http://pixijs.download/release/docs/PIXI.extras.BitmapText.html)。你可以使用Pixi的加载器来加载XML位图文件，就像你加载JSON或图片文件一样。
 
 <a id='collision'></a>
-Collision detection
+碰撞检测
 --------------------------
 
-You now know how to make a huge variety of graphics objects, but what
-can you do with them? A fun thing to do is to build a simple **collision
-detection** system. You can use a custom function called
-`hitTestRectangle` that checks whether any two rectangular Pixi sprites are
-touching.
+现在你知道了如何制造种类繁多的图形对象，但是你能用他们做什么？一个有趣的事情是利用它制作一个简单的 **碰撞检测系统** 。你可以用一个叫做：`hitTestRectangle` 的自定义的函数来检测两个矩形精灵是否接触。
 ```js
 hitTestRectangle(spriteOne, spriteTwo)
 ```
-if they overlap, `hitTestRectangle` will return `true`. You can use `hitTestRectangle` with an `if` statement to check for a collision between two sprites like this:
+如果它们重叠， `hitTestRectangle` 会返回 `true`。你可以用 `hitTestRectangle` 结合 if 条件语句去检测两个精灵是否碰撞：
 ```js
 if (hitTestRectangle(cat, box)) {
   //There's a collision
@@ -2013,20 +1870,13 @@ if (hitTestRectangle(cat, box)) {
   //There's no collision
 }
 ```
-As you'll see, `hitTestRectangle` is the front door into the vast universe of game design.
+正如你所见， `hitTestRectangle` 是走入游戏设计这片宇宙的大门。
 
-Run the `collisionDetection.html` file in the `examples` folder for a
-working example of how to use `hitTestRectangle`. Use the arrow keys
-to move the cat. If the cat hits the box, the box becomes red
-and "Hit!" is displayed by the text object.
+运行在 `examples` 文件夹的 `collisionDetection.html` 文件，看看怎么用 `hitTestRectangle`工作。用方向按键去移动猫，如果猫碰到了盒子，盒子会变成红色，然后 "Hit!" 文字对象会显示出来。
 
 ![Displaying text](/examples/images/screenshots/25.png)
 
-You've already seen all the code that creates all these elements, as
-well as the
-keyboard control system that makes the cat move. The only new thing is the
-way `hitTestRectangle` is used inside the `play` function to check for a
-collision.
+你已经看到了创建这些所有元素的代码，让猫移动的键盘控制。唯一的新的东西就是 `hitTestRectangle` 函数被用在 `play` 函数里检测碰撞。
 ```js
 function play(delta) {
 
@@ -2051,39 +1901,25 @@ function play(delta) {
   }
 }
 ```
-Because the `play` function is being called by the game loop 60 times
-per second, this `if` statement is constantly checking for a collision
-between the cat and the box. If `hitTestRectangle` is `true`, the
-text `message` object uses `text` to display "Hit":
+`play` 函数被每秒调用了60次，每一次这个 if 条件语句都会在猫和盒子之间进行碰撞检测。如果 `hitTestRectangle` 为 `true`，那么文字 `message` 对象会用 `setText` 方法去显示 "Hit"：
 ```js
 message.text = "Hit!";
 ```
-The color of the box is then changed from green to red by setting the
-box's `tint` property to the hexadecimal red value.
+这个盒子的颜色改变的效果是把盒子的 `tint` 属性改成一个16进制的红色的值实现的。
 ```js
 box.tint = 0xff3300;
 ```
-If there's no collision, the message and box are maintained in their
-original states:
+如果没有碰撞，消息和盒子会保持它们的原始状态。
 ```js
 message.text = "No collision...";
 box.tint = 0xccff99;
 ```
-This code is pretty simple, but suddenly you've created an interactive
-world that seems to be completely alive. It's almost like magic! And, perhaps
-surprisingly, you now have all the skills you need to start making
-games with Pixi!
+代码很简单，但是你已经创造了一个看起来完全活着的互动的世界！它简直跟魔术一样！令人惊讶的是，你大概已经拥有了你需要用Pixi制作游戏的全部技能！
 
 <a id='hittest'></a>
 ### The hitTestRectangle function
 
-But what about the `hitTestRectangle` function? What does it do, and
-how does it work? The details of how collision detection algorithms
-like this work is a little bit outside the scope of this tutorial. (If you really want to know, you can find out how [this book](https://www.apress.com/us/book/9781430258001).)
-The most important thing is that you know how to use it. But, just for
-your reference, and in case you're curious, here's the complete
-`hitTestRectangle` function definition. Can you figure out from the
-comments what it's doing?
+`hitTestRectangle` 函数都有些什么呢？它做了什么，还有它是如何工作的？关于碰撞检测算法的细节有些超出了本教程的范围。最重要的事情是你要知道如何使用它。但是，只是作为你的参考资料，不让你好奇，这里有全部的 `hitTestRectangle` 函数的定义。你能从注释弄明白它都做了什么吗？
 ```js
 function hitTestRectangle(r1, r2) {
 
