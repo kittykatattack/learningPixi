@@ -1974,36 +1974,17 @@ function hitTestRectangle(r1, r2) {
 
 ```
 <a id='casestudy'></a>
-Case study: Treasure Hunter
+实例学习: 宝物猎人
 ---------------
-
-I've told you that you now have all the skills you need to start
-making games. What? You don't believe me? Let me prove it to you! Let’s take a
-close at how to make a simple object collection and enemy
-avoidance game called **Treasure Hunter**. (You'll find it in the `examples`
-folder.)
+我要告诉你你现在已经拥有了全部的技能去开始制作一款游戏。什么？你不相信我？让我为你证明它！让我们来做一个简单的对象收集和躲避的敌人的游戏叫：**宝藏猎人**。（你能在`examples`文件夹中找到它。）
 
 ![Treasure Hunter](/examples/images/screenshots/26.png)
 
-Treasure Hunter is a good example of one of the simplest complete
-games you can make using the tools you've learnt so far. Use the
-keyboard arrow
-keys to help the explorer find the treasure and carry it to the exit.
-Six blob monsters move up and down between the dungeon walls, and if
-they hit the explorer he becomes semi-transparent and the health meter
-at the top right corner shrinks. If all the health is used up, “You
-Lost!” is displayed on the stage; if the explorer reaches the exit with
-the treasure, “You Won!” is displayed. Although it’s a basic
-prototype, Treasure Hunter contains most of the elements you’ll find
-in much bigger games: texture atlas graphics, interactivity,
-collision, and multiple game scenes. Let’s go on a tour of how the
-game was put together so that you can use it as a starting point for one of your own games.
+宝藏猎手是一个简单的完整的游戏的例子，它能让你把目前所学的所有工具都用上。用键盘的方向键可以帮助探险者找到宝藏并带它出去。六只怪物在地牢的地板上上下移动，如果它们碰到了探险者，探险者变为半透明，而且他右上角的血条会减少。如果所有的血都用完了，"You Lost!"会出现在舞台上；如果探险者带着宝藏到达了出口，显示 “You Won!” 。尽管它是一个基础的原型，宝藏猎手包含了很多大型游戏里很大一部分元素：纹理贴图集，人机交互，碰撞以及多个游戏场景。让我们一起去看看游戏是如何被它们组合起来的，以便于你可以用它作你自己开发的游戏的起点。
 
-### The code structure
+### 代码结构
 
-Open the `treasureHunter.html` file and you'll see that all the game
-code is in one big file. Here's a birds-eye view of how all the code is
-organized.
+打开 `treasureHunter.html` 文件，你将会看到所有的代码都在一个大的文件里。下面是一个关于如何组织所有代码的概览：
 
 ```js
 //Setup Pixi and load the texture atlas files - call the `setup`
@@ -2029,20 +2010,14 @@ function end() {
 //The game's helper functions:
 //`keyboard`, `hitTestRectangle`, `contain` and `randomInt`
 ```
-Use this as your world map to the game as we look at how each
-section works.
+把这个当作你游戏代码的蓝图，让我们看看每一部分是如何工作的。
 
 <a id='initialize'></a>
-### Initialize the game in the setup function
+### 用 setup 函数初始化游戏
 
-As soon as the texture atlas images have loaded, the `setup` function
-runs. It only runs once, and lets you perform
-one-time setup tasks for your game. It's a great place to create and initialize
-objects, sprites, game scenes, populate data arrays or parse
-loaded JSON game data.
+一旦纹理图集图片被加载进来了，`setup`函数就会执行。它只会执行一次，可以让你为游戏执行一次安装任务。这是一个用来创建和初始化对象、精灵、游戏场景、填充数据数组或解析加载JSON游戏数据的好地方。
 
-Here's an abridged view of the `setup` function in Treasure Hunter,
-and the tasks that it performs.
+这是宝藏猎手`setup`函数的缩略图和它要执行的任务。
 
 ```js
 function setup() {
@@ -2064,16 +2039,12 @@ function setup() {
 }
 
 ```
-The last two lines of code, `state = play;` and `gameLoop()` are perhaps
-the most important. Adding the `gameLoop` to Pixi's ticker switches on the game's engine,
-and causes the `play` function to be called in a continuous loop. But before we look at how that works, let's see what the
-specific code inside the `setup` function does.
+最后两行代码,`state = play;`和`gameLoop()`可能是最重要的。运行 `gameLoop` 切换了游戏的引擎，而且引发了 `play` 一直被循环调用。但是在我们看它如何工作之前，让我们看看 `setup` 函数里的代码都做了什么。
 
 <a id='gamescene'></a>
-#### Creating the game scenes
+#### 创建游戏场景
 
-The `setup` function creates two `Container` groups called
-`gameScene` and `gameOverScene`. Each of these are added to the stage.
+`setup` 函数创建了两个被称为`gameScene` 和 `gameOverScene`的 `Container` 分组。他们都被添加到了舞台上。
 ```js
 gameScene = new Container();
 app.stage.addChild(gameScene);
@@ -2082,28 +2053,20 @@ gameOverScene = new Container();
 app.stage.addChild(gameOverScene);
 
 ```
-All of the sprites that are part of the main game are added to the
-`gameScene` group. The game over text that should be displayed at the
-end of the game is added to the `gameOverScene` group.
+所有的的游戏主要部分的精灵都被添加到了`gameScene`分组。游戏结束的文字在游戏结束后显示，应当被添加到`gameOverScene`分组。
 
 ![Displaying text](/examples/images/screenshots/27.png)
 
-Although it's created in the `setup` function, the `gameOverScene`
-shouldn't be visible when the game first starts, so its `visible`
-property is initialized to `false`.
+尽管它是在 `setup` 函数中添加的，但是 `gameOverScene`不应在游戏一开始的时候显示，所以它的 `visible` 属性被初始化为 `false`。
 ```js
 gameOverScene.visible = false;
 ```
-You'll see ahead that, when the game ends, the `gameOverScene`'s `visible`
-property will be set to `true` to display the text that appears at the
-end of the game.
+你会在后面看到，为了在游戏结束之后显示文字，当游戏结束`gameOverScene` 的 `visible` 属性会被设置为 `true` 。
 
 <a id='makingdungon'></a>
-#### Making the dungeon, door, explorer and treasure
+#### 制作地牢，门，猎人和宝藏
 
-The player, exit door, treasure chest and the dungeon background image
-are all sprites made from texture atlas frames. Very importantly,
-they're all added as children of the `gameScene`.
+玩家、出口、宝箱和地牢背景图都是从纹理图集制作而来的精灵。有一点很重要的是，他们都是被当做 `gameScene` 的孩子添加进来的。
 ```js
 //Create an alias for the texture atlas frame ids
 id = resources["images/treasureHunter.json"].textures;
@@ -2131,18 +2094,13 @@ treasure.x = gameScene.width - treasure.width - 48;
 treasure.y = gameScene.height / 2 - treasure.height / 2;
 gameScene.addChild(treasure);
 ```
-Keeping them together in the `gameScene` group will make it easy for
-us to hide the `gameScene` and display the `gameOverScene` when the game is finished.
+把它们都放在 `gameScene` 分组会使我们在游戏结束的时候去隐藏 `gameScene` 和显示 `gameOverScene` 操作起来更简单。
 
 <a id='makingblob'></a>
-#### Making the blob monsters
+#### 制造泡泡怪们
 
-The six blob monsters are created in a loop. Each blob is given a
-random initial position and velocity. The vertical velocity is
-alternately multiplied by `1` or `-1` for each blob, and that’s what
-causes each blob to move in the opposite direction to the one next to
-it. Each blob monster that's created is pushed into an array called
-`blobs`.
+六个泡泡怪是被循环创建的。每一个泡泡怪都被赋予了一个随机的初始位置和速度。每个泡泡怪的垂直速度都被交替的乘以 `1` 或者 `-1` ，这就是每个怪物和相邻的下一个怪物运动的方向都是相反的原因，每个被创建的怪物都被放进了一个名为 `blobs` 的数组。
+
 ```js
 let numberOfBlobs = 6,
     spacing = 48,
@@ -2189,15 +2147,9 @@ for (let i = 0; i < numberOfBlobs; i++) {
 
 ```
 <a id='healthbar'></a>
-#### Making the health bar
+#### 制作血条
 
-When you play Treasure Hunter you'll notice that when the explorer touches
-one of the enemies, the width of the health bar at the top right
-corner of the screen decreases. How was this health bar made? It's
-just two overlapping rectangles at exactly the same position: a black rectangle behind, and
-a red rectangle in front. They're grouped together into a single `healthBar`
-group. The `healthBar` is then added to the `gameScene` and positioned
-on the stage.
+当你玩儿宝藏猎人的时候，你会发现当猎人碰到其中一个敌人时，场景右上角的血条宽度会减少。这个血条是如何被制作的？他就是两个相同的位置的重叠的矩形：一个黑色的矩形在下面，红色的上面。他们被分组到了一个单独的 `healthBar` 分组。 `healthBar` 然后被添加到 `gameScene` 并在舞台上被定位。
 ```js
 //Create the health bar
 healthBar = new PIXI.DisplayObjectContainer();
@@ -2220,28 +2172,20 @@ healthBar.addChild(outerBar);
 
 healthBar.outer = outerBar;
 ```
-You can see that a property called `outer` has been added to the
-`healthBar`. It just references the `outerBar` (the red rectangle) so that it will be convenient to access later.
+你会看到 `healthBar` 添加了一个名为 `outer` 的属性。它仅仅是引用了 `outerBar` （红色的矩形）以便于过会儿能够被很方便的获取。
 ```js
 healthBar.outer = outerBar;
 ```
-You don't have to do this; but, hey why not! It means that if you want
-to control the width of the red `outerBar`, you can write some smooth code that looks like this:
+你可以不这么做，但是为什么不呢？这意味如果你想控制红色 `outerBar` 的宽度，你可以像这样顺畅的写如下代码：
 ```js
 healthBar.outer.width = 30;
 ```
-That's pretty neat and readable, so we'll keep it!
+这样的代码相当整齐而且可读性强，所以我们会一直保留它!
 
 <a id='message'></a>
-#### Making the message text
+#### 制作消息文字
 
-When the game is finished, some text displays “You won!” or “You
-lost!”, depending on the outcome of the game. This is made using a
-text sprite and adding it to the `gameOverScene`. Because the
-`gameOverScene`‘s `visible` property is set to `false` when the game
-starts, you can’t see this text. Here’s the code from the `setup`
-function that creates the message text and adds it to the
-`gameOverScene`.
+当游戏结束的时候， “You won!” 或者 “You lost!” 的文字会显示出来。这使用文字纹理制作的，并添加到了 `gameOverScene`。因为 `gameOverScene` 的 `visible` 属性设为了 `false` ，当游戏开始的时候，你看不到这些文字。这段代码来自 `setup` 函数，它创建了消息文字，而且被添加到了 `gameOverScene`。
 ```js
 let style = new TextStyle({
     fontFamily: "Futura",
@@ -2254,11 +2198,9 @@ message.y = app.stage.height / 2 - 32;
 gameOverScene.addChild(message);
 ```
 <a id='playing'></a>
-### Playing the game
+### 开始游戏
 
-All the game logic and the code that makes the sprites move happens
-inside the `play` function, which runs in a continuous loop. Here's an
-overview of what the `play` function does
+所有的让精灵移动的游戏逻辑代码都在 `play` 函数里，这是一个被循环执行的函数。这里是 `play` 函数都做了什么的总体概览：
 ```js
 function play(delta) {
   //Move the explorer and contain it inside the dungeon
@@ -2270,48 +2212,30 @@ function play(delta) {
   //Change the game `state` to `end` when the game is finsihed
 }
 ```
-Let's find out how all these features work.
+让我们弄清楚这些特性都是怎么工作的吧。
 
 <a id='movingexplorer'></a>
-### Moving the explorer
+### 移动探险者
 
-The explorer is controlled using the keyboard, and the code that does
-that is very similar to the keyboard control code you learnt earlier.
-The `keyboard` objects modify the explorer’s velocity, and that
-velocity is added to the explorer’s position inside the `play`
-function.
+探险者是被键盘控制的，实现它的代码跟你在之前学习的键盘控制代码很相似。在 `play` 函数里， `keyboard` 对象修改探险者的速度，这个速度和探险者的位置相加。
 ```js
 explorer.x += explorer.vx;
 explorer.y += explorer.vy;
 ```
 <a id='containingmovement'></a>
-#### Containing movement
+#### 控制运动的范围
 
-But what's new is that the explorer's movement is contained inside the walls of the
-dungeon. The green outline shows the limits of the explorer's
-movement.
+一个新的地方的是，探险者的运动是被包裹在地牢的墙体之内的。绿色的轮廓表明了探险者运动的边界。
 
 ![Displaying text](/examples/images/screenshots/28.png)
 
-That's done with the help of a custom function called
-`contain`.
+通过一个名为 `contain` 的自定义函数可以帮助实现。
 ```js
 contain(explorer, {x: 28, y: 10, width: 488, height: 480});
 ```
-`contain` takes two arguments. The first is the sprite you want to keep
-contained. The second is any object with `x`, `y`, `width` and
-`height` properties that define a rectangular area. In this example,
-the containing object defines an area that's just slightly offset
-from, and smaller than, the stage. It matches the dimensions of the dungeon
-walls.
+`contain` 接收两个参数。第一个是你想控制的精灵。第二个是包含了 `x`, `y`, `width` 和`height`属性的任何一个对象。在这个例子中，控制对象定义了一个区域，它稍微比舞台小了一点，和地牢的尺寸一样。
 
-Here's the `contain` function that does all this work. The function checks
-to see if the sprite has crossed the boundaries of the containing
-object. If it has, the code moves the sprite back into that boundary.
-The `contain` function also returns a `collision` variable with the
-value "top", "right", "bottom" or "left", depending on which side of
-the boundary the sprite hit. (`collision` will be `undefined` if the
-sprite didn't hit any of the boundaries.)
+这里是实现了上述功能的 `contain` 函数。函数检查了精灵是否跨越了控制对象的边界。如果超出，代码会把精灵继续放在那个边界上。 `contain` 函数也返回了一个值可能为"top", "right", "bottom" 或者 "left" 的 `collision` 变量，取决于精灵碰到了哪一个边界。（如果精灵没有碰到任何边界，`collision` 将返回 `undefined` 。）
 ```js
 function contain(sprite, container) {
 
@@ -2345,19 +2269,12 @@ function contain(sprite, container) {
   return collision;
 }
 ```
-You'll see how the `collision` return value will be used in the code
-ahead to make the blob monsters bounce back and forth between the top
-and bottom dungeon walls.
+你会在接下来看到 `collision` 的返回值在代码里是如何让怪物在地牢的顶部和底部之间来回反弹的。
 
 <a id='movingmonsters'></a>
-### Moving the monsters
+### 移动怪物
 
-The `play` function also moves the blob monsters, keeps them contained
-inside the dungeon walls, and checks each one for a collision with the
-player. If a blob bumps into the dungeon’s top or bottom walls, its
-direction is reversed. All this is done with the help of a `forEach` loop
-which iterates through each of `blob` sprites in the `blobs` array on
-every frame.
+`play` 函数也能够移动怪物，保持它们在地牢的墙体之内，并检测每个怪物是否和玩家发生了碰撞。如果一只怪物撞到了地牢的顶部或者底部的墙，它就会被设置为反向运动。完成所有这些功能都是通过一个 `forEach`循环，它每一帧都会遍历在 `blobs` 数组里的每一个怪物。
 ```js
 blobs.forEach(function(blob) {
 
@@ -2381,39 +2298,28 @@ blobs.forEach(function(blob) {
 });
 
 ```
-You can see in this code above how the return value of the `contain`
-function is used to make the blobs bounce off the walls. A variable
-called `blobHitsWall` is used to capture the return value:
+你可以在上面这段代码中看到， `contain` 函数的返回值是如何被用来让怪物在墙体之间来回反弹的。一个名为 `blobHitsWall` 的变量被用来捕获返回值：
 ```js
 let blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 ```
-`blobHitsWall` will usually be `undefined`. But if the blob hits the
-top wall, `blobHitsWall` will have the value "top". If the blob hits
-the bottom wall, `blobHitsWall` will have the value "bottom". If
-either of these cases are `true`, you can reverse the blob's direction
-by reversing its velocity. Here's the code that does this:
+`blobHitsWall` 通常应该是 `undefined`。但是如果怪物碰到了顶部的墙，`blobHitsWall` 将会变成 "top"。如果碰到了底部的墙，`blobHitsWall` 会变为 "bottom"。如果它们其中任何一种情况为 true，你就可以通过给怪物的速度取反来让它反向运动。这是实现它的代码：
 ```js
 if (blobHitsWall === "top" || blobHitsWall === "bottom") {
   blob.vy *= -1;
 }
 ```
-Multiplying the blob's `vy` (vertical velocity) value by `-1` will flip
-the direction of its movement.
+把怪物的 `vy` （垂直速度）乘以 `-1` 就会反转它的运动方向。
 
 <a id='checkingcollisions'></a>
-### Checking for collisions
+### 检测碰撞
 
-The code in the loop above uses `hitTestRectangle` to figure
-out if any of the enemies have touched the explorer.
+在上面的循环代码里用了 `hitTestRectangle` 来指明是否有敌人碰到了猎人。
 ```js
 if(hitTestRectangle(explorer, blob)) {
   explorerHit = true;
 }
 ```
-If `hitTestRectangle` returns `true`, it means there’s been a collision
-and a variable called `explorerHit` is set to `true`. If `explorerHit`
-is `true`, the `play` function makes the explorer semi-transparent
-and reduces the width of the `health` bar by 1 pixel.
+如果 `hitTestRectangle` 返回 `true`，意味着发生了一次碰撞，名为 `explorerHit` 的变量被设置为了 `true`。如果 `explorerHit`为 `true`， play 函数让猎人变为半透明，然后把 `health` 条减少1像素的宽度。
 ```js
 if(explorerHit) {
 
@@ -2430,17 +2336,13 @@ if(explorerHit) {
 }
 
 ```
-If  `explorerHit` is `false`, the explorer's `alpha` property is
-maintained at 1, which makes it fully opaque.
+如果 `explorerHit` 是 `false`，猎人的 `alpha` 属性将保持1，完全不透明。
 
-The `play` function also checks for a collision between the treasure
-chest and the explorer. If there’s a hit, the `treasure` is set to the
-explorer’s position, with a slight offset. This makes it look like the
-explorer is carrying the treasure.
+`play` 函数也要检测宝箱和探险者之间的碰撞。如果发生了一次撞击， `treasure` 会被设置为探险者的位置，在做一点偏移。看起来像是猎人携带着宝藏一样。
 
 ![Displaying text](/examples/images/screenshots/29.png)
 
-Here's the code that does this:
+这段代码实现了上述效果：
 
 ```js
 if (hitTestRectangle(explorer, treasure)) {
@@ -2449,34 +2351,29 @@ if (hitTestRectangle(explorer, treasure)) {
 }
 ```
 <a id='reachingexit'></a>
-### Reaching the exit door and ending the game
+### 处理到达出口和结束游戏
 
-There are two ways the game can end: You can win if you carry the
-treasure to the exit, or you can lose if you run out of health.
+游戏结束有两种方式：如果你携带宝藏到达出口你将赢得游戏，或者你的血用完你就死了。
 
-To win the game, the treasure chest just needs to touch the exit door. If
-that happens, the game `state` is set to `end`, and the `message` text
-displays "You won".
+想要获胜，宝箱只需碰到出口就行了。如果碰到了出口，游戏的 `state` 会被设置为 `end`， `message` 文字会显示 "You won！"。
 ```js
 if (hitTestRectangle(treasure, door)) {
   state = end;
   message.text = "You won!";
 }
 ```
-If you run out of health, you lose the game. The game `state` is also
-set to `end` and the `message` text displays "You Lost!"
+如果你的血用完，你将输掉游戏。游戏的 `state` 也会被设置为 `end`， `message` 文字会显示 "You Lost！"。
 ```js
 if (healthBar.outer.width < 0) {
   state = end;
   message.text = "You lost!";
 }
 ```
-But what does this mean?
+但是这是什么意思呢？
 ```js
 state = end;
 ```
-You'll remember from earlier examples that the `gameLoop` is constantly updating a function called
-`state` at 60 times per second. Here's the `gameLoop`that does this:
+你会在早些的例子看到 `gameLoop` 在持续的每秒60次的更新 `state` 函数。 `gameLoop` 的代码如下：
 ```js
 function gameLoop(delta){
 
@@ -2484,132 +2381,90 @@ function gameLoop(delta){
   state(delta);
 }
 ```
-You'll also remember that we initially set the value of
-`state` to `play`, which is why the `play` function runs in a loop.
-By setting `state` to `end` we're telling the code that we want
-another function, called `end` to run in a loop. In a bigger game you
-could have a `tileScene` state, and states for each game level, like
-`leveOne`, `levelTwo` and `levelThree`.
+你也会记住我们给 `state` 设定的初始值为 `play`，这也就是为什么 `play` 函数会循环执行。通过设置 `state` 为 `end` 我们告诉代码我们想循环执行另一个名为 `end` 的函数。在大一点的游戏你可能会为每一个游戏等级设置 `tileScene` 状态和状态集，像`leveOne`, `levelTwo` 和 `levelThree`。
 
-So what is that `end` function? Here it is!
+`end` 函数是什么？就是它！
 ```js
 function end() {
   gameScene.visible = false;
   gameOverScene.visible = true;
 }
 ```
-It just flips the visibility of the game scenes. This is what hides
-the `gameScene` and displays the `gameOverScene` when the game ends.
+它仅仅是反转了游戏场景的显示。这就是当游戏结束的时候隐藏 `gameScene` 和显示 `gameOverScene` 。
 
-This is a really simple example of how to switch a game's state, but
-you can have as many game states as you like in your games, and fill them
-with as much code as you need. Just change the value of `state` to
-whatever function you want to run in a loop.
+这是一个如何更换游戏状态的一个很简单的例子，但是你可以想在你的游戏里添加多少状态就添加多少状态，然后给它们添加你需要的代码。然后改变 state 为任何你想循环的函数。
 
-And that’s really all there is to Treasure Hunter! With a little more work you could turn this simple prototype into a full game – try it!
+这就是完成宝藏猎人所需要的一切了。然后再通过更多一点的工作就能把这个简单的原型变成一个完整的游戏 - 快去试试吧！
 
 <a id='spriteproperties'></a>
-More about sprites
+一些关于精灵的其他知识
 -----------------------------
 
-You've learnt how to use quite a few useful sprite properties so far, like `x`, `y`,
-`visible`, and `rotation` that give you a lot of control over a
-sprite's position and appearance. But Pixi Sprites also have many more
-useful properties that are fun to play with. [Here's the full list.](http://pixijs.download/release/docs/PIXI.Sprite.html)
+目前为止你已经学会了如何用相当多有用的精灵的属性，像`x`, `y`, `visible`, 和 `rotation` ，它们让你能够让你很大程度上控制精灵的位置和外观。但是Pixi精灵也有其他很多有用的属性可以使用。 [这是一个完整的列表](http://pixijs.download/release/docs/PIXI.Sprite.html)
 
-How does Pixi’s class inheritance system work? ([What is a **class**
-and what is **inheritence**? Click this link to find out.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)) Pixi’s sprites are
-built on an inheritance model that follows this chain:
+Pixi的类继承体系是怎么工作的呢？（[什么是 **类** ， 什么是 **继承**？点击这个链接了解.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)）Pixi的精灵遵循以下原型链构建了一个继承模型：
 ```
 DisplayObject > Container > Sprite
 ```
-Inheritance just means that the classes later in the chain use
-properties and methods from classes earlier in the chain. That means that even though `Sprite` is the last class in the chain, has all the same properties as `DisplayObject` and `Container`, in addition to its own unique properties.
-The most basic class is `DisplayObject`. Anything that’s a
-`DisplayObject` can be rendered on the stage. `Container`
-is the next class in the inheritance chain. It allows `DisplayObject`s
-to act as containers for other `DisplayObject`s. Third up the chain is
-the `Sprite` class. Sprites can both be displayed on the stage and be containers for other sprites.
+继承意味着在继承链后面的类可以用之前的类的属性和方法。最基础的类是 `DisplayObject`。任何只要是`DisplayObject` 都可以被渲染在舞台上。 `Container`是继承链的下一个类。它允许 `DisplayObject`作为其他 `DisplayObject`的容器。继承链的第三个类是 `Sprite` 。这个类被你用来创建你游戏的大部分对象。然而，不久前你就会学习了如何用 `Container` 去给精灵分组。
 
 <a id='takingitfurther'></a>
-Taking it further
+展望未来
 -----------------
 
-Pixi can do a lot, but it can't do everything! If you want to start
-making games or complex interactive applications with Pixi, you'll need
-to use some helper libraries:
+Pixi能做很多事情，但是不能做全部的事情！如果你想用Pixi开始制作游戏或者复杂的交互型应用，你可能会需要一些有用的库：
 
-- [Bump](https://github.com/kittykatattack/bump): A complete suite of 2D collision functions for games.
-- [Tink](https://github.com/kittykatattack/tink): Drag-and-drop, buttons, a universal pointer and other
-  helpful interactivity tools.
-- [Charm](https://github.com/kittykatattack/charm): Easy-to-use tweening animation effects for Pixi sprites.
-- [Dust](https://github.com/kittykatattack/dust): Particle effects for creating things like explosions, fire
-  and magic.
-- [Sprite Utilities](https://github.com/kittykatattack/spriteUtilities): Easier and more intuitive ways to
-  create and use Pixi sprites, as well adding a state machine and
-  animation player. Makes working with Pixi a lot more fun.
-- [Sound.js](https://github.com/kittykatattack/sound.js): A micro-library for loading, controlling and generating
-  sound and music effects. Everything you need to add sound to games.
-- [Smoothie](https://github.com/kittykatattack/smoothie): Ultra-smooth sprite animation using true delta-time interpolation. It also lets you specify the fps (frames-per-second) at which your game or application runs, and completely separates your sprite rendering loop from your application logic loop.
+- [Bump](https://github.com/kittykatattack/bump): 一个为了游戏准备的完整的2D碰撞函数集.
+- [Tink](https://github.com/kittykatattack/tink): 拖放, 按钮, 一个通用的指针和其他有用的交互工具集。
+- [Charm](https://github.com/kittykatattack/charm): 给Pixi精灵准备的简单易用的缓动动画效果。
+- [Dust](https://github.com/kittykatattack/dust): 创建像爆炸，火焰和魔法等粒子效果。
+- [Sprite Utilities](https://github.com/kittykatattack/spriteUtilities): 创建和使用Pixi精灵的一个更容易和更直观的做法，包括添加状态机和动画播放器。让Pixi的工作变得更有趣。
+- [Sound.js](https://github.com/kittykatattack/sound.js): 一个加载，控制和生成声音和音乐效果的微型库。包含了一切你需要添加到游戏的声音。
+- [Smoothie](https://github.com/kittykatattack/smoothie): 使用真正的时间增量插值实现的超平滑精灵动画。它也允许为你的运行的游戏和应用指定 fps (帧率) ，并且把你的精灵图循环渲染完全从你的应用逻辑循环中分离出去。
 
-You can find out how to use all these libraries with Pixi in the book
-[Learn PixiJS](http://www.springer.com/us/book/9781484210956).
+你可以在这儿在这本书里找到如何用结合Pixi使用这些库。
+[学习PixiJS](http://www.springer.com/us/book/9781484210956).
 
 <a id='hexi'></a>
 ### Hexi
 
-Do you want to use all the functionality of those libraries, but don't
-want the hassle of integrating them yourself? Use **Hexi**: a complete
-development environment for building games and interactive
-applications:
+如果你想使用全部的这些功能库，但又不想给自己整一堆麻烦？用 **Hexi**：创建游戏和交互应用的完整开发环境：
 
 https://github.com/kittykatattack/hexi
 
-It bundles the best version of Pixi (the latest **stable** one) with all these
-libraries (and more!) for a simple and fun way to make games. Hexi also
-lets you access the global `PIXI` object directly, so you can write
-low-level Pixi code directly in a Hexi application, and optionally choose to use as many or
-as few of Hexi's extra conveniences as you need.
+它把最新版本的Pixi（最新的 **稳定** 的一个）和这些库（还有更多！）打包在了一起，为了可以通过一种简单而且有趣的方式去创建游戏。Hexi 也允许你直接获取 `PIXI` 对象，所以你可直接写底层的Pixi代码，然后任意的选择你需要的Hexi额外的方便的功能。
 
 <a id='babylonjs'></a>
 ### BabylonJS
 
-Pixi is great for 2D, but it can't do 3D. When you're ready to step into the thrid dimension, the most feature rich, easy-to-use 3D game development platform for the web is [BabylonJS](https://www.babylonjs.com). It's a great next step for taking your skills further.
+Pixi可以很好地完成2D交互式媒体，但是对于3D却无能为力。当你准备踏进3D领域，这个最有潜力的领域的时候，不妨使用这个为WEB游戏开发者准备的用起来非常简单的3D库：[BabylonJS](https://www.babylonjs.com)。它是提升你技能的下一步。
 
 <a id='supportingthisproject'></a>
-Please help to support this project!
+支持这个工程
 -------------------
 
-Buy the book! Incredibly, someone actually paid me to finish writing this tutorial
-and turn it into a book!
+买这本书吧！不敢相信，有人居然会付钱让我完成这个教程并把它写成一本书！
 
-[Learn PixiJS](http://www.springer.com/us/book/9781484210956)
+[学习 PixiJS](http://www.springer.com/us/book/9781484210956)
 
-(And it's not just some junky "e-book", but a real, heavy, paper book, published by Springer,
-the world's largest publisher! That means you can invite your friends
-over, set it on fire, and roast marshmallows!!) There's 80% more
-content than what's in this tutorial, and it's
-packed full of all the essential techniques you need to know to use
-Pixi to make all kinds of interactive applications and games.
+（它可不是一本毫无价值的“电子书”，而是一本真实的，很厚的纸质书！由世界上最大的出版商，施普林格出版！这意味着你可以邀请你的朋友过来，放火，烤棉花糖！！）它比本教程多出了80%的内容，它包含了所有如何用Pixi制作所有交互应用和游戏的必要技术。）
 
-Find out how to:
+你可以在里面学到:
 
-- Make animated game characters.
-- Create a full-featured animation state player.
-- Dynamically animate lines and shapes.
-- Use tiling sprites for infinite parallax scrolling.
-- Use blend modes, filters, tinting, masks, video, and render textures.
-- Produce content for multiple resolutions.
-- Create interactive buttons.
-- Create a flexible drag and drop interface for Pixi.
-- Create particle effects.
-- Build a stable software architectural model that will scale to any size.
-- Make complete games.
+- 制作动画游戏角色。
+- 创建一个全功能动画状态播放器。
+- 动态的动画线条和形状。
+- 用平铺的精灵实现无限滚动视差。
+- 使用混合模式，滤镜，调色，遮罩，视频，和渲染纹理。
+- 为多种分辨率生成内容。
+- 创建交互按钮。
+- 为Pixi创建一个灵活的拖动和拖放界面。
+- 创建粒子效果。
+- 建立一个可以展到任何大小的稳定的软件架构模型。
+- 制作一个完整的游戏。
 
-And, as a bonus, all the code is written entirely in the latest version of
-JavaScript: ES6/2015. And, although the book's code is based on Pixi v3.x, it all works just fine with the lastest version of Pixi 4.x!
+不仅如此，作为一个福利，所有的代码完全使用最新版本的 JavaScript：ES6/2015 编写而成的。尽管这本书基于Pixi V3.x，但是它仍旧能在Pixi 4.x上很好的运行！
 
-If you want to support this project, please buy a copy of this book,
-and buy another copy for your mom!
+如果你想支持这个项目，请买一份本书，然后在买一份给你的妈妈！（译者：？？？？？？）
 
-Or, make a generous donation to: http://www.msf.org
+或者直接来这里慷慨的捐赠吧: http://www.msf.org
