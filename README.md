@@ -3158,7 +3158,7 @@ as few of Hexi's extra conveniences as you need.
 <a id='babylonjs'></a>
 ### BabylonJS
 
-Pixi is great for 2D, but it can't do 3D. When you're ready to step into the thrid dimension, the most feature rich, easy-to-use 3D game development platform for the web is [BabylonJS](https://www.babylonjs.com). It's a great next step for taking your skills further.
+Pixi is great for 2D, but it can't do 3D. When you're ready to step into the third dimension, the most feature rich, easy-to-use 3D game development platform for the web is [BabylonJS](https://www.babylonjs.com). It's a great next step for taking your skills further.
 
 <a id='supportingthisproject'></a>
 Please help to support this project!
