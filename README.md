@@ -192,10 +192,7 @@ it's working. (This assumes that the `pixi.min.js` is in a subfolder called `pix
   <script src="pixi/pixi.min.js"></script>
 <body>
   <script type="text/javascript">
-    let type = "WebGL"
-    if(!PIXI.utils.isWebGLSupported()){
-      type = "canvas"
-    }
+    const type = PIXI.utils.isWebGLSupported() ? "WebGL" : "canvas"
 
     PIXI.utils.sayHello(type)
   </script>
