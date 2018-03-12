@@ -243,7 +243,7 @@ Yay, a [black square](http://rampantgames.com/blog/?p=7745)!
 
 `PIXI.Application` figures out whether to use the
 Canvas Drawing API or WebGL to render graphics, depending on which is
-available in the web browswer you're using. Its argument is a single object called the `options` object. In this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object; here's how you could use it to set anti-aliasing, transparency
+available in the web browser you're using. Its argument is a single object called the `options` object. In this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object; here's how you could use it to set anti-aliasing, transparency
 and resolution:
 ```js
 let app = new PIXI.Application({ 
