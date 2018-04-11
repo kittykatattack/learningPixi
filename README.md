@@ -1463,7 +1463,9 @@ function setup() {
 
   //Start the game loop by adding the `gameLoop` function to
   //Pixi's `ticker` and providing it with a `delta` argument.
-  app.ticker.add(delta => gameLoop(delta));
+  app.ticker.add(function (delta) {
+    return gameLoop(delta);
+  });
 }
 
 function gameLoop(delta){
