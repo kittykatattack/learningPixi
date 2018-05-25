@@ -1737,8 +1737,8 @@ function keyboard(keyCode) {
       if (key.isUp && key.press) key.press();
       key.isDown = true;
       key.isUp = false;
+      event.preventDefault();
     }
-    event.preventDefault();
   };
 
   //The `upHandler`
@@ -1747,17 +1747,27 @@ function keyboard(keyCode) {
       if (key.isDown && key.release) key.release();
       key.isDown = false;
       key.isUp = true;
+      event.preventDefault();
     }
-    event.preventDefault();
   };
 
   //Attach event listeners
+  const downListener = key.downHandler.bind(key);
+  const upListener = key.upHandler.bind(key);
+  
   window.addEventListener(
-    "keydown", key.downHandler.bind(key), false
+    "keydown", downListener, false
   );
   window.addEventListener(
-    "keyup", key.upHandler.bind(key), false
+    "keyup", upListener, false
   );
+  
+  // Detach event listeners
+  key.unsubscribe = () => {
+    window.removeEventListener("keydown", downListener);
+    window.removeEventListener("keyup", upListener);
+  };
+  
   return key;
 }
 ```
@@ -1781,6 +1791,11 @@ keyObject.release = () => {
 ```
 Keyboard objects also have `isDown` and `isUp` Boolean properties that
 you can use to check the state of each key.
+
+Don't forget to remove event listeners by using the `unsubscribe` method :
+```js
+keyObject.unsubscribe();
+```
 
 Take a look at the
 `keyboardMovement.html` file in the `examples` folder to see how you
