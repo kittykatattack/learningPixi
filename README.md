@@ -1724,16 +1724,16 @@ a sprite using the keyboard. To simplify your code, I suggest you use
 this custom function called `keyboard` that listens for and captures
 keyboard events.
 ```js
-function keyboard(keyCode) {
+function keyboard(value) {
   let key = {};
-  key.code = keyCode;
+  key.value = value;
   key.isDown = false;
   key.isUp = true;
   key.press = undefined;
   key.release = undefined;
   //The `downHandler`
   key.downHandler = event => {
-    if (event.keyCode === key.code) {
+    if (event.key === key.value) {
       if (key.isUp && key.press) key.press();
       key.isDown = true;
       key.isUp = false;
@@ -1743,7 +1743,7 @@ function keyboard(keyCode) {
 
   //The `upHandler`
   key.upHandler = event => {
-    if (event.keyCode === key.code) {
+    if (event.key === key.value) {
       if (key.isDown && key.release) key.release();
       key.isDown = false;
       key.isUp = true;
@@ -1763,12 +1763,10 @@ function keyboard(keyCode) {
 ```
 The `keyboard` function is easy to use. Create a new keyboard object like this:
 ```js
-let keyObject = keyboard(asciiKeyCodeNumber);
+let keyObject = keyboard(keyValue);
 ```
-Its one argument is the ASCII key code number of the keyboard key that you
-want to listen for.
-[Here's a list of ASCII keyboard code
-numbers](http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html).
+Its one argument is the key value that you want to listen for.
+[Here's a list of keys](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).
 
 Then assign `press` and `release` methods to the keyboard object like this:
 ```js
@@ -1805,10 +1803,10 @@ function setup() {
   app.stage.addChild(cat);
 
   //Capture the keyboard arrow keys
-  let left = keyboard(37),
-      up = keyboard(38),
-      right = keyboard(39),
-      down = keyboard(40);
+  let left = keyboard("ArrowLeft"),
+      up = keyboard("ArrowUp"),
+      right = keyboard("ArrowRight"),
+      down = keyboard("ArrowDown");
 
   //Left arrow key `press` method
   left.press = () => {
