@@ -1488,7 +1488,7 @@ The `delta` value represents the amount of fractional lag between frames. You ca
 ```js
 cat.x += 1 + delta;
 ```
-Whether or not you choose to add this `delta` value is largely an aestheic choice. And the effect will only really be noticable if your animation is struggling to keep up with a consistent 60 frames per second display rate (which might happen, for example, if it's running on a slow device). The rest of the examples in this tutorial won't use this `delta` value, but feel free to use it in your own work if you wish.
+Whether or not you choose to add this `delta` value is largely an aestheic choice. And the effect will only really be noticeable if your animation is struggling to keep up with a consistent 60 frames per second display rate (which might happen, for example, if it's running on a slow device). The rest of the examples in this tutorial won't use this `delta` value, but feel free to use it in your own work if you wish.
 
 You don't have to use Pixi's ticker to create a game loop. If you prefer, just use `requestAnimationFrame`, like this:
 
@@ -2362,7 +2362,7 @@ let style = new TextStyle({
   dropShadowDistance: 6,
 });
 ``` 
-That creates a new `style` object containg all the text styling that you'd like to use. For a complete list of all the style properties you can use, [see here](http://pixijs.download/release/docs/PIXI.TextStyle.html).
+That creates a new `style` object containing all the text styling that you'd like to use. For a complete list of all the style properties you can use, [see here](http://pixijs.download/release/docs/PIXI.TextStyle.html).
 
 To apply the style to the text, add the `style` object as the `Text` function's second argument, like this:
 ```js
@@ -2536,7 +2536,7 @@ function hitTestRectangle(r1, r2) {
   //Check for a collision on the x axis
   if (Math.abs(vx) < combinedHalfWidths) {
 
-    //A collision might be occuring. Check for a collision on the y axis
+    //A collision might be occurring. Check for a collision on the y axis
     if (Math.abs(vy) < combinedHalfHeights) {
 
       //There's definitely a collision happening
@@ -2851,7 +2851,7 @@ function play(delta) {
   //Check for a collision between the explorer and the treasure
   //Check for a collision between the treasure and the door
   //Decide whether the game has been won or lost
-  //Change the game `state` to `end` when the game is finsihed
+  //Change the game `state` to `end` when the game is finished
 }
 ```
 Let's find out how all these features work.
@@ -3102,7 +3102,7 @@ sprite's position and appearance. But Pixi Sprites also have many more
 useful properties that are fun to play with. [Here's the full list.](http://pixijs.download/release/docs/PIXI.Sprite.html)
 
 How does Pixi’s class inheritance system work? ([What is a **class**
-and what is **inheritence**? Click this link to find out.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)) Pixi’s sprites are
+and what is **inheritance**? Click this link to find out.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)) Pixi’s sprites are
 built on an inheritance model that follows this chain:
 ```
 DisplayObject > Container > Sprite
