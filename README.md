@@ -2784,7 +2784,7 @@ group. The `healthBar` is then added to the `gameScene` and positioned
 on the stage.
 ```js
 //Create the health bar
-healthBar = new PIXI.DisplayObjectContainer();
+healthBar = new PIXI.Container();
 healthBar.position.set(stage.width - 170, 4)
 gameScene.addChild(healthBar);
 
