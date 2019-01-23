@@ -139,7 +139,7 @@ webserver:
 
 [Mongoose](http://cesanta.com/mongoose.shtml)
 
-Or, just write your all your code using the excellent [Brackets text
+Or, just write all your code using the excellent [Brackets text
 editor](http://brackets.io). Brackets automatically launches a webserver
 and browser for you when you click the lightning bolt button in its
 main workspace.
