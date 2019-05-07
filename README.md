@@ -1922,7 +1922,7 @@ tiger.position.set(64, 64);
 Next, create an `animals` container to group them all together like
 this:
 ```js
-let animals = new Container();
+let animals = new PIXI.Container();
 ```
 Then use `addChild` to *add the sprites to the group*.
 ```js
