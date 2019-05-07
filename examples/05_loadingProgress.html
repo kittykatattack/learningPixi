@@ -3,22 +3,29 @@
 <meta charset="utf-8">
 <title>Loading progress</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
+    Container = PIXI.Container,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 //Use Pixi's built-in `loader` module to load an image
 loader
@@ -47,21 +54,19 @@ function setup() {
   console.log("setup"); 
 
   //Create the sprites
-  var cat = new Sprite(resources["images/cat.png"].texture),
+  let cat = new Sprite(resources["images/cat.png"].texture),
       blob = new Sprite(resources["images/blob.png"].texture),
       explorer = new Sprite(resources["images/explorer.png"].texture);
 
   //Add the sprites to the stage
-  stage.addChild(cat);
-  stage.addChild(blob);
-  stage.addChild(explorer);
+  app.stage.addChild(cat);
+  app.stage.addChild(blob);
+  app.stage.addChild(explorer);
 
   //Position the sprites
   blob.position.set(82, 82);
   explorer.position.set(128, 128);
   
-  //Render the stage   
-  renderer.render(stage);
 }
 </script>
 </body>

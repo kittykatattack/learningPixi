@@ -2,14 +2,21 @@
 <meta charset="utf-8">
 <title>Make a sprite from an image</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new PIXI.Container(),
-    renderer = PIXI.autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new PIXI.Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 //load an image and run the `setup` function when it's done
 PIXI.loader
@@ -19,25 +26,14 @@ PIXI.loader
 //This `setup` function will run when the image has loaded
 function setup() {
 
-  var cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
+  //Create the cat sprite
+  let cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
   
   //You can also create the `cat` sprite from the texture, like this:
-  //var cat = new Sprite(TextureCache["images/cat.png"]);
-
-  /*
-  //Everything that Pixi loads is in the `loader.resources` object
-  console.log(loader.resources);
-
-  //That means you can alternatively create the sprite from the
-  //texture in one step like this: 
-  var cat = new Sprite(loader.resources["images/cat.png"].texture);
-  */
+  //let cat = new PIXI.Sprite(PIXI.TextureCache["images/cat.png"]);
 
   //Add the cat to the stage
-  stage.addChild(cat);
-  
-  //Render the stage   
-  renderer.render(stage);
+  app.stage.addChild(cat);
 
   //If you ever need to, here's how you can clean out WebGL's GPU
   //memory manually

@@ -2,21 +2,30 @@
 <meta charset="utf-8">
 <title>Make a sprite from a tileset sub-image</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
+
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
+    Container = PIXI.Container,
     loader = PIXI.loader,
+    resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite,
     Rectangle = PIXI.Rectangle;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 //load an image and run the `setup` function when it's done
 loader
@@ -26,17 +35,17 @@ loader
 function setup() {
 
   //Create the `tileset` sprite from the texture
-  var texture = TextureCache["images/tileset.png"];
+  let texture = TextureCache["images/tileset.png"];
 
   //Create a rectangle object that defines the position and
   //size of the sub-image you want to extract from the texture
-  var rectangle = new Rectangle(192, 128, 64, 64);
+  let rectangle = new Rectangle(192, 128, 64, 64);
 
   //Tell the texture to use that rectangular section
   texture.frame = rectangle;
 
   //Create the sprite from the texture
-  var rocket = new Sprite(texture);
+  let rocket = new Sprite(texture);
 
   //Position the rocket sprite on the canvas
   rocket.x = 32;
@@ -50,10 +59,7 @@ function setup() {
   */
 
   //Add the rocket to the stage
-  stage.addChild(rocket);
-  
-  //Render the stage   
-  renderer.render(stage);
+  app.stage.addChild(rocket);
 }
 </script>
 </body>

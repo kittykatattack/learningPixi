@@ -2,28 +2,36 @@
 <meta charset="utf-8">
 <title>Game states</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
+    Container = PIXI.Container,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
+    TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 loader
   .add("images/cat.png")
   .load(setup);
 
 //Define any variables that are used in more than one function
-var cat, state;
+let cat, state;
 
 function setup() {
 
@@ -32,28 +40,22 @@ function setup() {
   cat.y = 96; 
   cat.vx = 0;
   cat.vy = 0;
-  stage.addChild(cat);
+  app.stage.addChild(cat);
 
   //Set the game state
   state = play;
  
-  //Start the game loop
-  gameLoop();
+  //Start the game loop 
+  app.ticker.add(delta => gameLoop(delta));
 }
 
-function gameLoop(){
-
-  //Loop this function 60 times per second
-  requestAnimationFrame(gameLoop);
+function gameLoop(delta){
 
   //Update the current game state:
-  state();
-
-  //Render the stage
-  renderer.render(stage);
+  state(delta);
 }
 
-function play() {
+function play(delta) {
 
   //Move the cat 1 pixel to the right each frame
   cat.vx = 1

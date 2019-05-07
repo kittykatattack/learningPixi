@@ -2,21 +2,29 @@
 <meta charset="utf-8">
 <title>Keyboard movment</title>
 <body>
-<script src="../pixi.js/bin/pixi.js"></script>
+<script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-var Container = PIXI.Container,
-    autoDetectRenderer = PIXI.autoDetectRenderer,
+let Application = PIXI.Application,
+    Container = PIXI.Container,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
+    TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
-//Create a Pixi stage and renderer and add the 
-//renderer.view to the DOM
-var stage = new Container(),
-    renderer = autoDetectRenderer(256, 256);
-document.body.appendChild(renderer.view);
+//Create a Pixi Application
+let app = new Application({ 
+    width: 256, 
+    height: 256,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
 
 loader
   .add("images/cat.png")
@@ -32,22 +40,23 @@ function setup() {
   cat.y = 96; 
   cat.vx = 0;
   cat.vy = 0;
-  stage.addChild(cat);
+  app.stage.addChild(cat);
 
   //Capture the keyboard arrow keys
-  var left = keyboard(37),
+  let left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
 
   //Left arrow key `press` method
-  left.press = function() {
+  left.press = () => {
     //Change the cat's velocity when the key is pressed
     cat.vx = -5;
     cat.vy = 0;
   };
+  
   //Left arrow key `release` method
-  left.release = function() {
+  left.release = () => {
     //If the left arrow has been released, and the right arrow isn't down,
     //and the cat isn't moving vertically:
     //Stop the cat
@@ -57,33 +66,33 @@ function setup() {
   };
 
   //Up
-  up.press = function() {
+  up.press = () => {
     cat.vy = -5;
     cat.vx = 0;
   };
-  up.release = function() {
+  up.release = () => {
     if (!down.isDown && cat.vx === 0) {
       cat.vy = 0;
     }
   };
 
   //Right
-  right.press = function() {
+  right.press = () => {
     cat.vx = 5;
     cat.vy = 0;
   };
-  right.release = function() {
+  right.release = () => {
     if (!left.isDown && cat.vy === 0) {
       cat.vx = 0;
     }
   };
 
   //Down
-  down.press = function() {
+  down.press = () => {
     cat.vy = 5;
     cat.vx = 0;
   };
-  down.release = function() {
+  down.release = () => {
     if (!up.isDown && cat.vx === 0) {
       cat.vy = 0;
     }
@@ -92,23 +101,17 @@ function setup() {
   //Set the game state
   state = play;
  
-  //Start the game loop
-  gameLoop();
+  //Start the game loop 
+  app.ticker.add(delta => gameLoop(delta));
 }
 
-function gameLoop(){
+function gameLoop(delta){
 
-  //Loop this function 60 times per second
-  requestAnimationFrame(gameLoop);
-
-  //Update the current game state
-  state();
-
-  //Render the stage
-  renderer.render(stage);
+  //Update the current game state:
+  state(delta);
 }
 
-function play() {
+function play(delta) {
 
   //Use the cat's velocity to make it move
   cat.x += cat.vx;
@@ -124,7 +127,7 @@ function keyboard(keyCode) {
   key.press = undefined;
   key.release = undefined;
   //The `downHandler`
-  key.downHandler = function(event) {
+  key.downHandler = event => {
     if (event.keyCode === key.code) {
       if (key.isUp && key.press) key.press();
       key.isDown = true;
@@ -134,7 +137,7 @@ function keyboard(keyCode) {
   };
 
   //The `upHandler`
-  key.upHandler = function(event) {
+  key.upHandler = event => {
     if (event.keyCode === key.code) {
       if (key.isDown && key.release) key.release();
       key.isDown = false;
