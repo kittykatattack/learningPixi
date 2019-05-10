@@ -5,7 +5,7 @@ A step-by-step introduction to making games and interactive media with
 the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **[Updated for Pixi v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5)**. [Chinese version here: Pixi官方教程中文版](https://github.com/Zainking/learningPixi). If you like this
 tutorial, [you'll love the book, which contains 80% more content!](http://www.springer.com/us/book/9781484210956).
 
-### Table of contents:
+### Table of contents
 1. [Introduction](#introduction)
 2. [Setting up](#settingup)
   1. [Installing Pixi](#installingpixi)
@@ -246,7 +246,7 @@ Yay, a [black square](http://rampantgames.com/blog/?p=7745)!
 
 `PIXI.Application` figures out whether to use the
 Canvas Drawing API or WebGL to render graphics, depending on which is
-available in the web browser you're using. Its argument is a single object called the `options` object. In this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object; here's how you could use it to set anti-aliasing, transparency
+available on the web browser you're using. Its argument is a single object called the `options` object. In this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object; here's how you could use it to set anti-aliasing, transparency
 and resolution:
 ```js
 let app = new PIXI.Application({ 
@@ -1578,7 +1578,7 @@ many more examples of how to animate sprites ahead.
 Using velocity properties
 -------------------------
 
-To give you more flexibility, its a good idea to control a sprite's
+To give you more flexibility, it's a good idea to control a sprite's
 movement speed using two **velocity properties**: `vx` and `vy`. `vx`
 is used to set the sprite's speed and direction on the x axis
 (horizontally). `vy` is
