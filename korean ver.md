@@ -66,7 +66,7 @@ Pixi 사용법
  		  
          ii. 게임하기
 
-        iii. 탐색기 이동
+        iii. 캐릭터 이동
 
  			  - (1). [움직임 포함](#containing-movement)
         iv. 괴물 이동하기
@@ -113,7 +113,6 @@ Pixi를 사용하려면, 당신의 루트 프로젝트 디렉토리에서 웹 �
 
 (독자에게 요청합니다: 이것은 살아있는 문서입니다. 구체적인 세부사항에 대해 질문이 있거나 내용이 명확하게 설명되어야 하는 경우 이 GitHub 저장소에 **문제**를 생성하세요. 자세한 내용은 텍스트를 업데이트하세요.)
 
-<a id='settingup'></a>
 설정 방법
 ---------
 
@@ -122,7 +121,6 @@ Pixi를 사용하려면, 당신의 루트 프로젝트 디렉토리에서 웹 �
 
 다음으로 Pixi를 설치해야합니다.
 
-<a id='installingpixi'></a>
 ### 픽시 설치
 
 이 소개에 사용 된 버전은 **v4.5.5**이며 이 저장소의 `pixi` 폴더 또는 [Pixi's release page for v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5).에서 `pixi.min.js` 파일을 찾을 수 있습니다. 또는 [Pixi's main release page](https://github.com/pixijs/pixi.js/releases).에서 최신 버전을 다운로드 할 수 있습니다.
@@ -1843,7 +1841,7 @@ animals.height = 200;
 
 ![Group width and height](/examples/images/screenshots/22.png)
  
-필요한 경우 다른 `Container`에 원하는 만큼의 `Container`를 배치하여 깊은 계층 구조를 만들 수 있습니다. 그러나 `Display Object`(예: `Sprite` 또는 다른 `Container`)는 한 번에 한 상위에만 속할 수 있습니다. sprites를 다른 객체의 아이로 만들기 위해 `addChild`를 사용하면 픽시는 현재 부모에서 sprites를 자동으로 제거합니다. 그것은 당신이 걱정할 필요가 없는 유용한 경영입니다.
+필요한 경우 다른 `Container`에 원하는 만큼의 `Container`를 배치하여 깊은 계층 구조를 만들 수 있습니다. 그러나 `Display Object`(예: `Sprite` 또는 다른 `Container`)는 한 번에 한 상위에만 속할 수 있습니다. sprites를 다른 객체의 자식으로 만들기 위해 `addChild`를 사용하면 픽시는 현재 부모에서 sprites를 자동으로 제거합니다. 그것은 당신이 걱정할 필요가 없는 유용한 관리사항입니다.
 
 ### 지역적 및 전반적 위치
 
@@ -1860,7 +1858,7 @@ console.log(cat.x);
 
 16? 맞아요! Cat이 그룹의 왼쪽 상단 모서리에서 16개 픽셀만 상쇄되기 때문입니다. 16은 cat의 local position입니다.
 
-Sprites는 **global positon**도 가지고 있습니다. Global position은 stage 상단 왼쪽 코너에서 sprites의 앵커 포인트(일반적으로 sprite의 상단 왼쪽 코너)까지의 거리입니다. 당신은 `toGlobal` 메서드의 도움으로 sprites 의 global positon을 찾을 수 있습니다. 그 방법은 다음과 같습니다:
+Sprites는 **global positon**도 가지고 있습니다. Global position은 stage 상단 왼쪽 코너에서 sprites의 anchor point(일반적으로 sprite의 상단 왼쪽 코너)까지의 거리입니다. 당신은 `toGlobal` 메서드를 통해 sprites 의 global positon을 찾을 수 있습니다. 그 방법은 다음과 같습니다:
 
 ```
 parentSprite.toGlobal(childSprite.position)
@@ -1890,7 +1888,7 @@ tiger.getGlobalPosition().x
 tiger.getGlobalPosition().y
 ```
 
-이것은 우리가 사용한 예에서 128의 `x`와 `y` 값을 당신에게 줄 것입니다. `getGlobalPosition`의 특별한 점은 매우 정밀하다는 것입니다: 그것은 sprites의 local position이 바뀌는 즉시 당신에게 정확한 global position을 줄 것이다. 나는 게임의 정확한 충돌 탐지를 위해 특별히 이 기능을 추가해 달라고 픽시 개발 팀에 요청했습니다. (매트를 비롯한 나머지 팀원들 모두 고마워!)
+이것은 우리가 사용한 예에서 128의 `x`와 `y` 값을 당신에게 줄 것입니다. `getGlobalPosition`의 특별한 점은 매우 정밀하다는 것입니다: 그것은 sprites의 local position이 바뀌는 즉시 당신에게 정확한 global position을 줄 것입니다. 나는 게임의 정확한 충돌 탐지를 위해 특별히 이 기능을 추가해 달라고 픽시 개발 팀에 요청했습니다. (매트를 비롯한 나머지 팀원들 모두 고마워!)
 
 global position을 local position으로 전환하려면 어떻게 하시겠습니까? `toLocal` 방법을 사용할 수 있습니다. 유사한 방식으로 작동하지만 다음과 같은 일반적인 형식을 사용합니다.
 
@@ -1898,7 +1896,7 @@ global position을 local position으로 전환하려면 어떻게 하시겠습�
 sprite.toLocal(sprite.position, anyOtherSprite)
 ```
 
-sprites와 다른 sprites의 거리를 찾으려면 `toLocal`을 사용하세요. hedgehog에 비해 tiger의 local position을 알 수 있는 방법은 다음과 같습니다.
+sprites와 다른 sprites의 거리를 찾으려면 `toLocal`을 사용하세요. hedgehog에 비례하여 tiger의 local position을 알 수 있는 방법은 다음과 같습니다.
 
 ```js
 tiger.toLocal(tiger.position, hedgehog).x1
@@ -1950,20 +1948,20 @@ let superFastSprites = new ParticleContainer(
 
 (참고 : **UV mapping**은 3D 표면에 매핑되는 텍스처 (이미지)의 `x` 및 `y` 좌표를 나타내는 3D 그래픽 디스플레이 용어입니다 .`U`는 `x` 축이고 `V`는 `y` 축입니다 .WebGL은 이미 3D 공간 위치 지정을위한 `x`, `y` 및 `z`이므로 2D 이미지 텍스처의 경우 `x`와 `y`를 나타내기 위해 U와 V를 선택했습니다.
 
-(저는 그 마지막 두 선택적 인자인 `batchSize`와 `autoResize`가 정확히 무엇인지 모르겠습니다. 그래서 누군가가 알고 있다면, 우리가 이슈에 알려주시기를 바랍니다!)
+(저는 그 마지막 두 선택적 인자인 `batchSize`와 `autoResize`가 정확히 무엇인지 모르겠습니다. 그래서 누군가가 알고 있다면, 이 이슈에서 우리에게 알려주시기를 바랍니다!)
 
 <a id='graphic'></a>
 Pixi의 그래픽 기초
 ----------------
 
-이미지 텍스처를 사용하는 것은 sprites를 만드는 가장 유용한 방법 중 하나이지만 Pixi는 자체 저수준 드로잉 도구도 가지고 있습니다. 그것들을 사용하여 직사각형, 도형, 선, 복잡한 다각형 및 텍스트를 만들 수 있습니다. 다행스럽게도  [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)와 거의 동일한 API를 사용하므로 이미 캔버스에 익숙하다면 배울 새로운 것은 없습니다. 그러나 큰 장점은 Canvas Drawing API와 달리 Pixi로 그리는 모양이 GPGL에서 WebGL에 의해 렌더링된다는 것입니다. Pixi는 당신이 그 미개발 된 성능 파워에 접근 할 수 있게 합니다. 기본적인 모양을 만드는 방법을 간단히 살펴 보겠습니다. 다음은 코드에서 앞으로 만들 모든 모양입니다.
+이미지 텍스처를 사용하는 것은 sprites를 만드는 가장 유용한 방법 중 하나이지만 Pixi는 자체 저수준 드로잉 도구도 가지고 있습니다. 그것들을 사용하여 직사각형, 도형, 선, 복잡한 다각형 및 텍스트를 만들 수 있습니다. 다행스럽게도  [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)와 거의 동일한 API를 사용하므로 이미 캔버스에 익숙하다면 배워야할 새로운 것은 없습니다. 그러나 큰 장점은 Canvas Drawing API와 달리 Pixi로 그리는 모양이 GPGL에서 WebGL에 의해 렌더링된다는 것입니다. Pixi는 당신이 그 미개발 된 모든 성능 파워에 접근 할 수 있게 합니다. 기본적인 모양을 만드는 방법을 간단히 살펴 보겠습니다. 다음은 앞으로 코드로 만들 모든 모양입니다.
 
 ![Graphic primitives](/examples/images/screenshots/23.png)
  
 <a id='rectangles'></a>
 ### 직사각형
 
-모든 모양은 먼저 Pixi의 `Graphics` 클래스(`PIXI.Graphics`)의 처음 만든 새 인스턴스로 만듭니다.
+모든 모양은 먼저 Pixi의 `Graphics` 클래스(`PIXI.Graphics`)의 새로운 인스턴스를 생성함으로써 만.
 
 ```js
 let rectangle = new Graphics();
@@ -2052,7 +2050,7 @@ app.stage.addChild(ellipse);
 
 <a id='roundedrect'></a>
 ### 둥근 사각형
-Pixi를 사용하면 `drawRoundedRect` 메서드로 둥근 사각형을 만들 수 있습니다. 마지막 인수 인 `cornerRadius`는 결정하는 픽셀 단위의 숫자입니다.
+Pixi를 사용하면 `drawRoundedRect` 메서드로 둥근 사각형을 만들 수 있습니다. 마지막 인수 인 `cornerRadius`는 픽셀 단위로 모서리를 반올림해야 하는 정도에 따라 결정된다.
 
 ```js
 drawRoundedRect(x, y, width, height, cornerRadius)
@@ -2074,7 +2072,7 @@ app.stage.addChild(roundBox);
 <a id='lines'></a>
 ###선
 
-위에서 `lineStyle` 메소드를 사용한 예제를 보았으니 선을 정의하십시오 캔버스 드로잉 API를 사용하는 것과 같은 방법으로 `moveTo` 및 `lineTo` 메서드를 사용하여 선의 시작점과 끝점을 그릴 수 있습니다. 다음은 4 픽셀 너비의 흰색 대각선을 그리는 방법입니다.
+위에서 `lineStyle` 메소드를 사용한 예제를 보았으니 선을 정의하십시오. 캔버스 드로잉 API를 사용하는 것과 같은 방법으로 `moveTo` 및 `lineTo` 메서드를 사용하여 선의 시작점과 끝점을 그릴 수 있습니다. 다음은 4 픽셀 너비의 흰색 대각선을 그리는 방법입니다.
 
 ```js
 let line = new Graphics();
@@ -2103,7 +2101,7 @@ let path = [
 graphicsObject.drawPolygon(path);
 ```
 
-`drawPolygon`은이 세 점을 결합하여 도형을 만듭니다. `drawPolygon'을 사용하여 선을 파란색 테두리로 연결하는 방법은 다음과 같습니다. 삼각형은 위치 0.0에서 그려지고 `x` 및 `y` 속성을 사용하여 stage에서 해당 위치로 이동합니다.
+`drawPolygon`은이 세 점을 결합하여 도형을 만듭니다. `drawPolygon`을 사용하여 선을 파란색 테두리로 연결하는 방법은 다음과 같습니다. 삼각형은 위치 0.0에서 그려지고 `x` 및 `y` 속성을 사용하여 stage에서 해당 위치로 이동합니다.
 
 ```js
 let triangle = new Graphics();
@@ -2148,7 +2146,7 @@ message.position.set(54, 96);
 
 ![Displaying text](/examples/images/screenshots/24.png)
 
-이건 당신에게 기본적이고, 방식이 따로 없는 텍스트 줄 것입니다. 그러나 더 좋아지기를 원하면 Pixi의 `TextStyle` 함수를 사용하여 사용자 정의 텍스트 스타일을 정의하십시오. 방법은 다음과 같습니다.
+이건 당신에게 기본적이고, 스타일이 따로 없는 텍스트를 줄 것입니다. 그러나 더 좋아지기를 원하면 Pixi의 `TextStyle` 함수를 사용하여 사용자 정의 텍스트 스타일을 정의하십시오. 방법은 다음과 같습니다.
 
 ```js
 let style = new TextStyle({
@@ -2262,7 +2260,7 @@ function play(delta) {
 }
 ```
 
-`play` 함수는 초당 60회 게임 루프에 의해 호출되기 때문에 이 if문은 고양이와 상자 사이의 충돌을 지속적으로 확인합니다. `hitTestRectangle`이 `true`이면 텍스트 `message` 객체는 `text` 사용하여 "Hit"를 표시합니다.
+`play` 함수는 초당 60회 게임 루프에 의해 호출되기 때문에 이 if문은 고양이와 상자 사이의 충돌을 지속적으로 확인합니다. `hitTestRectangle`이 `true`이면 텍스트 `message` 객체는 `text`를 사용하여 "Hit"를 표시합니다.
 
 ```js
 message.text = "Hit!";
@@ -2286,7 +2284,7 @@ box.tint = 0xccff99;
 <a id='hittest'></a>
 ### hitTestRectangle 함수
 
-그러나 `hitTestRectangle` 함수는 어떻습니까? 그것은 무엇을 하고 어떻게 작동합니까? 이 작업과 같은 충돌 감지 알고리즘의 세부 사항은 이 자습서의 범위를 벗어납니다. (정말로 알고 싶다면, [이 책](https://www.apress.com/us/book/9781430258001)의 내용을 찾아보십시오.) 가장 중요한 점은 사용 방법을 알고 있다는 것입니다. 그러나 참조 용으로, 그리고 궁금한 점이 있는 경우, 여기에 완전한 `hitTestRectangle` 함수 정의가 있습니다. 코멘트에서 무엇을 하고 있는지 알 수 있나요?
+그러나 `hitTestRectangle` 함수는 어떻습니까? 그것은 무엇을 하고 어떻게 작동합니까? 이 작업과 같은 충돌 감지 알고리즘의 세부 사항은 이 자습서의 범위를 벗어납니다. (정말로 알고 싶다면, [이 책](https://www.apress.com/us/book/9781430258001)의 내용을 찾아보십시오.) 가장 중요한 점은 사용 방법을 알고 있다는 것입니다. 그러나 참조 용으로, 그리고 궁금한 점이 있는 경우, 여기에 완전한 `hitTestRectangle` 함수 정의가 있습니다. 코멘트에서 무엇을 하고 있는지 알아낼 수 있?
 
 ```js
 function hitTestRectangle(r1, r2) {
@@ -2344,7 +2342,7 @@ function hitTestRectangle(r1, r2) {
 사례 연구 : Treasure Hunter
 ---------------
 
-지금까지 당신이 지금 게임을 만들기 시작할 때 필요한 모든 기술을 가지고 있다고 말했습니다. 날 못 믿겠다면, 증명해 보이겠습니다! **Treasure Hunter**라는 간단한 오브젝트 컬렉션과 적의 회피 게임을 만드는 방법을 자세히 살펴보겠습니다. (`examples` 폴더에서 찾을 수 있습니다.)
+지금까지 당신이 지금 게임을 만들기 시작할 때 필요한 모든 기술을 가지고 있다고 말했습니다. 날 못 믿겠다면, 증명해 보이겠습니다! **Treasure Hunter**라는 간단한 객체 모음과 피하기 게임을 만드는 방법을 자세히 살펴보겠습니다. (`examples` 폴더에서 찾을 수 있습니다.)
 
 ![Treasure Hunter](/examples/images/screenshots/26.png)
 
@@ -2409,12 +2407,12 @@ function setup() {
 }
 ```
 
-코드의 마지막 두 줄인 `state = play;` 아마도 `gameLoop()` 이 가장 중요할 것입니다. `gameLoop`을 Pixi의 시세 표시기에 추가하면 게임 엔진에서 전환되고 `play` 함수가 연속 루프에서 호출되도록 합니다. 그러나 이것이 작동하는 방법을 살펴보기 전에 `setup` 함수 내부의 특정 코드가 무엇인지 살펴보겠습니다.
+코드의 마지막 두 줄인 `state = play;` 아마도 `gameLoop()` 이 가장 중요할 것입니다. `gameLoop`을 Pixi의 ticker switch에 추가하면 게임 엔진에서 전환되고 `play` 함수가 연속 루프에서 호출되도록 합니다. 그러나 이것이 작동하는 방법을 살펴보기 전에 `setup` 함수 내부의 특정 코드가 무엇인지 살펴보겠습니다.
 
 <a id='gamescene'></a>
 #### 게임 장면 만들기
 
-`setup` 함수는 `gameScene` 및 `gameOverScene`이라는 두 개의 `Container` 그룹을 만듭니다. 이들 각각은 무대에 추가됩니다.
+`setup` 함수는 `gameScene` 및 `gameOverScene`이라는 두 개의 `Container` 그룹을 만듭니다. 이들 각각은 stage에 추가됩니다.
 
 ```js
 gameScene = new Container();
@@ -2600,9 +2598,9 @@ function play(delta) {
 이 모든 기능이 어떻게 작동하는지 알아보겠습니다.
 
 <a id='movingexplorer'></a>
-### 탐색기 이동
+### 캐릭터 이동
 
-탐색기는 키보드를 사용하여 제어되며 이를 수행하는 코드는 이전에 학습한 키보드 제어 코드와 매우 유사합니다. `keyboard` 개체는 탐색기의 속도를 수정하며 해당 속도는 `play` 기능 내의 탐색기 위치에 추가됩니다.
+캐틱터는 키보드를 사용하여 제어되며 이를 수행하는 코드는 이전에 학습한 키보드 제어 코드와 매우 유사합니다. `keyboard` 개체는 탐색기의 속도를 수정하며 해당 속도는 `play` 기능 내의 탐색기 위치에 추가됩니다.
 
 ```js
 explorer.x += explorer.vx;
@@ -2612,7 +2610,7 @@ explorer.y += explorer.vy;
 <a id='containingmovement'></a>
 #### 움직임 포함
 
-그러나 새로운 점은 탐색기의 움직임이 지하 감옥의 벽 안에 포함되어 있다는 것입니다. 녹색 윤곽선은 탐색기의 동작 한계를 보여줍니다.
+그러나 새로운 점은 캐릭터의 움직임이 지하 감옥의 벽 안에 포함되어 있다는 것입니다. 녹색 윤곽선은  동작의 한계를 보여줍니다.
 
 ![Displaying text](/examples/images/screenshots/28.png)
 
@@ -2665,7 +2663,7 @@ function contain(sprite, container) {
 <a id='movingmonsters'></a>
 ### 괴물 이동하기
 
-`play` 기능은 또한 얼룩 몬스터를 움직이고, 던전 벽 안에 포함시키고, 플레이어와의 충돌을 확인합니다. 방울이 던전의 상단 또는 하단 벽에 충돌하면 방향이 바뀝니다. 이 모든 작업은 `forEach` 루프를 사용하여 수행됩니다. 각 루프의 `blob` 배열에 있는 각 `blobs` sprites를 반복합니다.
+`play` 기능은 또한 얼룩 괴물을 움직이고, 던전 벽 안에 포함시키고, 플레이어와의 충돌을 확인합니다. 괴물이 던전의 상단 또는 하단 벽에 충돌하면 방향이 바뀝니다. 이 모든 작업은 `forEach` 루프를 사용하여 수행됩니다. 각 루프의 `blob` 배열에 있는 각 `blobs` sprites를 반복합니다.
 
 ```js
 blobs.forEach(function(blob) {
@@ -2690,13 +2688,13 @@ blobs.forEach(function(blob) {
 });
 ```
 
-위의 코드에서 `contain` 함수의 반환 값을 사용하여 얼룩이 벽에서 튀어나오게 하는 방법을 볼 수 있습니다. `blobHitsWall`이라는 변수는 반환 값을 캡처하는 데 사용됩니다.
+위의 코드에서 `contain` 함수의 반환 값을 사용하여 괴물이 벽에서 튀어나오게 하는 방법을 볼 수 있습니다. `blobHitsWall`이라는 변수는 반환 값을 캡처하는 데 사용됩니다.
 
 ```js
 let blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 ```
 
-`blobHitsWall`은 일반적으로 `undefined` 됩니다. 그러나 얼룩이 꼭대기 벽에 닿으면, `blobHitsWall`의 값은 "top"이 됩니다. 얼룩이 바닥 벽에 닿으면 `blobHitsWall`의 값은 "bottom"이 됩니다. 이러한 경우 중 하나라도 `true`이면, 속도를 반대로 하여 방향을 바꿀 수 있습니다. 이 작업을 수행하는 코드는 다음과 같습니다
+`blobHitsWall`은 일반적으로 `undefined` 됩니다. 그러나 괴물이 꼭대기 벽에 닿으면, `blobHitsWall`의 값은 "top"이 됩니다. 괴물이 바닥 벽에 닿으면 `blobHitsWall`의 값은 "bottom"이 됩니다. 이러한 경우 중 하나라도 `true`이면, 속도를 반대로 하여 방향을 바꿀 수 있습니다. 이 작업을 수행하는 코드는 다음과 같습니다
 
 ```js
 if (blobHitsWall === "top" || blobHitsWall === "bottom") {
@@ -2737,7 +2735,7 @@ if(explorerHit) {
 
 `explorerHit`가 `false`의 경우, 탐색기의 `alpha` property는 1로 유지되어 완전하게 불투명하게 됩니다.
 
-`play` 기능은 또한 보물 상자와 탐색기 사이의 충돌을 검사합니다. 상대한테 맞았다면,  `treasure`은 약간의 offset과 함께 탐색기의 위치로 설정됩니다. 탐험가가 보물을 운반하는 것처럼 보입니다.
+`play` 기능은 또한 보물 상자와 탐색기 사이의 충돌을 검사합니다. 상대한테 맞았다면,  `treasure`은 약간의 offset과 함께 탐색기의 위치로 설정됩니다. 캐릭터가 보물을 운반하는 것처럼 보입니다.
 
 ![Displaying text](/examples/images/screenshots/29.png)
 
@@ -2801,7 +2799,7 @@ function end() {
 
 게임 장면의 가시성을 뒤집을 뿐입니다. 이것은 `gameScene`을 숨기고 게임이 끝나면, `gameOverScene`을 표시합니다.
 이것은 게임의 상태를 전환하는 방법에 대한 아주 간단한 예이지만 게임에서 원하는만큼의 게임 상태를 유지하고 필요한만큼의 코드로 채울 수 있습니다. 그냥 루프에서 실행하려는 함수의 `state` 값을 변경하십시오.
-그리고 그것은 Treasure Hunter의 모든 것입니다! 조금 더 많은 작업을 하면 이 간단한 프로토 타입을 풀 게임으로 바꿀 수 있습니다. 시도해보십시오!
+그리고 그것은 Treasure Hunter의 모든 것입니다! 조금 더 많은 작업을 하면 이 간단한 프로토 타입을 완전한 게임으로 바꿀 수 있습니다. 시도해보십시오!
 
 <a id='spriteproperties'></a>
 Sprites에 대한 추가 정보
@@ -2815,7 +2813,7 @@ Pixi의 클래스 상속 시스템은 어떻게 작동합니까? (**클래스**�
 DisplayObject > Container > Sprite
 ```
 
-상속은 체인의 나중에 클래스가 체인의 이전 클래스에서 속성과 메서드를 사용한다는 것을 의미합니다. 즉, `Sprite`가 체인의 마지막 클래스인 경우에도 고유한 속성 외에도 `DisplayObject` 및 `Container`와 동일한 모든 속성을 갖습니다. 가장 기본적인 클래스는 `DisplayObject`입니다. `DisplayObject`인 것을 스테이지에서 렌더링 할 수 있습니다. `Container`는 상속 체인의 다음 클래스입니다. `DisplayObject`는 다른 `DisplayObjects`의 컨테이너 역할을 할 수 있습니다. 세 번째 체인은 `Sprite` 클래스입니다. Sprite는 무대에 표시될 수 있으며 다른 Sprites에 대한 containers가 될 수 있습니다.
+상속은 단지 체인에 속한 클래스가 체인의 이전 클래스에서 속성과 메서드를 사용한다는 것을 의미합니다. 즉, `Sprite`가 체인의 마지막 클래스인 경우에도 고유한 속성 외에도 `DisplayObject` 및 `Container`와 동일한 모든 속성을 갖습니다. 가장 기본적인 클래스는 `DisplayObject`입니다. `DisplayObject`인 것을 스테이지에서 렌더링 할 수 있습니다. `Container`는 상속 체인의 다음 클래스입니다. `DisplayObject`는 다른 `DisplayObjects`의 컨테이너 역할을 할 수 있습니다. 세 번째 체인은 `Sprite` 클래스입니다. Sprite는 무대에 표시될 수 있으며 다른 Sprites에 대한 containers가 될 수 있습니다.
 
 <a id='takingitfurther'></a>
 추가 정보
@@ -2835,7 +2833,7 @@ Pixi와 함께이 모든 라이브러리를 사용하는 방법은 [Learn PixiJS
 <a id='hexi'></a>
 ### Hexi
 
-해당 라이브러리의 모든 기능을 사용하고 싶지만 직접 통합하는 번거로움을 원하지 않나요? **Hexi** 사용 : 게임 및 대화형 응용 프로그램 구축을 위한 완벽한 개발 환경 :
+해당 라이브러리의 모든 기능을 사용하고 싶지만 직접 통합하게에는 번거롭지 않나요?**Hexi** 사용 : 게임 및 대화형 응용 프로그램 구축을 위한 완벽한 개발 환경 :
 
 https://github.com/kittykatattack/hexi
 
