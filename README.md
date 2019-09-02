@@ -740,7 +740,7 @@ add(name, url, optionObject, callbackFunction)
 Here's what the loader's source code documentation has to say about
 these parameters:
 
-`name` (string): The name of the resource to load. If it's not passed, the `url`is used.  
+`name` (string): The name of the resource to load. If it's not passed, the `url` is used.  
 `url` (string): The url for this resource, relative to the `baseUrl` of the loader.  
 `options` (object literal): The options for the load.  
 `options.crossOrigin` (Boolean): Is the request cross-origin? The default is to determine automatically.  
@@ -1342,7 +1342,7 @@ function setup() {
   dungeon = new Sprite(dungeonTexture);
   app.stage.addChild(dungeon);
 
-  //2. Access the texture using throuhg the loader's `resources`:
+  //2. Access the texture using through the loader's `resources`:
   explorer = new Sprite(
     resources["images/treasureHunter.json"].textures["explorer.png"]
   );
@@ -1488,7 +1488,7 @@ The `delta` value represents the amount of fractional lag between frames. You ca
 ```js
 cat.x += 1 + delta;
 ```
-Whether or not you choose to add this `delta` value is largely an aestheic choice. And the effect will only really be noticeable if your animation is struggling to keep up with a consistent 60 frames per second display rate (which might happen, for example, if it's running on a slow device). The rest of the examples in this tutorial won't use this `delta` value, but feel free to use it in your own work if you wish.
+Whether or not you choose to add this `delta` value is largely an aesthetic choice. And the effect will only really be noticeable if your animation is struggling to keep up with a consistent 60 frames per second display rate (which might happen, for example, if it's running on a slow device). The rest of the examples in this tutorial won't use this `delta` value, but feel free to use it in your own work if you wish.
 
 You don't have to use Pixi's ticker to create a game loop. If you prefer, just use `requestAnimationFrame`, like this:
 
