@@ -295,7 +295,7 @@ method, and supply any new `width` and `height` values. But, to make
 sure the canvas is resized to match the resolution, set `autoResize`
 to `true`.
 ```js
-app.renderer.autoResize = true;
+app.renderer.autoDensity = true;
 app.renderer.resize(512, 512);
 ```
 If you want to make the canvas fill the entire window, you can apply this
