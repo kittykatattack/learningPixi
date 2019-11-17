@@ -2406,7 +2406,7 @@ property to `true`, and then set `wordWrapWidth` to the maximum length
 in pixels, that the line of text should be. Use the `align` property
 to set the alignment for multi-line text.
 ```js
-message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
+message.style = {wordWrap: true, wordWrapWidth: 100, align: 'center'};
 ```
 (Note: `align` doesn't affect single line text.)
 
