@@ -3204,7 +3204,7 @@ Find out how to:
 - Make complete games.
 
 And, as a bonus, all the code is written entirely in the latest version of
-JavaScript: ES6/2015. And, although the book's code is based on Pixi v3.x, it all works just fine with the lastest version of Pixi 4.x!
+JavaScript: ES6/2015. And, although the book's code is based on Pixi v3.x, it all works just fine with the latest version of Pixi 4.x!
 
 If you want to support this project, please buy a copy of this book,
 and buy another copy for your mom!
