@@ -137,7 +137,7 @@ really fun and easy way to interact with your computer.
 But if you don't want to mess around with the command line just yet, try the Mongoose
 webserver:
 
-[Mongoose](http://cesanta.com/mongoose.shtml)
+[Mongoose](https://www.cesanta.com/mongoose-library.html)
 
 Or, just write all your code using the excellent [Brackets text
 editor](http://brackets.io). Brackets automatically launches a webserver
