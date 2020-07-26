@@ -384,7 +384,7 @@ Pixi’s built-in `loader` object.
 Pixi's powerful `loader` object is all you need to load any kind of image. 
 Here’s how to use it to load an image and call a function called `setup` when the image has finished loading:
 ```js
-PIXI.loader
+PIXI.Loader.shared
   .add("images/anyImage.png")
   .load(setup);
 
@@ -404,7 +404,7 @@ let sprite = new PIXI.Sprite(
 Here’s an example of some complete code you could write to load an image, 
 call the `setup` function, and create a sprite from the loaded image:
 ```js
-PIXI.loader
+PIXI.Loader.shared
   .add("images/anyImage.png")
   .load(setup);
 
@@ -420,7 +420,7 @@ sprites in this tutorial.
 You can load multiple images at the same time by listing them with
 chainable `add` methods, like this:
 ```js
-PIXI.loader
+PIXI.Loader.shared
   .add("images/imageOne.png")
   .add("images/imageTwo.png")
   .add("images/imageThree.png")
@@ -429,7 +429,7 @@ PIXI.loader
 Better yet, just list all the files you want to load in
 an array inside a single `add` method, like this:
 ```js
-PIXI.loader
+PIXI.Loader.shared
   .add([
     "images/imageOne.png",
     "images/imageTwo.png",
