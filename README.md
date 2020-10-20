@@ -2241,10 +2241,7 @@ with the `drawEllipse` method.
 ```js
 drawEllipse(x, y, width, height);
 ```
-The x/y position defines the ellipse’s top left corner (imagine that
-the ellipse is surrounded by an invisible rectangular bounding box -
-the top left corner of that box will represent the ellipse's x/y
-anchor position). Here’s a yellow ellipse that’s 50 pixels wide and 20 pixels high.
+The x/y position defines the center of the ellipse. Here’s a yellow ellipse that’s 100 pixels wide and 40 pixels high.
 ```js
 let ellipse = new Graphics();
 ellipse.beginFill(0xFFFF00);
