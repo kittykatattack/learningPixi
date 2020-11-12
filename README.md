@@ -268,9 +268,7 @@ this on your game’s target platform.) `transparent` makes the canvas
 background transparent. `resolution` makes it easier to work with
 displays of varying resolutions and pixel densities. Setting
 the resolutions is a little
-outside the scope of this tutorial, but check out [Mat Grove's
-explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
-about how to use `resolution` for all the details. But usually, just keep `resolution`
+outside the scope of this tutorial, but usually just keep `resolution`
 at 1 for most projects and you'll be fine. 
 
 Pixi's `renderer` object will default to WebGL, which is good, because WebGL is
