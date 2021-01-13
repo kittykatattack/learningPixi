@@ -269,7 +269,7 @@ background transparent. `resolution` makes it easier to work with
 displays of varying resolutions and pixel densities. Setting
 the resolutions is a little
 outside the scope of this tutorial, but check out [Mat Grove's
-explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
+explanation](https://web.archive.org/web/20171203090730/http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
 about how to use `resolution` for all the details. But usually, just keep `resolution`
 at 1 for most projects and you'll be fine. 
 
