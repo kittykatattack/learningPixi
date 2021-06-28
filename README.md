@@ -2125,7 +2125,7 @@ The default value for `maxSize` is 1500. So, if you need to contain more
 sprites, set it to a higher number. The `properties` argument is an object
 with 5 Boolean values you can set: `scale`, `position`, `rotation`, `uvs` and
 `alphaAndTint`. The default value of `position` is `true`, but all the others
-are set to `false`. That means that if you want change the `rotation`,
+are set to `false`. That means that if you want to change the `rotation`,
 `scale`, `tint`, or `uvs` of sprite in the `ParticleContainer`, you
 have to set those properties to `true`, like this:
 ```js
