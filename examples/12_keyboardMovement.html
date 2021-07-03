@@ -51,51 +51,36 @@ function setup() {
   //Left arrow key `press` method
   left.press = () => {
     //Change the cat's velocity when the key is pressed
-    cat.vx = -5;
-    cat.vy = 0;
+    cat.vx -= 5;
   };
   
   //Left arrow key `release` method
   left.release = () => {
-    //If the left arrow has been released, and the right arrow isn't down,
-    //and the cat isn't moving vertically:
-    //Stop the cat
-    if (!right.isDown && cat.vy === 0) {
-      cat.vx = 0;
-    }
+    cat.vx += 5;
   };
 
   //Up
   up.press = () => {
-    cat.vy = -5;
-    cat.vx = 0;
+    cat.vy -= 5;
   };
   up.release = () => {
-    if (!down.isDown && cat.vx === 0) {
-      cat.vy = 0;
-    }
+    cat.vy += 5;
   };
 
   //Right
   right.press = () => {
-    cat.vx = 5;
-    cat.vy = 0;
+    cat.vx += 5;
   };
   right.release = () => {
-    if (!left.isDown && cat.vy === 0) {
-      cat.vx = 0;
-    }
+    cat.vx -= 5;
   };
 
   //Down
   down.press = () => {
-    cat.vy = 5;
-    cat.vx = 0;
+    cat.vy += 5;
   };
   down.release = () => {
-    if (!up.isDown && cat.vx === 0) {
-      cat.vy = 0;
-    }
+    cat.vy -= 5;
   };
 
   //Set the game state
