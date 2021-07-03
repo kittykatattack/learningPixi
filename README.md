@@ -450,7 +450,7 @@ app.stage.addChild(cat);
 ```
 Remember that the `stage` is the main container that holds all of your sprites.
 
-**Important: you won't be able to see any of your sprites sprites unless you add them to the `stage`!**
+**Important: you won't be able to see any of your sprites, sprites unless you add them to the `stage`!**
 
 Before we continue, let's look at a practical example of how to use what
 you've just learnt to display a single image. In the `examples/images`
@@ -1165,7 +1165,7 @@ edge of an adjacent image on the tileset appears next to a sprite.
 This happens because of the way your computer's GPU (Graphics
 Processing Unit) decides how to round fractional pixels values. Should
 it round them up or down? This will be different for each GPU.
-Leaving 1 or 2 pixels spacing around images on a tilseset makes all
+Leaving 1 or 2 pixels spacing around images on a tileset makes all
 images display consistently.
 
 (Note: If you have two pixels of padding around a graphic, and you still notice a strange "off by one pixel" glitch in the
