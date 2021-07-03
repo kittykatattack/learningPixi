@@ -188,8 +188,8 @@ it's working. (This assumes that the `pixi.min.js` is in a subfolder called `pix
 <head>
   <meta charset="utf-8">
   <title>Hello World</title>
-</head>
   <script src="pixi/pixi.min.js"></script>
+</head>
 <body>
   <script type="text/javascript">
     let type = "WebGL"
