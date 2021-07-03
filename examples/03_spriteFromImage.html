@@ -1,12 +1,15 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Make a sprite from an image</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Create a Pixi Application
-let app = new PIXI.Application({ 
+const app = new PIXI.Application({ 
     width: 256, 
     height: 256,                       
     antialiasing: true, 
@@ -19,7 +22,7 @@ let app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 //load an image and run the `setup` function when it's done
-PIXI.loader
+PIXI.Loader.shared
   .add("images/cat.png")
   .load(setup);
 
@@ -27,10 +30,10 @@ PIXI.loader
 function setup() {
 
   //Create the cat sprite
-  let cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
+  const cat = new PIXI.Sprite(PIXI.Loader.shared.resources["images/cat.png"].texture);
   
   //You can also create the `cat` sprite from the texture, like this:
-  //let cat = new PIXI.Sprite(PIXI.TextureCache["images/cat.png"]);
+  //const cat = new PIXI.Sprite(PIXI.TextureCache["images/cat.png"]);
 
   //Add the cat to the stage
   app.stage.addChild(cat);
@@ -45,4 +48,4 @@ function setup() {
 }
 </script>
 </body>
-
+</html>

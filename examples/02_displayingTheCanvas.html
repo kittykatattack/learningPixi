@@ -1,16 +1,19 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Displaying the canvas</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Create a Pixi Application
-let app = new PIXI.Application({ 
-    width: 256, 
-    height: 256,                       
-    antialiasing: true, 
-    transparent: false, 
+const app = new PIXI.Application({ 
+    width: 256,
+    height: 256,
+    antialiasing: true,
+    transparent: false,
     resolution: 1
   }
 );
@@ -40,4 +43,4 @@ app.renderer.backgroundColor = 0x061639;
 
 </script>
 </body>
-
+</html>

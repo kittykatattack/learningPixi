@@ -1,18 +1,21 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Using aliases</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
-    loader = PIXI.loader,
-    resources = PIXI.loader.resources,
+const Application = PIXI.Application,
+    loader = PIXI.Loader.shared,
+    resources = PIXI.Loader.shared.resources,
     Sprite = PIXI.Sprite;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 256, 
     height: 256,                       
     antialiasing: true, 
@@ -33,7 +36,7 @@ loader
 function setup() {
 
   //Create the cat sprite
-  let cat = new Sprite(resources["images/cat.png"].texture);
+  const cat = new Sprite(resources["images/cat.png"].texture);
   
   //Add the cat to the stage
   app.stage.addChild(cat);
@@ -48,4 +51,4 @@ function setup() {
 }
 </script>
 </body>
-
+</html>

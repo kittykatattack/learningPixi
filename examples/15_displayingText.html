@@ -1,17 +1,20 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Displaying text</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
+const Application = PIXI.Application,
     Text = PIXI.Text,
     TextStyle = PIXI.TextStyle;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 256, 
     height: 256,                       
     antialiasing: true, 
@@ -33,7 +36,7 @@ message.position.set(54, 96);
 app.stage.addChild(message);
 
 //2. Styled text
-let style = new TextStyle({
+const style = new TextStyle({
   fontFamily: "Arial",
   fontSize: 36,
   fill: "white",
@@ -46,13 +49,11 @@ let style = new TextStyle({
   dropShadowDistance: 6,
 });
 
-let styledMessage = new Text("Styled Text", style);
+const styledMessage = new Text("Styled Text", style);
 
 //Position it and add it to the stage
 styledMessage.position.set(54, 128);
 app.stage.addChild(styledMessage);
-
 </script>
 </body>
-
-
+</html>

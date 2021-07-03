@@ -1,21 +1,23 @@
-
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Make a sprite from and image</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
+const Application = PIXI.Application,
     Container = PIXI.Container,
-    loader = PIXI.loader,
-    resources = PIXI.loader.resources,
+    loader = PIXI.Loader.shared,
+    resources = PIXI.Loader.shared.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 256, 
     height: 256,                       
     antialiasing: true, 
@@ -35,7 +37,7 @@ loader
 function setup() {
 
   //Create the `cat` sprite from the texture
-  let cat = new Sprite(resources["images/cat.png"].texture);
+  const cat = new Sprite(resources["images/cat.png"].texture);
 
   //Position the sprite and change its width and height
   cat.x = 96;
@@ -65,4 +67,4 @@ function setup() {
 }
 </script>
 </body>
-
+</html>

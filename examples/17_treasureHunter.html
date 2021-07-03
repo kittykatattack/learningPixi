@@ -1,15 +1,18 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Treasure hunter</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
+const Application = PIXI.Application,
     Container = PIXI.Container,
-    loader = PIXI.loader,
-    resources = PIXI.loader.resources,
+    loader = PIXI.Loader.shared,
+    resources = PIXI.Loader.shared.resources,
     Graphics = PIXI.Graphics,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite,
@@ -17,7 +20,7 @@ let Application = PIXI.Application,
     TextStyle = PIXI.TextStyle;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 512, 
     height: 512,                       
     antialiasing: true, 
@@ -85,15 +88,15 @@ function setup() {
   for (let i = 0; i < numberOfBlobs; i++) {
 
     //Make a blob
-    let blob = new Sprite(id["blob.png"]);
+    const blob = new Sprite(id["blob.png"]);
 
     //Space each blob horizontally according to the `spacing` value.
     //`xOffset` determines the point from the left of the screen
     //at which the first blob should be added
-    let x = spacing * i + xOffset;
+    const x = spacing * i + xOffset;
 
     //Give the blob a random y position
-    let y = randomInt(0, app.stage.height - blob.height);
+    const y = randomInt(0, app.stage.height - blob.height);
 
     //Set the blob's position
     blob.x = x;
@@ -121,14 +124,14 @@ function setup() {
   gameScene.addChild(healthBar);
 
   //Create the black background rectangle
-  let innerBar = new Graphics();
+  const innerBar = new Graphics();
   innerBar.beginFill(0x000000);
   innerBar.drawRect(0, 0, 128, 8);
   innerBar.endFill();
   healthBar.addChild(innerBar);
 
   //Create the front red rectangle
-  let outerBar = new Graphics();
+  const outerBar = new Graphics();
   outerBar.beginFill(0xFF3300);
   outerBar.drawRect(0, 0, 128, 8);
   outerBar.endFill();
@@ -144,7 +147,7 @@ function setup() {
   gameOverScene.visible = false;
 
   //Create the text sprite and add it to the `gameOver` scene
-  let style = new TextStyle({
+  const style = new TextStyle({
     fontFamily: "Futura",
     fontSize: 64,
     fill: "white"
@@ -155,7 +158,7 @@ function setup() {
   gameOverScene.addChild(message);
 
   //Capture the keyboard arrow keys
-  let left = keyboard(37),
+  const left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
@@ -216,11 +219,11 @@ function setup() {
   state = play;
  
   //Start the game loop 
-  app.ticker.add(delta => gameLoop(delta));
+  app.ticker.add((delta) => gameLoop(delta));
 }
 
 
-function gameLoop(delta){
+function gameLoop(delta) {
 
   //Update the current game state:
   state(delta);
@@ -247,7 +250,7 @@ function play(delta) {
     blob.y += blob.vy;
 
     //Check the blob's screen boundaries
-    let blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
+    const blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 
     //If the blob hits the top or bottom of the stage, reverse
     //its direction
@@ -257,13 +260,13 @@ function play(delta) {
 
     //Test for a collision. If any of the enemies are touching
     //the explorer, set `explorerHit` to `true`
-    if(hitTestRectangle(explorer, blob)) {
+    if (hitTestRectangle(explorer, blob)) {
       explorerHit = true;
     }
   });
 
   //If the explorer is hit...
-  if(explorerHit) {
+  if (explorerHit) {
 
     //Make the explorer semi-transparent
     explorer.alpha = 0.5;
@@ -399,7 +402,7 @@ function randomInt(min, max) {
 
 //The `keyboard` helper function
 function keyboard(keyCode) {
-  var key = {};
+  const key = {};
   key.code = keyCode;
   key.isDown = false;
   key.isUp = true;
@@ -408,7 +411,9 @@ function keyboard(keyCode) {
   //The `downHandler`
   key.downHandler = function(event) {
     if (event.keyCode === key.code) {
-      if (key.isUp && key.press) key.press();
+      if (key.isUp && key.press) {
+        key.press();
+      }
       key.isDown = true;
       key.isUp = false;
     }
@@ -418,7 +423,9 @@ function keyboard(keyCode) {
   //The `upHandler`
   key.upHandler = function(event) {
     if (event.keyCode === key.code) {
-      if (key.isDown && key.release) key.release();
+      if (key.isDown && key.release) {
+        key.release();
+      }
       key.isDown = false;
       key.isUp = true;
     }
@@ -426,16 +433,11 @@ function keyboard(keyCode) {
   };
 
   //Attach event listeners
-  window.addEventListener(
-    "keydown", key.downHandler.bind(key), false
-  );
-  window.addEventListener(
-    "keyup", key.upHandler.bind(key), false
-  );
+  window.addEventListener("keydown", key.downHandler.bind(key), false);
+  window.addEventListener("keyup", key.upHandler.bind(key), false);
   return key;
 }
 
 </script>
 </body>
-
-
+</html>

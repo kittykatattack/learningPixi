@@ -1,21 +1,24 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Graphic primitives</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
+const Application = PIXI.Application,
     Container = PIXI.Container,
-    loader = PIXI.loader,
-    resources = PIXI.loader.resources,
+    loader = PIXI.Loader.shared,
+    resources = PIXI.Loader.shared.resources,
     Graphics = PIXI.Graphics,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 256, 
     height: 256,                       
     antialiasing: true, 
@@ -28,7 +31,7 @@ let app = new Application({
 document.body.appendChild(app.view);
 
 //Circle
-let circle = new Graphics();
+const circle = new Graphics();
 circle.beginFill(0x9966FF);
 circle.drawCircle(0, 0, 32);
 circle.endFill();
@@ -37,8 +40,8 @@ circle.y = 130;
 app.stage.addChild(circle);
 
 //Rectangle
-let rectangle = new Graphics();
-rectangle.lineStyle(4, 0xFF3300, 1);
+const rectangle = new Graphics();
+rectangle.lineStyle({width: 4, color: 0xFF3300, alpha: 1});
 rectangle.beginFill(0x66CCFF);
 rectangle.drawRect(0, 0, 64, 64);
 rectangle.endFill();
@@ -47,8 +50,8 @@ rectangle.y = 170;
 app.stage.addChild(rectangle);
 
 //Line
-let line = new Graphics();
-line.lineStyle(4, 0xFFFFFF, 1);
+const line = new Graphics();
+line.lineStyle({width: 4, color: 0xFFFFFF, alpha: 1});
 line.moveTo(0, 0);
 line.lineTo(80, 50);
 line.x = 32;
@@ -56,7 +59,7 @@ line.y = 32;
 app.stage.addChild(line);
 
 //Ellipse
-let ellipse = new Graphics();
+const ellipse = new Graphics();
 ellipse.beginFill(0xFFFF00);
 ellipse.drawEllipse(0, 0, 50, 20);
 ellipse.endFill();
@@ -65,7 +68,7 @@ ellipse.y = 130;
 app.stage.addChild(ellipse);
 
 //Triangle
-let triangle = new Graphics();
+const triangle = new Graphics();
 triangle.beginFill(0x66FF33);
 
 //Use `drawPolygon` to define the triangle as an
@@ -87,15 +90,14 @@ triangle.y = 22;
 app.stage.addChild(triangle);
 
 //Rounded rectangle
-let roundBox = new Graphics();
-roundBox.lineStyle(4, 0x99CCFF, 1);
+const roundBox = new Graphics();
+roundBox.lineStyle({width: 4, color: 0x99CCFF, alpha: 1});
 roundBox.beginFill(0xFF9933);
 roundBox.drawRoundedRect(0, 0, 84, 36, 10)
 roundBox.endFill();
 roundBox.x = 48;
 roundBox.y = 190;
 app.stage.addChild(roundBox);
-
 </script>
 </body>
-
+</html>
