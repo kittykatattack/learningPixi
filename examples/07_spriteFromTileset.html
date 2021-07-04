@@ -1,24 +1,27 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Make a sprite from a tileset sub-image</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
+const Application = PIXI.Application,
     Container = PIXI.Container,
-    loader = PIXI.loader,
-    resources = PIXI.loader.resources,
+    loader = PIXI.Loader.shared,
+    resources = PIXI.Loader.shared.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite,
     Rectangle = PIXI.Rectangle;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 256, 
     height: 256,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
@@ -35,17 +38,17 @@ loader
 function setup() {
 
   //Create the `tileset` sprite from the texture
-  let texture = TextureCache["images/tileset.png"];
+  const texture = TextureCache["images/tileset.png"];
 
   //Create a rectangle object that defines the position and
   //size of the sub-image you want to extract from the texture
-  let rectangle = new Rectangle(192, 128, 64, 64);
+  const rectangle = new Rectangle(192, 128, 64, 64);
 
   //Tell the texture to use that rectangular section
   texture.frame = rectangle;
 
   //Create the sprite from the texture
-  let rocket = new Sprite(texture);
+  const rocket = new Sprite(texture);
 
   //Position the rocket sprite on the canvas
   rocket.x = 32;
@@ -63,5 +66,4 @@ function setup() {
 }
 </script>
 </body>
-
-
+</html>

@@ -1,24 +1,26 @@
-
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Loading progress</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
+const Application = PIXI.Application,
     Container = PIXI.Container,
-    loader = PIXI.loader,
-    resources = PIXI.loader.resources,
+    loader = PIXI.Loader.shared,
+    resources = PIXI.Loader.shared.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 256, 
     height: 256,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
@@ -27,14 +29,15 @@ let app = new Application({
 //Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view);
 
-//Use Pixi's built-in `loader` module to load an image
+//Use Pixi's built-in `Loader` module to load an image
+loader.onProgress.add(loadProgressHandler);
+
 loader
   .add([
     "images/cat.png",
     "images/blob.png",
     "images/explorer.png"
   ])
-  .on("progress", loadProgressHandler)
   .load(setup);
 
 function loadProgressHandler(loader, resource) {
@@ -54,7 +57,7 @@ function setup() {
   console.log("setup"); 
 
   //Create the sprites
-  let cat = new Sprite(resources["images/cat.png"].texture),
+  const cat = new Sprite(resources["images/cat.png"].texture),
       blob = new Sprite(resources["images/blob.png"].texture),
       explorer = new Sprite(resources["images/explorer.png"].texture);
 
@@ -66,8 +69,7 @@ function setup() {
   //Position the sprites
   blob.position.set(82, 82);
   explorer.position.set(128, 128);
-  
 }
 </script>
 </body>
-
+</html>

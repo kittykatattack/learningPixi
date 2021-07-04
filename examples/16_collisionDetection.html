@@ -1,15 +1,18 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Collision detection</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
+const Application = PIXI.Application,
     Container = PIXI.Container,
-    loader = PIXI.loader,
-    resources = PIXI.loader.resources,
+    loader = PIXI.Loader.shared,
+    resources = PIXI.Loader.shared.resources,
     Graphics = PIXI.Graphics,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite,
@@ -17,10 +20,10 @@ let Application = PIXI.Application,
     TextStyle = PIXI.TextStyle;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 256, 
     height: 256,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
@@ -39,7 +42,7 @@ let cat, box, message, state;
 function setup() {
 
   //Create the box
-  box = new PIXI.Graphics();
+  box = new Graphics();
   box.beginFill(0xCCFF99);
   box.drawRect(0, 0, 64, 64);
   box.endFill();
@@ -56,7 +59,7 @@ function setup() {
   app.stage.addChild(cat);
 
   //Capture the keyboard arrow keys
-  let left = keyboard(37),
+  const left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
@@ -114,7 +117,7 @@ function setup() {
   };
 
   //Create the text sprite
-  let style = new TextStyle({
+  const style = new TextStyle({
     fontFamily: "sans-serif",
     fontSize: 18,
     fill: "white",
@@ -127,11 +130,11 @@ function setup() {
   state = play;
  
   //Start the game loop 
-  app.ticker.add(delta => gameLoop(delta));
+  app.ticker.add((delta) => gameLoop(delta));
 }
 
 
-function gameLoop(delta){
+function gameLoop(delta) {
 
   //Update the current game state:
   state(delta);
@@ -214,7 +217,7 @@ function hitTestRectangle(r1, r2) {
 
 //The `keyboard` helper function
 function keyboard(keyCode) {
-  let key = {};
+  const key = {};
   key.code = keyCode;
   key.isDown = false;
   key.isUp = true;
@@ -224,7 +227,9 @@ function keyboard(keyCode) {
   //The `downHandler`
   key.downHandler = function(event) {
     if (event.keyCode === key.code) {
-      if (key.isUp && key.press) key.press();
+      if (key.isUp && key.press) {
+        key.press();
+      }
       key.isDown = true;
       key.isUp = false;
     }
@@ -234,7 +239,9 @@ function keyboard(keyCode) {
   //The `upHandler`
   key.upHandler = function(event) {
     if (event.keyCode === key.code) {
-      if (key.isDown && key.release) key.release();
+      if (key.isDown && key.release) {
+        key.release();
+      }
       key.isDown = false;
       key.isUp = true;
     }
@@ -242,15 +249,11 @@ function keyboard(keyCode) {
   };
 
   //Attach event listeners
-  window.addEventListener(
-    "keydown", key.downHandler.bind(key), false
-  );
-  window.addEventListener(
-    "keyup", key.upHandler.bind(key), false
-  );
+  window.addEventListener("keydown", key.downHandler.bind(key), false);
+  window.addEventListener("keyup", key.upHandler.bind(key), false);
   return key;
 }
 
 </script>
 </body>
-
+</html>
