@@ -44,8 +44,8 @@ function setup() {
   app.stage.addChild(cat);
  
   //Start the game loop by adding the `gameLoop` function to
-  //Pixi's `Ticker` and providing it with a `delta` argument.
-  //Any functions added to the `Ticker` will be called 60 times per second.
+  //Pixi's `ticker` and providing it with a `delta` argument.
+  //Any functions added to the `ticker` will be called 60 times per second.
   //This means that the `gameLoop` function (defined in the code ahead) will be updated
   //60 times per second. 
   app.ticker.add((delta) => gameLoop(delta));

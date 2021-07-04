@@ -292,13 +292,13 @@ to `true`.
 app.renderer.autoDensity = true;
 app.renderer.resize(512, 512);
 ```
-If you want to make the canvas fill the entire window and adjust automatically if the window is resized, you can use the CSS styling below together with `resizeTo` and provide the `window` as the parameter.
+If you want to make the canvas fill the entire window and adjust automatically if it is resized, you can use some CSS styling along with the `resizeTo` property, providing it an element to scale to, such as `window` as the value.
+`resizeTo` can also be passed with the rest of your options when creating your Pixi application.
 ```js
 app.renderer.view.style.position = "absolute";
 app.renderer.view.style.display = "block";
 app.renderer.autoDensity = true;
 app.resizeTo = window;
-
 ```
 But, if you do that, make sure you also set the default padding and
 margins to 0 on all your HTML elements with this bit of CSS code:
@@ -1458,7 +1458,7 @@ Moving Sprites
 --------------
 
 You now know how to display sprites, but how do you make them move?
-That's easy: create a looping function using Pixi's `Ticker` 
+That's easy: create a looping function using Pixi's `ticker` 
 This is called a **game loop**.
 Any code you put inside the game loop will update 60 times per
 second. Here's some code you could write to make the `cat` sprite move
@@ -1468,7 +1468,7 @@ to the right at a rate of 1 pixel per frame.
 function setup() {
 
   //Start the game loop by adding the `gameLoop` function to
-  //Pixi's `Ticker` and providing it with a `delta` argument.
+  //Pixi's `ticker` and providing it with a `delta` argument.
   app.ticker.add((delta) => gameLoop(delta));
 }
 
@@ -1488,7 +1488,7 @@ That's because each time the `gameLoop` runs, it adds 1 to the cat's x position.
 cat.x += 1;
 ```
 
-Any function you add to Pixi's `Ticker` will be called 60 times per second. You can see that the function is provided a `delta` argument - what's that?
+Any function you add to Pixi's `ticker` will be called 60 times per second. You can see that the function is provided a `delta` argument - what's that?
 
 The `delta` value represents the amount of fractional lag between frames. You can optionally add it to the cat's position, to make the cat's animation independent of the frame rate. Here's how:
 ```js
@@ -1496,7 +1496,7 @@ cat.x += 1 + delta;
 ```
 Whether or not you choose to add this `delta` value is largely an aestheic choice. And the effect will only really be noticeable if your animation is struggling to keep up with a consistent 60 frames per second display rate (which might happen, for example, if it's running on a slow device). The rest of the examples in this tutorial won't use this `delta` value, but feel free to use it in your own work if you wish.
 
-You don't have to use Pixi's `Ticker` to create a game loop. If you prefer, just use `requestAnimationFrame`, like this:
+You don't have to use Pixi's `ticker` to create a game loop. If you prefer, just use `requestAnimationFrame`, like this:
 
 ```js
 function gameLoop() {
