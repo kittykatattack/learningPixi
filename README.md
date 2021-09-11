@@ -134,10 +134,8 @@ video](https://www.youtube.com/watch?v=INk0ATBbclc). You should learn
 how to use Unix - it only takes a couple of hours to learn and is a
 really fun and easy way to interact with your computer.
 
-But if you don't want to mess around with the command line just yet, try the Mongoose
+But if you don't want to mess around with the command line just yet, try the [Mongoose](http://cesanta.com/)
 webserver:
-
-[Mongoose](http://cesanta.com/mongoose.shtml)
 
 Or, just write all your code using the excellent [Brackets text
 editor](http://brackets.io). Brackets automatically launches a webserver
