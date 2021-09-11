@@ -1,23 +1,26 @@
 <!doctype html>
+<html>
+<head>
 <meta charset="utf-8">
 <title>Grouping sprites</title>
+</head>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
 //Aliases
-let Application = PIXI.Application,
+const Application = PIXI.Application,
     Container = PIXI.Container,
-    loader = PIXI.loader,
-    resources = PIXI.loader.resources,
+    loader = PIXI.Loader.shared,
+    resources = PIXI.Loader.shared.resources,
     TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite;
 
 //Create a Pixi Application
-let app = new Application({ 
+const app = new Application({ 
     width: 256, 
     height: 256,                       
-    antialiasing: true, 
+    antialias: true, 
     transparent: false, 
     resolution: 1
   }
@@ -33,28 +36,27 @@ loader
 
 
 function setup() {
-
   //There are three ways to make sprites from textures atlas frames
 
   //Make the three animal sprites
 
   //Create an alias for the texture atlas frame ids
-  let id = resources["images/animals.json"].textures;
+  const id = resources["images/animals.json"].textures;
 
   //The cat
-  let cat = new Sprite(id["cat.png"]);
+  const cat = new Sprite(id["cat.png"]);
   cat.position.set(16, 16);
 
   //The hedgehog
-  let hedgehog = new Sprite(id["hedgehog.png"]);
+  const hedgehog = new Sprite(id["hedgehog.png"]);
   hedgehog.position.set(32, 32);
 
   //The tiger
-  let tiger = new Sprite(id["tiger.png"]);
+  const tiger = new Sprite(id["tiger.png"]);
   tiger.position.set(64, 64);
 
   //Group the animals
-  let animals = new Container();
+  const animals = new Container();
   animals.addChild(cat);
   animals.addChild(hedgehog);
   animals.addChild(tiger);
@@ -110,6 +112,4 @@ function setup() {
 
 </script>
 </body>
-
-
-
+</html>
