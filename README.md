@@ -1666,7 +1666,7 @@ function gameLoop(delta) {
   state(delta);
 }
 
-function play(delta) {
+function state(delta) {
 
   //Move the cat 1 pixel to the right each frame
   cat.vx = 1;
